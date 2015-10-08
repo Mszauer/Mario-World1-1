@@ -19,6 +19,7 @@ namespace MarioWorld1_1 {
         
         //rows before columns, map[y][x]
         public Tile GetTile(PointF pixelPoint) {
+
             return currentMap[(int)pixelPoint.Y / TILE_SIZE][(int)pixelPoint.X / TILE_SIZE];
         }
         public Rectangle GetTileRect(PointF pixelPoint) {
