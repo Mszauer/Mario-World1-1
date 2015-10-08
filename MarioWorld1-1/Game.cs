@@ -12,6 +12,8 @@ namespace MarioWorld1_1 {
         protected Map currentMap = null;
         PointF offsetPosition = new PointF();
         public bool GameOver = false;
+        protected PlayerCharacter hero = null;
+        protected string heroSheet = "Assets/Mario.png";
 
         protected string startingMap = "Assets/world1-1.txt";
         
@@ -40,19 +42,23 @@ namespace MarioWorld1_1 {
         }
         public void Initialize() {
             TextureManager.Instance.UseNearestFiltering = true;
-            currentMap = new Map(startingMap);
+            hero = new PlayerCharacter(heroSheet);
+            currentMap = new Map(startingMap,hero);
         }
         public void Update(float dt) {
             //currentMap = currentMap.ResolveDoors(hero);
             //currentMap.Update(dt, hero, projectiles);
+            hero.Update(dt);
         }
         public void Render() {
+            currentMap.Render(new PointF(0,0),new PointF(0,7));
             //add offsetPosition once hero gets added and accompanying
             //logic with it
-            currentMap.Render(new PointF(0,0),new PointF(0,7));
+            hero.Render();
         }
         public void Shutdown() {
             currentMap.Destroy();
+            hero.Destroy();
         }
     }
 }

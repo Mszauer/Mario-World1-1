@@ -26,7 +26,7 @@ namespace MarioWorld1_1 {
         protected Dictionary<string, Point> nextRoom = null;
 
         //protected List<EnemyCharacter> enemies = null;
-        public Map(string mapPath) {
+        public Map(string mapPath,PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
                 List<int> unwalkableTiles = new List<int>();
                 List<int> doorIndex = new List<int>();
@@ -164,7 +164,9 @@ namespace MarioWorld1_1 {
                         }
                     }
                 }
-                //load hero here
+                //set hero position
+                hero.Position.X = spawnTile.X * Game.TILE_SIZE;
+                hero.Position.Y = spawnTile.Y * Game.TILE_SIZE;
 #if DEBUG
                 Console.WriteLine("Map has been loaded!");
 #endif
