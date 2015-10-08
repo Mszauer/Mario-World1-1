@@ -49,7 +49,7 @@ namespace MarioWorld1_1 {
         public void Render() {
             //add offsetPosition once hero gets added and accompanying
             //logic with it
-            currentMap.Render(new PointF(0,0),new PointF(0,0));
+            currentMap.Render(new PointF(0,0),new PointF(0,7));
         }
         public void Shutdown() {
             currentMap.Destroy();
