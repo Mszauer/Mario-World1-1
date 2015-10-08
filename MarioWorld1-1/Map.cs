@@ -40,6 +40,9 @@ namespace MarioWorld1_1 {
                     string contents = reader.ReadLine();
                     while (contents != null) {
                         string[] content = contents.Split(',');
+                        if (content.Length == 1) {
+                            content = contents.Split(' ');
+                        }
                         //load texture
                         if (content[0] == "T") {
                             string path = content[1];

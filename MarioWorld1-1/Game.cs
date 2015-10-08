@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace MarioWorld1_1 {
     class Game {
-        public static readonly int TILE_SIZE = 30;
+        public static readonly int TILE_SIZE = 16;
         protected Map currentMap = null;
         PointF offsetPosition = new PointF();
         public bool GameOver = false;
