@@ -13,7 +13,7 @@ namespace MarioWorld1_1 {
         public Dictionary<string, Rectangle[]> SpriteSources { get; private set; }
         public string currentSprite { get; set; }
         public int currentFrame = 0;
-        float animFPS = 1.0f / 9.0f; //one sec / number of frames
+        float animFPS = 1.0f / 3.0f; //one sec / number of frames
         float animTimer = 0f;
         public Rectangle Rect {
             get {
