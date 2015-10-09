@@ -20,7 +20,7 @@ namespace MarioWorld1_1 {
         //rows before columns, map[y][x]
         public Tile GetTile(PointF pixelPoint) {
 
-            return currentMap[(int)pixelPoint.Y / TILE_SIZE][(int)pixelPoint.X / TILE_SIZE];
+            return currentMap[(int)pixelPoint.Y / TILE_SIZE][(int)pixelPoint.X / TILE_SIZE]; //y returns 31? y=496 x=44
         }
         public Rectangle GetTileRect(PointF pixelPoint) {
             int xTile = (int)pixelPoint.X / TILE_SIZE; //integer math

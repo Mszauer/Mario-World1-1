@@ -65,7 +65,7 @@ namespace MarioWorld1_1 {
 #endif
                         }
                         //figure out walkable tiles
-                        else if (content[0] == "W") {
+                        else if (content[0] == "U") {
                             for (int i = 1; i < content.Length; i++) {
                                 unwalkableTiles.Add(System.Convert.ToInt32(content[i]));
 #if DEBUG
@@ -144,7 +144,7 @@ namespace MarioWorld1_1 {
                         worldPosition.X = (j * source.Width);
                         worldPosition.Y = (i * source.Height);
                         tileMap[i][j] = new Tile(tileSheet, source);
-                        tileMap[i][j].Walkable = false;
+                        tileMap[i][j].Walkable = true;
                         //check if it's a door
                         for (int k = 0; k < doorIndex.Count; k++) {
                             tileMap[i][j].IsDoor = mapFormat[i][j] == doorIndex[k] ? true : false;
