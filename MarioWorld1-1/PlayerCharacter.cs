@@ -8,14 +8,14 @@ using System.Drawing;
 
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
-        public float speed = 90.0f;
+        public float speed = 3*Game.TILE_SIZE;
         protected float impulse = 0.0f;
         protected float velocity = 0.0f;
         protected float gravity = 0f;
         public PlayerCharacter(string spritePath) : base(spritePath) {
             AddSprite("Right", new Rectangle(12, 6, 14, 14));
             SetSprite("Right");
-            SetJump(3 * Game.TILE_SIZE, 0.75f);
+            SetJump(2 * Game.TILE_SIZE, 0.75f);
         }
         public void Render(/*offset here*/) {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
@@ -78,7 +78,7 @@ namespace MarioWorld1_1 {
             if (velocity > gravity) {
                 velocity = gravity;
             }
-            Position.Y += 32.0f * dTime;
+            Position.Y += velocity * dTime;
             //keep on the tiles
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
