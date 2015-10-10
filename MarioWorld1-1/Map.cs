@@ -187,10 +187,10 @@ namespace MarioWorld1_1 {
         }
         */
         public void Render(PointF offsetPosition, PointF cameraCenter) {
-            /*int minX = (int)cameraCenter.X - 6 * Game.TILE_SIZE - Game.TILE_SIZE;
-            int minY = (int)cameraCenter.Y - 7 * Game.TILE_SIZE - Game.TILE_SIZE;
+            int minX = (int)cameraCenter.X - 5 * Game.TILE_SIZE - Game.TILE_SIZE;
+            int minY = (int)cameraCenter.Y - 4 * Game.TILE_SIZE - Game.TILE_SIZE;
             int maxX = (int)cameraCenter.X + 6 * Game.TILE_SIZE + Game.TILE_SIZE;
-            int maxY = (int)cameraCenter.Y + 7 * Game.TILE_SIZE + Game.TILE_SIZE;
+            int maxY = (int)cameraCenter.Y + 4 * Game.TILE_SIZE + Game.TILE_SIZE;
             minX /= Game.TILE_SIZE;
             minY /= Game.TILE_SIZE;
             maxX /= Game.TILE_SIZE;
@@ -205,10 +205,10 @@ namespace MarioWorld1_1 {
                     }
                     tileMap[h][w].Render(offsetPosition);
                 }
-            }*/
+            }
             for (int i = 0; i < tileMap.Length; i++) {
                 for (int j = 0; j < tileMap[i].Length; j++) {
-                    tileMap[i][j].Render();
+                    tileMap[i][j].Render(offsetPosition);
                 }
             }
             //render items

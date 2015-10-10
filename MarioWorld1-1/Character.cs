@@ -17,7 +17,7 @@ namespace MarioWorld1_1 {
         float animTimer = 0f;
         public Rectangle Rect {
             get {
-                return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width, SpriteSources[currentSprite][currentFrame].Height);
+                return new Rectangle((int)Position.X+1, (int)Position.Y+1, SpriteSources[currentSprite][currentFrame].Width-2, SpriteSources[currentSprite][currentFrame].Height-1);
             }
         }
         public PointF Center {
@@ -27,13 +27,13 @@ namespace MarioWorld1_1 {
         }
         public PointF[] Corners {
             get {
-                float w = SpriteSources[currentSprite][currentFrame].Width;
-                float h = SpriteSources[currentSprite][currentFrame].Height;
+                float w = Rect.Width;
+                float h = Rect.Height;
                 return new PointF[] {
-                    new PointF(Position.X,Position.Y),
-                    new PointF(Position.X+w,Position.Y),
-                    new PointF(Position.X,Position.Y+h),
-                    new PointF(Position.X+w,Position.Y+h)
+                    new PointF(Rect.X,Rect.Y),
+                    new PointF(Rect.X+w,Rect.Y),
+                    new PointF(Rect.X,Rect.Y+h),
+                    new PointF(Rect.X+w,Rect.Y+h)
                 };
             }
         }
@@ -44,9 +44,12 @@ namespace MarioWorld1_1 {
         public Character(string spritePath) {
             Sprite = TextureManager.Instance.LoadTexture(spritePath);
         }
-        public void Render(/*offset*/) {
-            //create offset then add
-            TextureManager.Instance.Draw(Sprite, new Point((int)Position.X, (int)Position.Y));
+        public void Render(PointF offsetPosition) {
+            //offset
+            Point renderPosition = new Point((int)Position.X, (int)Position.Y);
+            renderPosition.X -= (int)offsetPosition.X;
+            renderPosition.Y -= (int)offsetPosition.Y;
+            TextureManager.Instance.Draw(Sprite, renderPosition);
         }
         public void Destroy() {
             TextureManager.Instance.UnloadTexture(Sprite);
