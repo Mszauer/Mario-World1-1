@@ -49,7 +49,7 @@ namespace MarioWorld1_1 {
         public void Update(float dt) {
             //currentMap = currentMap.ResolveDoors(hero);
             //currentMap.Update(dt, hero, projectiles);
-            hero.Update(dt);
+            hero.Update(1/30.0f);
         }
         public void Render() {
             currentMap.Render(new PointF(0,0),new PointF(0,7));

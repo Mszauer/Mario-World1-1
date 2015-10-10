@@ -80,11 +80,20 @@ namespace MarioWorld1_1 {
             }
             Position.Y += velocity * dTime;
             //keep on the tiles
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
+                if (intersection.Width * intersection.Height > 0) {
+                    Position.Y = intersection.Top - Rect.Height;
+                    if (velocity != gravity) {
+                        //SetSprite("Down");
+                    }
+                    velocity = gravity;
+                }
+            }
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
-                    Console.WriteLine("Position.Y: "+Position.Y);
                     if (velocity != gravity) {
                         //SetSprite("Down");
                     }
@@ -109,7 +118,6 @@ namespace MarioWorld1_1 {
                 }
             }
             */
-            Console.WriteLine("Position.Y: " + Position.Y);
         }//end update
         protected void SetJump(float height,float duration) {
             impulse = 2 * height / duration;
