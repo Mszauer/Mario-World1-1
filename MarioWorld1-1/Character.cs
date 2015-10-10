@@ -17,7 +17,7 @@ namespace MarioWorld1_1 {
         float animTimer = 0f;
         public Rectangle Rect {
             get {
-                return new Rectangle((int)Position.X+1, (int)Position.Y+1, SpriteSources[currentSprite][currentFrame].Width-2, SpriteSources[currentSprite][currentFrame].Height-1);
+                return new Rectangle((int)Position.X+1, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width-2, SpriteSources[currentSprite][currentFrame].Height-1);
             }
         }
         public PointF Center {
@@ -48,7 +48,7 @@ namespace MarioWorld1_1 {
             //offset
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
             renderPosition.X -= (int)offsetPosition.X;
-            renderPosition.Y -= (int)offsetPosition.Y;
+            renderPosition.Y -= (int)offsetPosition.Y - 1;
             TextureManager.Instance.Draw(Sprite, renderPosition);
         }
         public void Destroy() {
