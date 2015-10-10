@@ -13,9 +13,9 @@ namespace MarioWorld1_1 {
 
         public Tile[] this[int i] {
             get {
-                Console.WriteLine("tileMap length: " + tileMap.Length);
-                Console.WriteLine("[i]: " + i);
-                Console.WriteLine("tileMap[i].Length "+tileMap[i].Length);
+                //Console.WriteLine("tileMap length: " + tileMap.Length);
+                //Console.WriteLine("[i]: " + i);
+                //Console.WriteLine("tileMap[i].Length "+tileMap[i].Length);
                 return tileMap[i];
             }
         }

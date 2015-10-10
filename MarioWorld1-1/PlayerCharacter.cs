@@ -11,11 +11,11 @@ namespace MarioWorld1_1 {
         public float speed = 90.0f;
         protected float impulse = 0.0f;
         protected float velocity = 0.0f;
-        protected float gravity = 0 / 0f;
+        protected float gravity = 0f;
         public PlayerCharacter(string spritePath) : base(spritePath) {
-            AddSprite("Right", new Rectangle(12, 6, 12, 18));
+            AddSprite("Right", new Rectangle(12, 6, 14, 14));
             SetSprite("Right");
-            SetJump(3 * 30, 0.75f);
+            SetJump(3 * Game.TILE_SIZE, 0.75f);
         }
         public void Render(/*offset here*/) {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
@@ -78,12 +78,13 @@ namespace MarioWorld1_1 {
             if (velocity > gravity) {
                 velocity = gravity;
             }
-            Position.Y += velocity * dTime;
+            Position.Y += 32.0f * dTime;
             //keep on the tiles
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
+                    Console.WriteLine("Position.Y: "+Position.Y);
                     if (velocity != gravity) {
                         //SetSprite("Down");
                     }
@@ -91,6 +92,7 @@ namespace MarioWorld1_1 {
                 }
             }
             //hit tile from below
+            /*
             if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
                 if (intersection.Width * intersection.Height > 0) {
@@ -106,6 +108,8 @@ namespace MarioWorld1_1 {
                     velocity = Math.Abs(velocity);
                 }
             }
+            */
+            Console.WriteLine("Position.Y: " + Position.Y);
         }//end update
         protected void SetJump(float height,float duration) {
             impulse = 2 * height / duration;
