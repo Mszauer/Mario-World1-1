@@ -19,6 +19,7 @@ namespace MarioWorld1_1 {
         }
         public void Update(float dTime) {
             InputManager i = InputManager.Instance;
+            
             //move left
             if (i.KeyDown(OpenTK.Input.Key.Left)|| i.KeyDown(OpenTK.Input.Key.A)) {
                 if (velocity == gravity) {
@@ -37,6 +38,10 @@ namespace MarioWorld1_1 {
                     if (intersection.Width * intersection.Height > 0) {
                         Position.X = intersection.Right;
                     }
+                }
+                //map boundry check
+                if (Position.X < 0) {
+                    Position.X = 0;
                 }
             }
             //move right
@@ -57,6 +62,10 @@ namespace MarioWorld1_1 {
                     if (intersection.Width*intersection.Height > 0) {
                         Position.X = intersection.Left - Rect.Width;
                     }
+                }
+                //map boundry check
+                if (Position.X > 206f * Game.TILE_SIZE) {
+                    Position.X = 206f * Game.TILE_SIZE;
                 }
             }
             //jump!
@@ -112,6 +121,9 @@ namespace MarioWorld1_1 {
                 }
             }
             */
+            if (i.KeyPressed(OpenTK.Input.Key.P)) {
+                Console.WriteLine("Player Position, X: " + Position.X + " Y: " + Position.Y);
+            }
         }//end update
         protected void SetJump(float height,float duration) {
             impulse = 2 * height / duration;
