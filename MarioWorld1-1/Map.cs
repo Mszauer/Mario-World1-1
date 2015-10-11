@@ -187,8 +187,8 @@ namespace MarioWorld1_1 {
         }
         */
         public void Render(PointF offsetPosition,PointF cameraCenter) {
-            int minX = (int)cameraCenter.X - 8 * Game.TILE_SIZE-Game.TILE_SIZE;
-            int maxX = (int)cameraCenter.X + 8 * Game.TILE_SIZE+Game.TILE_SIZE;
+            int minX = (int)cameraCenter.X - 16 * Game.TILE_SIZE-Game.TILE_SIZE;
+            int maxX = (int)cameraCenter.X + 16 * Game.TILE_SIZE+Game.TILE_SIZE;
             int minY = (int)cameraCenter.Y - 9 * Game.TILE_SIZE - Game.TILE_SIZE;
             int maxY = (int)cameraCenter.Y + 13 * Game.TILE_SIZE + Game.TILE_SIZE;
             minX /= Game.TILE_SIZE;
