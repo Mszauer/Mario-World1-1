@@ -186,7 +186,7 @@ namespace MarioWorld1_1 {
             resolve doors here
         }
         */
-        public void Render() {
+        public void Render(PointF offsetPosition) {
             for (int i = 0; i < tileMap.Length; i++) {
                 for (int j = 0; j < tileMap[i].Length; j++) {
                     tileMap[i][j].Render(offsetPosition);

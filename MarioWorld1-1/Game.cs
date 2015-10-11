@@ -52,7 +52,10 @@ namespace MarioWorld1_1 {
             hero.Update(1/30.0f);
         }
         public void Render() {
-            currentMap.Render();
+            PointF offsetPosition = new PointF();
+            offsetPosition.X = hero.Position.X - (float)(7.625 * TILE_SIZE);//7.625 == half of map displayed
+            offsetPosition.Y = hero.Position.Y - (float)(6.5 * TILE_SIZE); //6.5 == half of shown height
+            currentMap.Render(offsetPosition);
             hero.Render();
         }
         public void Shutdown() {

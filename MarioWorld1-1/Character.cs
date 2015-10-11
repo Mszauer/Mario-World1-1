@@ -44,9 +44,10 @@ namespace MarioWorld1_1 {
         public Character(string spritePath) {
             Sprite = TextureManager.Instance.LoadTexture(spritePath);
         }
-        public void Render() {
-            //offset
+        public void Render(PointF offsetPosition) {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
+            renderPosition.X -= (int)offsetPosition.X;
+            renderPosition.Y -= (int)offsetPosition.Y;
             TextureManager.Instance.Draw(Sprite, renderPosition);
         }
         public void Destroy() {

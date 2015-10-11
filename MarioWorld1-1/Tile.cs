@@ -22,10 +22,12 @@ namespace MarioWorld1_1 {
             Walkable = false;
             WorldPosition = new Point(0, 0);
         }
-        public void Render() {
+        public void Render(PointF offsetPosition) {
             Point renderPos = new Point(WorldPosition.X, WorldPosition.Y);
             renderPos.X = (int)(Scale * renderPos.X);
             renderPos.Y = (int)(Scale * renderPos.Y);
+            renderPos.X -= (int)offsetPosition.X;
+            renderPos.Y -= (int)offsetPosition.Y;
             TextureManager.Instance.Draw(Sprite, renderPos, Scale, Source);
         }
         public void Destroy() {
