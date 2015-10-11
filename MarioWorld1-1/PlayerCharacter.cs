@@ -12,10 +12,11 @@ namespace MarioWorld1_1 {
         protected float impulse = 0.0f;
         protected float velocity = 0.0f;
         protected float gravity = 0f;
+        private bool isJumping = false;
         public PlayerCharacter(string spritePath) : base(spritePath) {
             AddSprite("Right", new Rectangle(12, 6, 14, 14));
             SetSprite("Right");
-            SetJump(2 * Game.TILE_SIZE, 0.75f);
+            SetJump(3 * Game.TILE_SIZE, 0.75f);
         }
         public void Update(float dTime) {
             InputManager i = InputManager.Instance;
@@ -69,9 +70,12 @@ namespace MarioWorld1_1 {
                 }
             }
             //jump!
-            if (i.KeyDown(OpenTK.Input.Key.W)|| i.KeyDown(OpenTK.Input.Key.Up)) {
-                velocity = impulse;
-                //set jump sprite
+            if (!isJumping) {
+                isJumping = true;
+                if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)) {
+                    velocity = impulse;
+                    //set jump sprite
+                }
             }
             //S/Down = special case tile / go down pipe
             if (velocity != gravity) {
@@ -92,6 +96,7 @@ namespace MarioWorld1_1 {
                     }
                     velocity = gravity;
                 }
+                isJumping = false;
             }
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
@@ -102,9 +107,10 @@ namespace MarioWorld1_1 {
                     }
                     velocity = gravity;
                 }
+                isJumping = false;
             }
             //hit tile from below
-            /*
+            
             if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
                 if (intersection.Width * intersection.Height > 0) {
@@ -120,9 +126,10 @@ namespace MarioWorld1_1 {
                     velocity = Math.Abs(velocity);
                 }
             }
-            */
+            
             if (i.KeyPressed(OpenTK.Input.Key.P)) {
                 Console.WriteLine("Player Position, X: " + Position.X + " Y: " + Position.Y);
+                Console.WriteLine("Player Position, X: " + (int)(Position.X/Game.TILE_SIZE) + " Y: " + (int)(Position.Y/Game.TILE_SIZE));
             }
         }//end update
         protected void SetJump(float height,float duration) {
