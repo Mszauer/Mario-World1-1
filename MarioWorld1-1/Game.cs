@@ -54,7 +54,7 @@ namespace MarioWorld1_1 {
         public void Render() {
             PointF offsetPosition = new PointF();
             offsetPosition.X = hero.Position.X - (float)(7.625 * TILE_SIZE);//7.625 == half of map displayed
-            currentMap.Render(offsetPosition);
+            currentMap.Render(offsetPosition,hero.Center);
             hero.Render(offsetPosition);
         }
         public void Shutdown() {
