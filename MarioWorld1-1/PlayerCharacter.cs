@@ -17,12 +17,6 @@ namespace MarioWorld1_1 {
             SetSprite("Right");
             SetJump(2 * Game.TILE_SIZE, 0.75f);
         }
-        public void Render(/*offset here*/) {
-            Point renderPosition = new Point((int)Position.X, (int)Position.Y);
-            //offset position stuff
-            //GraphicsManager.Instance.DrawRect(new Rectangle(renderPosition.X,renderPosition.Y,SpriteSources[currentSprite][currentFrame].Width, SpriteSources[currentSprite][currentFrame].Height), Color.Red);
-            TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, SpriteSources[currentSprite][currentFrame]);
-        }
         public void Update(float dTime) {
             InputManager i = InputManager.Instance;
             //move left
