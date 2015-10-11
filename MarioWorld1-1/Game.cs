@@ -52,17 +52,7 @@ namespace MarioWorld1_1 {
             hero.Update(1/30.0f);
         }
         public void Render() {
-            PointF offsetPosition = new PointF();
-            offsetPosition.X = hero.Position.X - (float)(7 * Game.TILE_SIZE);
-            //if hero is less than half of camea close to left or top corner
-            if (hero.Position.X <  7* Game.TILE_SIZE) {
-                offsetPosition.X = 0;
-            }
-            //bottom corner camera logic
-            if (hero.Position.X > (currentMap[0].Length - 3) * Game.TILE_SIZE) {
-                offsetPosition.X = (currentMap[0].Length - 7) * Game.TILE_SIZE;
-            }
-            currentMap.Render(offsetPosition,hero.Center);
+            currentMap.Render();
             hero.Render();
         }
         public void Shutdown() {

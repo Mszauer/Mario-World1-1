@@ -186,26 +186,7 @@ namespace MarioWorld1_1 {
             resolve doors here
         }
         */
-        public void Render(PointF offsetPosition, PointF cameraCenter) {
-            int minX = (int)cameraCenter.X - 8 * Game.TILE_SIZE - Game.TILE_SIZE;
-            int minY = (int)cameraCenter.Y - 4 * Game.TILE_SIZE - Game.TILE_SIZE;
-            int maxX = (int)cameraCenter.X + 8 * Game.TILE_SIZE + Game.TILE_SIZE;
-            int maxY = (int)cameraCenter.Y + 4 * Game.TILE_SIZE + Game.TILE_SIZE;
-            minX /= Game.TILE_SIZE;
-            minY /= Game.TILE_SIZE;
-            maxX /= Game.TILE_SIZE;
-            maxY /= Game.TILE_SIZE;
-            for(int h = minY; h< maxY; h++) {
-                for(int w = minX;w< maxX; w++) {
-                    if (h < 0 || w < 0) {
-                        continue;
-                    }
-                    if (h >= tileMap.Length || w >= tileMap[h].Length) {
-                        continue;
-                    }
-                    tileMap[h][w].Render(offsetPosition);
-                }
-            }
+        public void Render() {
             for (int i = 0; i < tileMap.Length; i++) {
                 for (int j = 0; j < tileMap[i].Length; j++) {
                     tileMap[i][j].Render(offsetPosition);
