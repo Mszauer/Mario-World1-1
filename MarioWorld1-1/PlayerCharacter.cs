@@ -86,6 +86,33 @@ namespace MarioWorld1_1 {
                 velocity = gravity;
             }
             Position.Y += velocity * dTime;
+            
+            //hit tile from below
+            if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
+                if (intersection.Width * intersection.Height > 0) {
+                    //break tile
+                    if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
+                        Console.WriteLine("Tile broken!");
+                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT], 7,true,false);
+                    }
+                    Position.Y = intersection.Bottom;
+                    velocity = Math.Abs(velocity);
+                }
+            }
+            //hit tile from below
+            if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
+                if (intersection.Width * intersection.Height > 0) {
+                    if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
+                        Console.WriteLine("Tile broken!");
+                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT], 7, true, false);
+                    }
+                    the castle tiles are wrong! don't know value
+                    Position.Y = intersection.Bottom;
+                    velocity = Math.Abs(velocity);
+                }
+            }
             //keep on the tiles
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
@@ -109,24 +136,6 @@ namespace MarioWorld1_1 {
                 }
                 isJumping = false;
             }
-            //hit tile from below
-            
-            if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
-                if (intersection.Width * intersection.Height > 0) {
-                    Position.Y = intersection.Bottom;
-                    velocity = Math.Abs(velocity);
-                }
-            }
-            //hit tile from below
-            if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
-                if (intersection.Width * intersection.Height > 0) {
-                    Position.Y = intersection.Bottom;
-                    velocity = Math.Abs(velocity);
-                }
-            }
-            
             if (i.KeyPressed(OpenTK.Input.Key.P)) {
                 Console.WriteLine("Player Position, X: " + Position.X + " Y: " + Position.Y);
                 Console.WriteLine("Player Position, X: " + (int)(Position.X/Game.TILE_SIZE) + " Y: " + (int)(Position.Y/Game.TILE_SIZE));

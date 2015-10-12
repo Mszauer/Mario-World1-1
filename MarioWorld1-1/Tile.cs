@@ -15,6 +15,7 @@ namespace MarioWorld1_1 {
         public bool Walkable { get; set; }
         public Point WorldPosition { get; set; }
         public float Scale { get; set; }
+        public bool Breakable { get; set; }
         public Tile(string spritePath, Rectangle source) {
             Sprite = TextureManager.Instance.LoadTexture(spritePath);
             Source = source;
