@@ -14,9 +14,9 @@ namespace MarioWorld1_1 {
         protected float gravity = 0f;
         private bool isJumping = false;
         public PlayerCharacter(string spritePath) : base(spritePath) {
-            AddSprite("Right", new Rectangle(12, 6, 14, 14));
+            AddSprite("Right", new Rectangle(12, 6, 16, 16));
             SetSprite("Right");
-            SetJump(3 * Game.TILE_SIZE, 0.75f);
+            SetJump(3.5f * Game.TILE_SIZE, 0.75f);
         }
         public void Update(float dTime) {
             InputManager i = InputManager.Instance;
@@ -72,7 +72,7 @@ namespace MarioWorld1_1 {
             //jump!
             if (!isJumping) {
                 isJumping = true;
-                if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)) {
+                if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)||i.KeyDown(OpenTK.Input.Key.Space)) {
                     velocity = impulse;
                     //set jump sprite
                 }
@@ -94,7 +94,7 @@ namespace MarioWorld1_1 {
                     //break tile
                     if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
                         Console.WriteLine("Tile broken!");
-                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT], 7,true,false);
+                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT], 2,true,false);
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
@@ -108,7 +108,6 @@ namespace MarioWorld1_1 {
                         Console.WriteLine("Tile broken!");
                         Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT], 7, true, false);
                     }
-                    the castle tiles are wrong! don't know value
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
                 }
@@ -122,8 +121,8 @@ namespace MarioWorld1_1 {
                         //SetSprite("Down");
                     }
                     velocity = gravity;
+                    isJumping = false;
                 }
-                isJumping = false;
             }
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
@@ -133,8 +132,8 @@ namespace MarioWorld1_1 {
                         //SetSprite("Down");
                     }
                     velocity = gravity;
+                    isJumping = false;
                 }
-                isJumping = false;
             }
             if (i.KeyPressed(OpenTK.Input.Key.P)) {
                 Console.WriteLine("Player Position, X: " + Position.X + " Y: " + Position.Y);

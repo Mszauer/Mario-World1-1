@@ -29,6 +29,7 @@ namespace MarioWorld1_1 {
         protected Dictionary<string, Point> nextRoom = null;
         protected List<List<int>> mapFormat = null;
         protected Dictionary<int, Rectangle> spriteSources = null;
+        protected Dictionary<int, int> breakableTiles = null;
 
         //protected List<EnemyCharacter> enemies = null;
         public Map(string mapPath,PlayerCharacter hero) {
@@ -39,7 +40,7 @@ namespace MarioWorld1_1 {
                 mapFormat = new List<List<int>>();
                 Dictionary<int, string> nextMap = new Dictionary<int, string>();
                 nextRoom = new Dictionary<string, Point>();
-                List<int> breakableTiles = new List<int>();
+                breakableTiles = new Dictionary<int, int>();
                 //load map
                 using (TextReader reader = File.OpenText(mapPath)) {
                     string contents = reader.ReadLine();
@@ -48,6 +49,9 @@ namespace MarioWorld1_1 {
                         if (content.Length == 1) {
                             content = contents.Split(' ');
                         }
+
+                        //Console.WriteLine(content[0]);
+
                         //load texture
                         if (content[0] == "T") {
                             string path = content[1];
@@ -111,13 +115,13 @@ namespace MarioWorld1_1 {
                             #endif
                             */
                         }
-                        else if(content[0] == "/") {
+                        else if(content[0] == "//") {
                             //used to make comments in txt file!
                         }
                         //which tiles are breakable
                         else if (content[0] == "B") {
                             for (int i = 1; i < content.Length; i++) {
-                                breakableTiles.Add(System.Convert.ToInt32(content[i]));
+                                breakableTiles.Add(System.Convert.ToInt32(content[i]), System.Convert.ToInt32(content.Length-1-i));
                             }
                         }
                         //load rows
@@ -166,10 +170,8 @@ namespace MarioWorld1_1 {
                         }
                         //breakable?
                         for (int k = 0; k < breakableTiles.Count; k++) {
-                            tileMap[i][j].Breakable = mapFormat[i][j] == breakableTiles[k] ? true : false;
-                            if (tileMap[i][j].Breakable) {
-                                continue;
-                            }
+                            tileMap[i][j].Breakable = breakableTiles.ContainsKey(k);
+                            
                         }
                         tileMap[i][j].WorldPosition = worldPosition;
                         tileMap[i][j].Scale = 1.0f;
@@ -233,8 +235,9 @@ namespace MarioWorld1_1 {
             //destroy items
             //destroy enemies
         }
-        public void ChangeTile(PointF location, int newValue, bool walkable = false, bool breakable = false) {
-            tileMap[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE] = new Tile(tileSheet, spriteSources[mapFormat[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE]]);
+        public void ChangeTile(PointF location, int tileValue, bool walkable = false, bool breakable = false) {
+            tileMap[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE].Destroy();
+            tileMap[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE] = new Tile(tileSheet, spriteSources[breakableTiles[tileValue]]);
             tileMap[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE].Walkable = walkable;
             tileMap[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE].Breakable = breakable;
         }

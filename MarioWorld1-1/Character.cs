@@ -17,7 +17,7 @@ namespace MarioWorld1_1 {
         float animTimer = 0f;
         public Rectangle Rect {
             get {
-                return new Rectangle((int)Position.X+1, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width-2, SpriteSources[currentSprite][currentFrame].Height-1);
+                return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width-1, SpriteSources[currentSprite][currentFrame].Height-1);
             }
         }
         public PointF Center {
