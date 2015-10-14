@@ -238,13 +238,15 @@ namespace MarioWorld1_1 {
         public void ChangeTile(PointF location, int tileValue, bool walkable = false, bool breakable = false) {
             int yTile = (int)location.Y / Game.TILE_SIZE;
             int xTile = (int)location.X / Game.TILE_SIZE;
+            int xPos = ((int)location.X / Game.TILE_SIZE) * Game.TILE_SIZE;
+            int yPos = ((int)location.Y / Game.TILE_SIZE) * Game.TILE_SIZE;
             tileMap[yTile][xTile].Destroy();
-            tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[breakableTiles[tileValue]]);
+            tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[tileValue]);
             Console.WriteLine("Source rect: " + spriteSources[breakableTiles[tileValue]]);
             tileMap[yTile][xTile].Walkable = walkable;
             tileMap[yTile][xTile].Breakable = breakable;
             Console.WriteLine("Tile Location PreAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
-            tileMap[yTile][xTile].WorldPosition = new Point((int)location.X, (int)location.Y);
+            tileMap[yTile][xTile].WorldPosition = new Point(xPos, yPos);
             Console.WriteLine("Tile Location PostAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
             tileMap[yTile][xTile].Scale = 1.0f;
         }

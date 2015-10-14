@@ -104,9 +104,9 @@ namespace MarioWorld1_1 {
             if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
                 if (intersection.Width * intersection.Height > 0) {
-                    if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
+                    if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable) {
                         Console.WriteLine("Tile broken!");
-                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT], 7, true, false);
+                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT], 7, true, false);
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
