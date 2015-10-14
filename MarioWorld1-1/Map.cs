@@ -120,7 +120,7 @@ namespace MarioWorld1_1 {
                         }
                         //which tiles are breakable
                         else if (content[0] == "B") {
-                            for (int i = 1; i < content.Length; i++) {
+                            for (int i = 1; i < (content.Length-1)/2; i++) {
                                 breakableTiles.Add(System.Convert.ToInt32(content[i]), System.Convert.ToInt32(content.Length-1-i));
                             }
                         }
@@ -235,12 +235,13 @@ namespace MarioWorld1_1 {
             //destroy items
             //destroy enemies
         }
-        public void ChangeTile(PointF location, int tileValue, bool walkable = false, bool breakable = false) {
+        public void ChangeTile(PointF location,, bool walkable = false, bool breakable = false) {
             int yTile = (int)location.Y / Game.TILE_SIZE;
             int xTile = (int)location.X / Game.TILE_SIZE;
             int xPos = ((int)location.X / Game.TILE_SIZE) * Game.TILE_SIZE;
             int yPos = ((int)location.Y / Game.TILE_SIZE) * Game.TILE_SIZE;
             tileMap[yTile][xTile].Destroy();
+            //tiles now have a value accessor!
             tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[tileValue]);
             Console.WriteLine("Source rect: " + spriteSources[breakableTiles[tileValue]]);
             tileMap[yTile][xTile].Walkable = walkable;
