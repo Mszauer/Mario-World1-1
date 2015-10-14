@@ -157,6 +157,8 @@ namespace MarioWorld1_1 {
                         worldPosition.Y = (i * source.Height);
                         tileMap[i][j] = new Tile(tileSheet, source);
                         tileMap[i][j].Walkable = true;
+                        //assign tile values
+                        tileMap[i][j].TileValue = mapFormat[i][j];
                         //check if it's a door
                         for (int k = 0; k < doorIndex.Count; k++) {
                             tileMap[i][j].IsDoor = mapFormat[i][j] == doorIndex[k] ? true : false;
@@ -170,7 +172,9 @@ namespace MarioWorld1_1 {
                         }
                         //breakable?
                         for (int k = 0; k < breakableTiles.Count; k++) {
-                            tileMap[i][j].Breakable = breakableTiles.ContainsKey(k);
+                            int b = tileMap[i][j].TileValue;
+                            //check to see if the tile value is in the list of breakable values
+                            tileMap[i][j].Breakable = breakableTiles.ContainsKey(b);
                             
                         }
                         tileMap[i][j].WorldPosition = worldPosition;
@@ -182,6 +186,7 @@ namespace MarioWorld1_1 {
                                 tileMap[i][j].Walkable = false;
                             }
                         }
+
                     }
                 }
                 //set hero position
@@ -235,15 +240,20 @@ namespace MarioWorld1_1 {
             //destroy items
             //destroy enemies
         }
-        public void ChangeTile(PointF location,, bool walkable = false, bool breakable = false) {
+        public void ChangeTile(PointF location, bool walkable = false, bool breakable = false) {
+            //new value is used to find source rect for textures only
             int yTile = (int)location.Y / Game.TILE_SIZE;
             int xTile = (int)location.X / Game.TILE_SIZE;
             int xPos = ((int)location.X / Game.TILE_SIZE) * Game.TILE_SIZE;
             int yPos = ((int)location.Y / Game.TILE_SIZE) * Game.TILE_SIZE;
+            //new value holds the tile value of what it turns into
+            int oldValue = breakableTiles[tileMap[yTile][xTile].TileValue];
             tileMap[yTile][xTile].Destroy();
-            //tiles now have a value accessor!
-            tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[tileValue]);
-            Console.WriteLine("Source rect: " + spriteSources[breakableTiles[tileValue]]);
+
+            tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[oldValue]);
+            Console.WriteLine("Source rect: " + spriteSources[breakableTiles[oldValue]]);
+
+            tileMap[yTile][xTile].TileValue = oldValue;
             tileMap[yTile][xTile].Walkable = walkable;
             tileMap[yTile][xTile].Breakable = breakable;
             Console.WriteLine("Tile Location PreAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
