@@ -120,6 +120,7 @@ namespace MarioWorld1_1 {
                         }
                         //which tiles are breakable
                         else if (content[0] == "B") {
+                                Console.WriteLine("Breakable dict length: " + (content.Length-1));
                             for (int i = 1; i < (content.Length)-1; i++) {
                                 breakableTiles.Add(System.Convert.ToInt32(content[i]), System.Convert.ToInt32(content.Length-1-i));
                                 Console.WriteLine("Breakable tile: " + System.Convert.ToInt32(content[i]) + " turns into: " + System.Convert.ToInt32(content.Length - 1 - i));
