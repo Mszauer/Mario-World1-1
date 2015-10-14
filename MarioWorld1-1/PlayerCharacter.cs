@@ -94,7 +94,7 @@ namespace MarioWorld1_1 {
                     //break tile
                     if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
                         Console.WriteLine("Tile broken!");
-                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT], 2,true,false);
+                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT], 7,true,false);
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
