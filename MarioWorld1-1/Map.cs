@@ -30,11 +30,12 @@ namespace MarioWorld1_1 {
         protected List<List<int>> mapFormat = null;
         protected Dictionary<int, Rectangle> spriteSources = null;
         protected Dictionary<int, int> breakableTiles = null;
+        protected List<int> unwalkableTiles = null;
 
         //protected List<EnemyCharacter> enemies = null;
         public Map(string mapPath,PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
-                List<int> unwalkableTiles = new List<int>();
+                unwalkableTiles = new List<int>();
                 List<int> doorIndex = new List<int>();
                 spriteSources = new Dictionary<int, Rectangle>();
                 mapFormat = new List<List<int>>();
@@ -243,24 +244,34 @@ namespace MarioWorld1_1 {
             //destroy items
             //destroy enemies
         }
-        public void ChangeTile(PointF location, bool walkable = false, bool breakable = false) {
+        public void ChangeTile(PointF location) {
             //new value is used to find source rect for textures only
             int yTile = (int)location.Y / Game.TILE_SIZE;
             int xTile = (int)location.X / Game.TILE_SIZE;
             int xPos = ((int)location.X / Game.TILE_SIZE) * Game.TILE_SIZE;
             int yPos = ((int)location.Y / Game.TILE_SIZE) * Game.TILE_SIZE;
             //new value holds the tile value of what it turns into
-            int oldValue = breakableTiles[tileMap[yTile][xTile].TileValue];
+            int oldValue = tileMap[yTile][xTile].TileValue;
             Console.WriteLine("Tile old value: " + oldValue);
             tileMap[yTile][xTile].Destroy();
 
-            tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[oldValue]);
+            tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[breakableTiles[oldValue]]);
             Console.WriteLine("Source rect: " + spriteSources[breakableTiles[oldValue]]);
 
             tileMap[yTile][xTile].TileValue = breakableTiles[oldValue];
+            mapFormat[yTile][xTile] = tileMap[yTile][xTile].TileValue;
             Console.WriteLine("Tile new value: " + tileMap[yTile][xTile].TileValue);
-            tileMap[yTile][xTile].Walkable = walkable;
-            tileMap[yTile][xTile].Breakable = breakable;
+            tileMap[yTile][xTile].Walkable = true;
+            foreach (int w in unwalkableTiles) {
+                if (mapFormat[yTile][xTile] == w) {
+                    tileMap[yTile][xTile].Walkable = false;
+                }
+            }
+            for (int k = 0; k < breakableTiles.Count; k++) {
+                int b = tileMap[yTile][xTile].TileValue;
+                tileMap[yTile][xTile].Breakable = breakableTiles.ContainsKey(b);
+
+            }
             Console.WriteLine("Tile Location PreAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
             tileMap[yTile][xTile].WorldPosition = new Point(xPos, yPos);
             Console.WriteLine("Tile Location PostAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);

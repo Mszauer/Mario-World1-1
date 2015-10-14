@@ -94,7 +94,7 @@ namespace MarioWorld1_1 {
                     //break tile
                     if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
                         Console.WriteLine("Tile broken!");
-                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT], true,false);
+                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
@@ -106,7 +106,7 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable) {
                         Console.WriteLine("Tile broken!");
-                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT], true, false);
+                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
