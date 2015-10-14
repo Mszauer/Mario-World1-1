@@ -120,8 +120,9 @@ namespace MarioWorld1_1 {
                         }
                         //which tiles are breakable
                         else if (content[0] == "B") {
-                            for (int i = 1; i < (content.Length-1)/2; i++) {
+                            for (int i = 1; i < (content.Length)-1; i++) {
                                 breakableTiles.Add(System.Convert.ToInt32(content[i]), System.Convert.ToInt32(content.Length-1-i));
+                                Console.WriteLine("Breakable tile: " + System.Convert.ToInt32(content[i]) + " turns into: " + System.Convert.ToInt32(content.Length - 1 - i));
                             }
                         }
                         //load rows
@@ -248,12 +249,14 @@ namespace MarioWorld1_1 {
             int yPos = ((int)location.Y / Game.TILE_SIZE) * Game.TILE_SIZE;
             //new value holds the tile value of what it turns into
             int oldValue = breakableTiles[tileMap[yTile][xTile].TileValue];
+            Console.WriteLine("Tile old value: " + oldValue);
             tileMap[yTile][xTile].Destroy();
 
             tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[oldValue]);
             Console.WriteLine("Source rect: " + spriteSources[breakableTiles[oldValue]]);
 
-            tileMap[yTile][xTile].TileValue = oldValue;
+            tileMap[yTile][xTile].TileValue = breakableTiles[oldValue];
+            Console.WriteLine("Tile new value: " + tileMap[yTile][xTile].TileValue);
             tileMap[yTile][xTile].Walkable = walkable;
             tileMap[yTile][xTile].Breakable = breakable;
             Console.WriteLine("Tile Location PreAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
