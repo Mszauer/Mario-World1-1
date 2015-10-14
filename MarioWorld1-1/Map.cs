@@ -236,10 +236,16 @@ namespace MarioWorld1_1 {
             //destroy enemies
         }
         public void ChangeTile(PointF location, int tileValue, bool walkable = false, bool breakable = false) {
-            tileMap[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE].Destroy();
-            tileMap[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE] = new Tile(tileSheet, spriteSources[breakableTiles[tileValue]]);
-            tileMap[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE].Walkable = walkable;
-            tileMap[(int)location.Y / Game.TILE_SIZE][(int)location.X / Game.TILE_SIZE].Breakable = breakable;
+            int yTile = (int)location.Y / Game.TILE_SIZE;
+            int xTile = (int)location.X / Game.TILE_SIZE;
+            tileMap[yTile][xTile].Destroy();
+            tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[breakableTiles[tileValue]]);
+            Console.WriteLine("Source rect: " + spriteSources[breakableTiles[tileValue]]);
+            tileMap[yTile][xTile].Walkable = walkable;
+            tileMap[yTile][xTile].Breakable = breakable;
+            Console.WriteLine("Tile Location PreAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
+            tileMap[yTile][xTile].WorldPosition = new Point((int)location.X, (int)location.Y);
+            Console.WriteLine("Tile Location PostAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
         }
     }
 }
