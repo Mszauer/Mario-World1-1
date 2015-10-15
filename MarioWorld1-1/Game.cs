@@ -47,7 +47,7 @@ namespace MarioWorld1_1 {
         }
         public void Update(float dt) {
             //currentMap = currentMap.ResolveDoors(hero);
-            //currentMap.Update(dt, hero, projectiles);
+            currentMap.Update(dt, hero);
             hero.Update(1/30.0f);
         }
         public void Render() {
