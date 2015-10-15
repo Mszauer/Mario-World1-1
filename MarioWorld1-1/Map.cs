@@ -31,8 +31,8 @@ namespace MarioWorld1_1 {
         protected Dictionary<int, Rectangle> spriteSources = null;
         protected Dictionary<int, int> breakableTiles = null;
         protected List<int> unwalkableTiles = null;
+        protected List<EnemyCharacter> enemies = null;
 
-        //protected List<EnemyCharacter> enemies = null;
         public Map(string mapPath,PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
                 unwalkableTiles = new List<int>();
@@ -42,6 +42,7 @@ namespace MarioWorld1_1 {
                 Dictionary<int, string> nextMap = new Dictionary<int, string>();
                 nextRoom = new Dictionary<string, Point>();
                 breakableTiles = new Dictionary<int, int>();
+                enemies = new List<EnemyCharacter>();
                 //load map
                 using (TextReader reader = File.OpenText(mapPath)) {
                     string contents = reader.ReadLine();
@@ -103,18 +104,19 @@ namespace MarioWorld1_1 {
                         }
                         //add enemies
                         else if(content[0] == "E") {
-                            /*if (enemies == null) {
+                            if (enemies == null) {
                                 enemies = new List<EnemyCharacter>();
                             }
                             bool upDownMove = content[2] == "X" ? false : true;
                             enemies.Add(new EnemyCharacter(content[1],upDownMove));
                             enemies[enemies.Count-1].Position.X = System.Convert.ToInt32(content[3])*Game.TILE_SIZE;
                             enemies[enemies.Count-1].Position.Y = System.Convert.ToInt32(content[4])*Game.TILE_SIZE;
-                            #if DEBUG
+#if DEBUG
                             Console.WriteLine("Enemy added, Y Axis Movement: " + upDownMove);
                             Console.WriteLine("Enemy sprite path: "+content[1]);
-                            #endif
-                            */
+                            Console.WriteLine("Enemy starting location: " + content[3]+", " + content[4]);
+#endif
+                            
                         }
                         else if(content[0] == "//") {
                             //used to make comments in txt file!
@@ -124,8 +126,8 @@ namespace MarioWorld1_1 {
                                 Console.WriteLine("Breakable dict length: " + (content.Length-1));
                             for (int i = 1; i < (content.Length-1)/2+1; i++) {
                                 breakableTiles.Add(System.Convert.ToInt32(content[i]), System.Convert.ToInt32(content[content.Length-i]));
-                                Console.WriteLine("Breakable tile: " + System.Convert.ToInt32(content[i]) + " turns into: " + System.Convert.ToInt32(content[content.Length - i]));
-                                Console.WriteLine("i: " + i + ", content length-i: " + (content[content.Length - i]));
+                                //Console.WriteLine("Breakable tile: " + System.Convert.ToInt32(content[i]) + " turns into: " + System.Convert.ToInt32(content[content.Length - i]));
+                                //Console.WriteLine("i: " + i + ", content length-i: " + (content[content.Length - i]));
                             }
                         }
                         //load rows
@@ -204,8 +206,17 @@ namespace MarioWorld1_1 {
                 Console.WriteLine("Map not found!");
             }
         }
-        public void Update(float dTime) {
+        public void Update(float dTime,PlayerCharacter hero) {
             //do update stuff in here
+            for (int i = enemies.Count - 1; i >= 0; i--) {
+                enemies[i].Update(dTime);
+                Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
+                if (intersection.Width * intersection.Height > 0) {
+                    Console.WriteLine("Collision with enemy!");
+                    //game over
+                }
+
+            }
         }
         /*
         public Map ResolveDoors(PlayerCharacter hero) {
@@ -232,9 +243,11 @@ namespace MarioWorld1_1 {
                     tileMap[h][w].Render(offsetPosition);
                 }
             }
+            for (int i = enemies.Count - 1; i >= 0; i--) {
+                enemies[i].Render(offsetPosition);
+            }
             //render items
-            //render enemies
-        }
+            }
         public void Destroy() {
             for (int h = 0; h < tileMap.Length; h++) {
                 for(int w = 0; w < tileMap[h].Length; w++) {
@@ -243,6 +256,9 @@ namespace MarioWorld1_1 {
             }
             //destroy items
             //destroy enemies
+            for (int i = enemies.Count - 1; i >= 0; i--) {
+                enemies[i].Destroy();
+            }
         }
         public void ChangeTile(PointF location) {
             //new value is used to find source rect for textures only
