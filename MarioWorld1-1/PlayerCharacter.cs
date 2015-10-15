@@ -14,8 +14,10 @@ namespace MarioWorld1_1 {
         protected float gravity = 0f;
         private bool isJumping = false;
         public PlayerCharacter(string spritePath) : base(spritePath) {
-            AddSprite("Right", new Rectangle(12, 6, 16, 16));
-            SetSprite("Right");
+            AddSprite("StandR", new Rectangle(12, 6, 16, 16));
+            AddSprite("Right", new Rectangle(30, 27, 16, 16), new Rectangle(47, 27, 16, 16), new Rectangle(64, 27, 16, 16));
+            AddSprite("Jump", new Rectangle(29, 6, 16, 16));
+            SetSprite("StandR");
             SetJump(3.5f * Game.TILE_SIZE, 0.75f);
         }
         public void Update(float dTime) {
@@ -48,9 +50,10 @@ namespace MarioWorld1_1 {
             //move right
             if (i.KeyDown(OpenTK.Input.Key.Right)|| i.KeyDown(OpenTK.Input.Key.D)) {
                 if (velocity == gravity) {
-                    //set sprite right
+                    SetSprite("Right");
+                    Animate(dTime);
+
                 }
-                //call animate
                 Position.X += speed * dTime;
                 if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
@@ -74,7 +77,7 @@ namespace MarioWorld1_1 {
                 isJumping = true;
                 if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)||i.KeyDown(OpenTK.Input.Key.Space)) {
                     velocity = impulse;
-                    //set jump sprite
+                    SetSprite("Jump");
                 }
             }
             //S/Down = special case tile / go down pipe
@@ -118,7 +121,7 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        //SetSprite("Down");
+                        SetSprite("StandR");
                     }
                     velocity = gravity;
                     isJumping = false;
@@ -129,7 +132,7 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        //SetSprite("Down");
+                        SetSprite("StandR");
                     }
                     velocity = gravity;
                     isJumping = false;
