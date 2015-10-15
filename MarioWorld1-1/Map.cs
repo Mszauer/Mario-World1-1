@@ -211,7 +211,11 @@ namespace MarioWorld1_1 {
             for (int i = enemies.Count - 1; i >= 0; i--) {
                 enemies[i].Update(dTime);
                 Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
-                if (intersection.Width * intersection.Height > 0) {
+                if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[i].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[i].Rect.Height/4)) {
+                    enemies[i].Destroy();
+                    enemies.RemoveAt(i);
+                }
+                else if (intersection.Height*intersection.Width > 0) {
                     Console.WriteLine("Collision with enemy!");
                     //game over
                 }

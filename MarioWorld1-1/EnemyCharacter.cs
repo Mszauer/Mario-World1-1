@@ -17,6 +17,7 @@ namespace MarioWorld1_1 {
             moveUpDown = movingUpDown;
         }
         public void Update(float dTime) {
+            //need to add death!
             Animate(dTime);
             //movement
             Position.X += directions * speed * dTime;
