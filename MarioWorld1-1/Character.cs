@@ -47,7 +47,8 @@ namespace MarioWorld1_1 {
         }
         public void Render(PointF offsetPosition) {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
-            renderPosition.X -= (int)offsetPosition.X;
+            renderPosition.X -= (int)offsetPosition.X-1;
+            renderPosition.Y -= 1;
             Rectangle renderRect = SpriteSources[currentSprite][currentFrame];
             renderRect.X -= 1;
             renderRect.Y -= 1;
@@ -55,7 +56,7 @@ namespace MarioWorld1_1 {
                 TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, renderRect);
             }
             else {
-                TextureManager.Instance.Draw(Sprite, renderPosition, -1.0f, renderRect);
+                TextureManager.Instance.Draw(Sprite, new Point(renderPosition.X + renderRect.Width,renderPosition.Y), new Point(-1,1), renderRect);
             }
         }
         public void Destroy() {

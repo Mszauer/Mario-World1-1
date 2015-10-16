@@ -18,7 +18,7 @@ namespace MarioWorld1_1 {
             AddSprite("Run", new Rectangle(30, 27, 16, 16), new Rectangle(47, 27, 16, 16), new Rectangle(64, 27, 16, 16));
             AddSprite("Jump", new Rectangle(29, 6, 16, 16));
             SetSprite("Stand");
-            SetJump(3.5f * Game.TILE_SIZE, 0.75f);
+            SetJump(/*3.50f*/4 * Game.TILE_SIZE, 0.75f);
         }
         public void Update(float dTime) {
             InputManager i = InputManager.Instance;
@@ -122,7 +122,7 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        //SetSprite("StandR");
+                        SetSprite("Stand");
                     }
                     velocity = gravity;
                     isJumping = false;
@@ -133,7 +133,7 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        //SetSprite("StandR");
+                        SetSprite("Stand");
                     }
                     velocity = gravity;
                     isJumping = false;
