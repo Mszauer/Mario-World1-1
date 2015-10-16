@@ -15,6 +15,7 @@ namespace MarioWorld1_1 {
         public int currentFrame = 0;
         float animFPS = 1.0f / 3.0f; //one sec / number of frames
         float animTimer = 0f;
+        protected bool faceLeft = false;
         public Rectangle Rect {
             get {
                 return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width-1, SpriteSources[currentSprite][currentFrame].Height-1);
@@ -47,14 +48,25 @@ namespace MarioWorld1_1 {
         public void Render(PointF offsetPosition) {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
             renderPosition.X -= (int)offsetPosition.X;
-            TextureManager.Instance.Draw(Sprite, renderPosition,1.0f,SpriteSources[currentSprite][currentFrame]);
+            Rectangle renderRect = SpriteSources[currentSprite][currentFrame];
+            renderRect.X -= 1;
+            renderRect.Y -= 1;
+            if (!faceLeft) {
+                TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, renderRect);
+            }
+            else {
+                TextureManager.Instance.Draw(Sprite, renderPosition, -1.0f, renderRect);
+            }
         }
         public void Destroy() {
             TextureManager.Instance.UnloadTexture(Sprite);
         }
         public void SetSprite(string name) {
             if (SpriteSources.ContainsKey(name)) {
-                currentSprite = name;
+                if (currentSprite != name) {
+                    currentSprite = name;
+                    currentFrame = 0;
+                }
             }
             else {
 #if DEBUG

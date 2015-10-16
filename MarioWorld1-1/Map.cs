@@ -52,7 +52,7 @@ namespace MarioWorld1_1 {
                             content = contents.Split(' ');
                         }
 
-                        //Console.WriteLine(content[0]);
+                        Console.WriteLine(content[0]);
 
                         //load texture
                         if (content[0] == "T") {
@@ -118,7 +118,7 @@ namespace MarioWorld1_1 {
 #endif
                             
                         }
-                        else if(content[0] == "//") {
+                        else if(content[0] == "//" || content[0] == " ") {
                             //used to make comments in txt file!
                         }
                         //which tiles are breakable

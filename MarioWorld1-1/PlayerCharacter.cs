@@ -14,10 +14,10 @@ namespace MarioWorld1_1 {
         protected float gravity = 0f;
         private bool isJumping = false;
         public PlayerCharacter(string spritePath) : base(spritePath) {
-            AddSprite("StandR", new Rectangle(12, 6, 16, 16));
-            AddSprite("Right", new Rectangle(30, 27, 16, 16), new Rectangle(47, 27, 16, 16), new Rectangle(64, 27, 16, 16));
+            AddSprite("Stand", new Rectangle(12, 6, 16, 16));
+            AddSprite("Run", new Rectangle(30, 27, 16, 16), new Rectangle(47, 27, 16, 16), new Rectangle(64, 27, 16, 16));
             AddSprite("Jump", new Rectangle(29, 6, 16, 16));
-            SetSprite("StandR");
+            SetSprite("Stand");
             SetJump(3.5f * Game.TILE_SIZE, 0.75f);
         }
         public void Update(float dTime) {
@@ -26,9 +26,10 @@ namespace MarioWorld1_1 {
             //move left
             if (i.KeyDown(OpenTK.Input.Key.Left)|| i.KeyDown(OpenTK.Input.Key.A)) {
                 if (velocity == gravity) {
-                    //set sprite left
+                    faceLeft = true;
+                    SetSprite("Run");
+                    Animate(dTime);
                 }
-                //call animate
                 Position.X -= speed * dTime;
                 if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
@@ -50,9 +51,9 @@ namespace MarioWorld1_1 {
             //move right
             if (i.KeyDown(OpenTK.Input.Key.Right)|| i.KeyDown(OpenTK.Input.Key.D)) {
                 if (velocity == gravity) {
-                    SetSprite("Right");
+                    faceLeft = false;
+                    SetSprite("Run");
                     Animate(dTime);
-
                 }
                 Position.X += speed * dTime;
                 if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
@@ -121,7 +122,7 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        SetSprite("StandR");
+                        //SetSprite("StandR");
                     }
                     velocity = gravity;
                     isJumping = false;
@@ -132,7 +133,7 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        SetSprite("StandR");
+                        //SetSprite("StandR");
                     }
                     velocity = gravity;
                     isJumping = false;
