@@ -9,6 +9,7 @@ namespace MarioWorld1_1 {
     class EnemyCharacter : Character{
         float speed = 60.0f;
         bool moveUpDown = false;
+        public bool IsSeen = false;
         float directions = 1.0f;
         public EnemyCharacter(string spritePath, bool movingUpDown) : base(spritePath) {
             AddSprite("Walk", new Rectangle(1, 4, 16, 16), new Rectangle(22, 4, 16, 16));

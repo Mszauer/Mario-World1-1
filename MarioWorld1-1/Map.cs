@@ -227,7 +227,7 @@ namespace MarioWorld1_1 {
             resolve doors here
         }
         */
-        public void Render(PointF offsetPosition,PointF cameraCenter) {
+        public void Render(PointF offsetPosition,PointF cameraCenter,PlayerCharacter hero) {
             int minX = (int)cameraCenter.X - 16 * Game.TILE_SIZE-Game.TILE_SIZE;
             int maxX = (int)cameraCenter.X + 16 * Game.TILE_SIZE+Game.TILE_SIZE;
             int minY = (int)cameraCenter.Y - 9 * Game.TILE_SIZE - Game.TILE_SIZE;
@@ -245,10 +245,16 @@ namespace MarioWorld1_1 {
                         continue;
                     }
                     tileMap[h][w].Render(offsetPosition);
+                    
                 }
             }
-            for (int i = enemies.Count - 1; i >= 0; i--) {
-                enemies[i].Render(offsetPosition);
+            for (int i = enemies.Count - 1; i >= 0; i--) { 
+                if (Math.Abs(enemies[i].Position.X - hero.Position.X) < Program.Window.Width / 2) {
+                    enemies[i].IsSeen = true;
+                }
+                if (enemies[i].IsSeen) {
+                    enemies[i].Render(offsetPosition);
+                }
             }
             //render items
             }
