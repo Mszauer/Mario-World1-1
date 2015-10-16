@@ -209,7 +209,9 @@ namespace MarioWorld1_1 {
         public void Update(float dTime,PlayerCharacter hero) {
             //do update stuff in here
             for (int i = enemies.Count - 1; i >= 0; i--) {
-                enemies[i].Update(dTime);
+                //if (enemies[i].IsSeen) {
+                    enemies[i].Update(dTime);
+                //}
                 Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
                 if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[i].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[i].Rect.Height/4)) {
                     enemies[i].Destroy();
