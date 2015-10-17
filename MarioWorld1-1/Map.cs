@@ -45,7 +45,7 @@ namespace MarioWorld1_1 {
                 nextRoom = new Dictionary<string, Point>();
                 breakableTiles = new Dictionary<int, int>();
                 enemies = new List<EnemyCharacter>();
-                items = new List<Items>(); // 
+                items = new List<Items>(); 
                 //load map
                 using (TextReader reader = File.OpenText(mapPath)) {
                     string contents = reader.ReadLine();
@@ -55,7 +55,7 @@ namespace MarioWorld1_1 {
                             content = contents.Split(' ');
                         }
 
-                        Console.WriteLine(content[0]);
+                        //Console.WriteLine(content[0]);
 
                         //load texture
                         if (content[0] == "T") {
