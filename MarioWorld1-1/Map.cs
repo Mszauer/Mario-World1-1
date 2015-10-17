@@ -32,6 +32,8 @@ namespace MarioWorld1_1 {
         protected Dictionary<int, int> breakableTiles = null;
         protected List<int> unwalkableTiles = null;
         protected List<EnemyCharacter> enemies = null;
+        //List<item> is item type, int = 
+        protected List<Items> items = null;
 
         public Map(string mapPath,PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
@@ -43,6 +45,7 @@ namespace MarioWorld1_1 {
                 nextRoom = new Dictionary<string, Point>();
                 breakableTiles = new Dictionary<int, int>();
                 enemies = new List<EnemyCharacter>();
+                items = new List<Items>(); // 
                 //load map
                 using (TextReader reader = File.OpenText(mapPath)) {
                     string contents = reader.ReadLine();
@@ -130,6 +133,15 @@ namespace MarioWorld1_1 {
                                 //Console.WriteLine("i: " + i + ", content length-i: " + (content[content.Length - i]));
                             }
                         }
+                        //add items to map
+                        else if(content[0] == "I") {
+                            Rectangle sourceRect = new Rectangle(new Point(System.Convert.ToInt32(content[2]), System.Convert.ToInt32(content[3])), new Size(System.Convert.ToInt32(content[4]), System.Convert.ToInt32(content[4])));
+                            Items item = new Items(content[1], sourceRect, System.Convert.ToInt32(content[5]), new Point(System.Convert.ToInt32(content[6]), System.Convert.ToInt32(content[7])));
+                            items.Add(item);
+#if DEBUG
+                            Console.WriteLine("Item added!");
+#endif
+                        }
                         //load rows
                         else if(System.Convert.ToInt32(content[0]) >= 0) {
                             //create new row
@@ -209,9 +221,9 @@ namespace MarioWorld1_1 {
         public void Update(float dTime,PlayerCharacter hero) {
             //do update stuff in here
             for (int i = enemies.Count - 1; i >= 0; i--) {
-                //if (enemies[i].IsSeen) {
+                if (enemies[i].IsSeen) {
                     enemies[i].Update(dTime);
-                //}
+                }
                 Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
                 if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[i].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[i].Rect.Height/2)) {
                     enemies[i].Destroy();
