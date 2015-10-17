@@ -213,7 +213,7 @@ namespace MarioWorld1_1 {
                     enemies[i].Update(dTime);
                 //}
                 Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
-                if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[i].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[i].Rect.Height/4)) {
+                if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[i].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[i].Rect.Height/2)) {
                     enemies[i].Destroy();
                     enemies.RemoveAt(i);
                 }
@@ -254,9 +254,7 @@ namespace MarioWorld1_1 {
                 if (Math.Abs(enemies[i].Position.X - hero.Position.X) < Program.Window.Width / 2) {
                     enemies[i].IsSeen = true;
                 }
-                if (enemies[i].IsSeen) {
-                    enemies[i].Render(offsetPosition);
-                }
+                enemies[i].Render(offsetPosition);
             }
             //render items
             }
