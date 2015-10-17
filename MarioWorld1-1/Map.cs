@@ -210,6 +210,8 @@ namespace MarioWorld1_1 {
                 //set hero position
                 hero.Position.X = spawnTile.X * Game.TILE_SIZE;
                 hero.Position.Y = spawnTile.Y * Game.TILE_SIZE;
+
+                items[0].IsHit = true;
 #if DEBUG
                 Console.WriteLine("Map has been loaded!");
 #endif
@@ -269,14 +271,23 @@ namespace MarioWorld1_1 {
                 enemies[i].Render(offsetPosition);
             }
             //render items
+            for (int i = items.Count - 1; i >= 0; i--) {
+                if (items[i].IsHit) {
+                    items[i].Render(offsetPosition);
+                }
+            }
             }
         public void Destroy() {
+            //destroy map
             for (int h = 0; h < tileMap.Length; h++) {
                 for(int w = 0; w < tileMap[h].Length; w++) {
                     tileMap[h][w].Destroy();
                 }
             }
             //destroy items
+            for (int i = items.Count - 1; i >= 0; i--) {
+                items[i].Destroy();
+            }
             //destroy enemies
             for (int i = enemies.Count - 1; i >= 0; i--) {
                 enemies[i].Destroy();

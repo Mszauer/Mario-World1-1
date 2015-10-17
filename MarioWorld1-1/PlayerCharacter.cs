@@ -113,7 +113,7 @@ namespace MarioWorld1_1 {
                         Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
                         //what item will spawn?
                         if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).TileValue == 33) {
-                            
+                            //IsHit = true
                         }
                     }
                     Position.Y = intersection.Bottom;
