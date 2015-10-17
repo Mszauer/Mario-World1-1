@@ -111,6 +111,10 @@ namespace MarioWorld1_1 {
                     if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable) {
                         Console.WriteLine("Tile broken!");
                         Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
+                        //what item will spawn?
+                        if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).TileValue == 33) {
+                            
+                        }
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
