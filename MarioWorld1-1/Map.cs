@@ -136,12 +136,7 @@ namespace MarioWorld1_1 {
                         }
                         //add items to map
                         else if(content[0] == "I") {
-                            if (content[1] == "M") {
-
-                            }
-                            else {
-                                itemSheet = content[1];
-                            }
+                            itemSheet = content[1];
 #if DEBUG
                             Console.WriteLine("Item sheet: "+content[1]);
 #endif
@@ -177,6 +172,7 @@ namespace MarioWorld1_1 {
                         Point worldPosition = new Point();
                         worldPosition.X = (j * source.Width);
                         worldPosition.Y = (i * source.Height);
+
                         tileMap[i][j] = new Tile(tileSheet, source);
                         tileMap[i][j].Walkable = true;
                         //assign tile values
@@ -208,10 +204,23 @@ namespace MarioWorld1_1 {
                                 tileMap[i][j].Walkable = false;
                             }
                         }
-
+                        //assign items to tile
+                        if (tileMap[i][j].TileValue == 33) {
+                            tileMap[i][j].Item = "GrowMushroom";
+                        }
+                        /*
+                        else if (tileMap[i][j].TileValue == 34) {
+                            tileMap[i][j].Item = "Star";
+                        }
+                        else if (tileMap[i][j].TileValue == 35) {
+                            tileMap[i][j].Item = "OneUp";
+                        }
+                        else if (tileMap[i][j].TileValue == 36) {
+                            tileMap[i][j].Item = "Coin";
+                        }
+                        */
                     }
                 }
-                //assign items to tile
                 //set hero position
                 hero.Position.X = spawnTile.X * Game.TILE_SIZE;
                 hero.Position.Y = spawnTile.Y * Game.TILE_SIZE;

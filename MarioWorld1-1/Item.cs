@@ -16,6 +16,7 @@ namespace MarioWorld1_1 {
         protected int currentFrame = 0;
         float animFPS = 1.0f / 3.0f; //one sec / number of frames
         float animTimer = 0f;
+        public static string ItemSheet = null;
         public Rectangle Rect {
             get {
                 return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width, SpriteSources[currentSprite][currentFrame].Height);
@@ -23,12 +24,19 @@ namespace MarioWorld1_1 {
         }
         public Item(string spriteSheet) {
             Sprite = TextureManager.Instance.LoadTexture(spriteSheet);
+            ItemSheet = spriteSheet;
         }
         public void Render(PointF offsetPosition) {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
             renderPosition.X -= (int)offsetPosition.X;
             renderPosition.Y -= (int)offsetPosition.Y;
             TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, Source);
+        }
+        public static Item SpawnItem(string itemType) {
+            if (itemType == "GrowMushroom") {
+                return new GrowMushroom(ItemSheet);
+            }
+            return null;
         }
         public void Destroy() {
             TextureManager.Instance.UnloadTexture(Sprite);
