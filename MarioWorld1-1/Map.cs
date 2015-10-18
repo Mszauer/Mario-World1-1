@@ -34,6 +34,7 @@ namespace MarioWorld1_1 {
         protected List<EnemyCharacter> enemies = null;
         //List<item> is item type, int = 
         protected List<Item> items = null;
+        protected string itemSheet = null;
 
         public Map(string mapPath,PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
@@ -135,11 +136,9 @@ namespace MarioWorld1_1 {
                         }
                         //add items to map
                         else if(content[0] == "I") {
-                            Rectangle sourceRect = new Rectangle(new Point(System.Convert.ToInt32(content[2]), System.Convert.ToInt32(content[3])), new Size(System.Convert.ToInt32(content[4]), System.Convert.ToInt32(content[4])));
-                            Item item = new Item(content[1], sourceRect, System.Convert.ToInt32(content[5]), new Point(System.Convert.ToInt32(content[6]), System.Convert.ToInt32(content[7])));
-                            items.Add(item);
+                            itemSheet = content[1];
 #if DEBUG
-                            Console.WriteLine("Item added!");
+                            Console.WriteLine("Item sheet: "+content[1]);
 #endif
                         }
                         //load rows
@@ -208,9 +207,6 @@ namespace MarioWorld1_1 {
                     }
                 }
                 //assign items to tile
-                for (int i = 0;i<items.Count;i++) {
-                    tileMap[items[i].Position.Y / Game.TILE_SIZE + 1][items[i].Position.X / Game.TILE_SIZE].Item = items[i];
-                }
                 //set hero position
                 hero.Position.X = spawnTile.X * Game.TILE_SIZE;
                 hero.Position.Y = spawnTile.Y * Game.TILE_SIZE;
@@ -274,11 +270,6 @@ namespace MarioWorld1_1 {
                 enemies[i].Render(offsetPosition);
             }
             //render items
-            for (int i = items.Count - 1; i >= 0; i--) {
-                if (items[i].IsHit) {
-                    items[i].Render(offsetPosition);
-                }
-            }
             }
         public void Destroy() {
             //destroy map

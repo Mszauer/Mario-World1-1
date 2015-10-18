@@ -100,9 +100,10 @@ namespace MarioWorld1_1 {
                         Console.WriteLine("Tile broken!");
                         Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
                         //what item will spawn?
+                        /*
                         if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
                             Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item.IsHit = true;
-                        }
+                        }*/
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
@@ -116,9 +117,11 @@ namespace MarioWorld1_1 {
                         Console.WriteLine("Tile broken!");
                         Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
                         //what item will spawn?
+                        /*
                         if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
                             Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item.IsHit = true;
                         }
+                        */
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
