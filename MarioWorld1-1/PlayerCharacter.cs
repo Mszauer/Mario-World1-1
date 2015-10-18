@@ -105,7 +105,7 @@ namespace MarioWorld1_1 {
                             Map.items.Add(item);
                             //set items position
                             Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.X;
-                            Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.Y;
+                            Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.Y - Game.TILE_SIZE;
                         }
                         Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
                     }
