@@ -18,7 +18,7 @@ namespace MarioWorld1_1 {
         public bool Breakable { get; set; }
         public int TileValue { get; set; }
 
-        public Items Item { get; set; }
+        public Item Item { get; set; }
 
         public Tile(string spritePath, Rectangle source) {
             Sprite = TextureManager.Instance.LoadTexture(spritePath);

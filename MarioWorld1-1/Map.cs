@@ -33,7 +33,7 @@ namespace MarioWorld1_1 {
         protected List<int> unwalkableTiles = null;
         protected List<EnemyCharacter> enemies = null;
         //List<item> is item type, int = 
-        protected List<Items> items = null;
+        protected List<Item> items = null;
 
         public Map(string mapPath,PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
@@ -45,7 +45,7 @@ namespace MarioWorld1_1 {
                 nextRoom = new Dictionary<string, Point>();
                 breakableTiles = new Dictionary<int, int>();
                 enemies = new List<EnemyCharacter>();
-                items = new List<Items>(); 
+                items = new List<Item>(); 
                 //load map
                 using (TextReader reader = File.OpenText(mapPath)) {
                     string contents = reader.ReadLine();
@@ -136,7 +136,7 @@ namespace MarioWorld1_1 {
                         //add items to map
                         else if(content[0] == "I") {
                             Rectangle sourceRect = new Rectangle(new Point(System.Convert.ToInt32(content[2]), System.Convert.ToInt32(content[3])), new Size(System.Convert.ToInt32(content[4]), System.Convert.ToInt32(content[4])));
-                            Items item = new Items(content[1], sourceRect, System.Convert.ToInt32(content[5]), new Point(System.Convert.ToInt32(content[6]), System.Convert.ToInt32(content[7])));
+                            Item item = new Item(content[1], sourceRect, System.Convert.ToInt32(content[5]), new Point(System.Convert.ToInt32(content[6]), System.Convert.ToInt32(content[7])));
                             items.Add(item);
 #if DEBUG
                             Console.WriteLine("Item added!");
