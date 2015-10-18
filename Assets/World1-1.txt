@@ -19,7 +19,7 @@ I Assets/items.png 0 0 16 0 21 6
 // unbreakable blocks
 U 1 10 11 26 27 2 3 0
 //,what blocks turn into another, element[i] turns into element[lenght-1-i] so input accordingly!
-B 2 3 33 0 0 7
+B 2 3 0 7
 // Enemies
 E Assets/NPC.png X 22 10
 E Assets/NPC.png X 40 10
@@ -75,4 +75,3 @@ R 29 208 16 16 16
 R 30 224 16 16 16
 R 31 240 16 16 16
 R 32 256 16 16 16
-R 33 112 0 16 16

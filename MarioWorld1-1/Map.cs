@@ -207,11 +207,14 @@ namespace MarioWorld1_1 {
 
                     }
                 }
+                //assign items to tile
+                for (int i = 0;i<items.Count;i++) {
+                    tileMap[items[i].Position.Y / Game.TILE_SIZE + 1][items[i].Position.X / Game.TILE_SIZE].Item = items[i];
+                }
                 //set hero position
                 hero.Position.X = spawnTile.X * Game.TILE_SIZE;
                 hero.Position.Y = spawnTile.Y * Game.TILE_SIZE;
 
-                items[0].IsHit = true;
 #if DEBUG
                 Console.WriteLine("Map has been loaded!");
 #endif
