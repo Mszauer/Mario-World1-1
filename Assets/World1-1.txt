@@ -16,6 +16,7 @@
 T Assets/tiles.png
 //,Items spritePath
 I Assets/items.png
+I M 
 // unbreakable blocks
 U 1 10 11 26 27 2 3 0
 //,what blocks turn into another, element[i] turns into element[lenght-1-i] so input accordingly!

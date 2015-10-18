@@ -136,7 +136,12 @@ namespace MarioWorld1_1 {
                         }
                         //add items to map
                         else if(content[0] == "I") {
-                            itemSheet = content[1];
+                            if (content[1] == "M") {
+
+                            }
+                            else {
+                                itemSheet = content[1];
+                            }
 #if DEBUG
                             Console.WriteLine("Item sheet: "+content[1]);
 #endif
