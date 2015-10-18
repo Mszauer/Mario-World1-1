@@ -98,12 +98,16 @@ namespace MarioWorld1_1 {
                     //break tile
                     if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
                         Console.WriteLine("Tile broken!");
-                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
                         //what item will spawn?
-                        /*
-                        if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
-                            Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item.IsHit = true;
-                        }*/
+                        if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) {
+                            //create item by adding it into map
+                            Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item);
+                            Map.items.Add(item);
+                            //set items position
+                            Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.X;
+                            Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.Y;
+                        }
+                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);
@@ -115,13 +119,15 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable) {
                         Console.WriteLine("Tile broken!");
-                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
                         //what item will spawn?
-                        /*
                         if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
-                            Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item.IsHit = true;
+                            Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
+                            Map.items.Add(item);
+                            //set item position
+                            Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.X;
+                            Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.Y;
                         }
-                        */
+                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
                     }
                     Position.Y = intersection.Bottom;
                     velocity = Math.Abs(velocity);

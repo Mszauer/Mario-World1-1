@@ -32,9 +32,7 @@ namespace MarioWorld1_1 {
         protected Dictionary<int, int> breakableTiles = null;
         protected List<int> unwalkableTiles = null;
         protected List<EnemyCharacter> enemies = null;
-        //List<item> is item type, int = 
-        protected List<Item> items = null;
-        protected string itemSheet = null;
+        public static List<Item> items = null;
 
         public Map(string mapPath,PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
@@ -46,7 +44,7 @@ namespace MarioWorld1_1 {
                 nextRoom = new Dictionary<string, Point>();
                 breakableTiles = new Dictionary<int, int>();
                 enemies = new List<EnemyCharacter>();
-                items = new List<Item>(); 
+                items = new List<Item>();
                 //load map
                 using (TextReader reader = File.OpenText(mapPath)) {
                     string contents = reader.ReadLine();
@@ -127,7 +125,7 @@ namespace MarioWorld1_1 {
                         }
                         //which tiles are breakable
                         else if (content[0] == "B") {
-                                Console.WriteLine("Breakable dict length: " + (content.Length-1));
+                            Console.WriteLine("Breakable dict length: " + (content.Length-1));
                             for (int i = 1; i < (content.Length-1)/2+1; i++) {
                                 breakableTiles.Add(System.Convert.ToInt32(content[i]), System.Convert.ToInt32(content[content.Length-i]));
                                 //Console.WriteLine("Breakable tile: " + System.Convert.ToInt32(content[i]) + " turns into: " + System.Convert.ToInt32(content[content.Length - i]));
@@ -136,7 +134,7 @@ namespace MarioWorld1_1 {
                         }
                         //add items to map
                         else if(content[0] == "I") {
-                            itemSheet = content[1];
+                            Item.ItemSheet = content[1];
 #if DEBUG
                             Console.WriteLine("Item sheet: "+content[1]);
 #endif
@@ -284,7 +282,10 @@ namespace MarioWorld1_1 {
                 enemies[i].Render(offsetPosition);
             }
             //render items
+            for (int i = 0; i < items.Count; i++) {
+                items[i].Render(offsetPosition);
             }
+        }
         public void Destroy() {
             //destroy map
             for (int h = 0; h < tileMap.Length; h++) {

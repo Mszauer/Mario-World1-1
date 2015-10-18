@@ -16,10 +16,10 @@
 T Assets/tiles.png
 //,Items spritePath
 I Assets/items.png
-// unbreakable blocks
-U 1 10 11 26 27 2 3 0
+// collision blocks
+U 1 10 11 26 27 2 3 0 33 34 35 36
 //,what blocks turn into another, element[i] turns into element[lenght-1-i] so input accordingly!
-B 2 3 0 7
+B 2 3 33 34 35 7 7 0 0 7
 // Enemies
 E Assets/NPC.png X 22 10
 E Assets/NPC.png X 40 10

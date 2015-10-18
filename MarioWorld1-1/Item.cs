@@ -23,8 +23,7 @@ namespace MarioWorld1_1 {
             }
         }
         public Item(string spriteSheet) {
-            Sprite = TextureManager.Instance.LoadTexture(spriteSheet);
-            ItemSheet = spriteSheet;
+            Sprite = TextureManager.Instance.LoadTexture(ItemSheet);
         }
         public void Render(PointF offsetPosition) {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
