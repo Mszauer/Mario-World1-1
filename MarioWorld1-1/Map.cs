@@ -233,6 +233,7 @@ namespace MarioWorld1_1 {
         }
         public void Update(float dTime,PlayerCharacter hero) {
             //do update stuff in here
+            //enemy update/logic
             for (int i = enemies.Count - 1; i >= 0; i--) {
                 if (enemies[i].IsSeen) {
                     enemies[i].Update(dTime);
@@ -246,7 +247,12 @@ namespace MarioWorld1_1 {
                     Console.WriteLine("Collision with enemy!");
                     //game over
                 }
-
+            }
+            //items update/logic
+            for (int i = 0; i < items.Count; i++) {
+                if (items[i].IsSpawned) {
+                    items[i].Update(dTime);
+                }
             }
         }
         /*

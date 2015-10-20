@@ -14,14 +14,35 @@ namespace MarioWorld1_1 {
         public Dictionary<string, Rectangle[]> SpriteSources = null;
         public string currentSprite { get; set; }
         protected int currentFrame = 0;
+        protected float gravity = 150.0f; //same formula as in player character
+        protected float speed = 75.0f;
+        protected int direction = -1;
+
         float animFPS = 1.0f / 3.0f; //one sec / number of frames
         float animTimer = 0f;
         public static string ItemSheet = null;
+        public bool IsSpawned = false;
         public Rectangle Rect {
             get {
                 return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width, SpriteSources[currentSprite][currentFrame].Height);
             }
         }
+        public PointF[] Corners {
+            get {
+                float w = Rect.Width;
+                float h = Rect.Height;
+                return new PointF[] {
+                    new PointF(Rect.X,Rect.Y),
+                    new PointF(Rect.X+w,Rect.Y),
+                    new PointF(Rect.X,Rect.Y+h),
+                    new PointF(Rect.X+w,Rect.Y+h)
+                };
+            }
+        }
+        public static readonly int CORNER_TOP_LEFT = 0;
+        public static readonly int CORNER_TOP_RIGHT = 1;
+        public static readonly int CORNER_BOTTOM_LEFT = 2;
+        public static readonly int CORNER_BOTTOM_RIGHT = 3;
         public Item(string spriteSheet) {
             Sprite = TextureManager.Instance.LoadTexture(ItemSheet);
         }
@@ -29,7 +50,7 @@ namespace MarioWorld1_1 {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
             renderPosition.X -= (int)offsetPosition.X;
             renderPosition.Y -= (int)offsetPosition.Y;
-            TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, Source);
+            TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, SpriteSources[currentSprite][currentFrame]);
         }
         public static Item SpawnItem(string itemType) {
             if (itemType == "GrowMushroom") {
@@ -49,6 +70,23 @@ namespace MarioWorld1_1 {
             }
             SpriteSources.Add(name, source);
         }
+        public void Update(float dTime) {
+            ApplyGravity(dTime);
+            HorizontalMovement(dTime);
+            //Floor collision
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
+                if (intersection.Width*intersection.Height > 0) {
+                    Position.Y -= intersection.Top - Rect.Height;
+                }
+            }
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
+                if (intersection.Width * intersection.Height > 0) {
+                    Position.Y -= intersection.Top - Rect.Height;
+                }
+            }
+        }
         protected void Animate(float dTime) {
             animTimer += dTime;
             if (animTimer > animFPS) {
@@ -58,6 +96,16 @@ namespace MarioWorld1_1 {
                     currentFrame = 0;
                 }
             }
+        }
+        protected virtual void ApplyGravity(float dTime,float velocity = 0) {
+            velocity += gravity * dTime;
+            if (velocity > gravity) {
+                velocity = gravity;
+            }
+            Position.Y += velocity * dTime;
+        }
+        protected virtual void HorizontalMovement(float dTime) {
+            Position.X += speed * dTime;
         }
     }
 }

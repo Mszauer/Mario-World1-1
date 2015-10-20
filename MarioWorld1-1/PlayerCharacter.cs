@@ -106,6 +106,7 @@ namespace MarioWorld1_1 {
                             //set items position
                             Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.X;
                             Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.Y - Game.TILE_SIZE;
+                            Map.items[Map.items.Count - 1].IsSpawned = true;
                         }
                         Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
                     }
@@ -126,6 +127,7 @@ namespace MarioWorld1_1 {
                             //set item position
                             Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.X;
                             Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.Y;
+                            Map.items[Map.items.Count - 1].IsSpawned = true;
                         }
                         Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
                     }
