@@ -16,7 +16,7 @@ namespace MarioWorld1_1 {
         protected int currentFrame = 0;
         protected float gravity = 150.0f; //same formula as in player character
         protected float speed = 75.0f;
-        protected int direction = -1;
+        protected int direction = 1;
 
         float animFPS = 1.0f / 3.0f; //one sec / number of frames
         float animTimer = 0f;
@@ -24,7 +24,7 @@ namespace MarioWorld1_1 {
         public bool IsSpawned = false;
         public Rectangle Rect {
             get {
-                return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width, SpriteSources[currentSprite][currentFrame].Height);
+                return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width-1, SpriteSources[currentSprite][currentFrame].Height-1);
             }
         }
         public PointF[] Corners {
@@ -50,7 +50,10 @@ namespace MarioWorld1_1 {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
             renderPosition.X -= (int)offsetPosition.X;
             renderPosition.Y -= (int)offsetPosition.Y;
-            TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, SpriteSources[currentSprite][currentFrame]);
+            Rectangle renderRect = SpriteSources[currentSprite][currentFrame];
+            renderRect.X -= 1;
+            renderRect.Y -= 1;
+            TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, renderRect);
         }
         public static Item SpawnItem(string itemType) {
             if (itemType == "GrowMushroom") {
@@ -73,17 +76,18 @@ namespace MarioWorld1_1 {
         public void Update(float dTime) {
             ApplyGravity(dTime);
             HorizontalMovement(dTime);
+            
             //Floor collision
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
                 if (intersection.Width*intersection.Height > 0) {
-                    Position.Y -= intersection.Top - Rect.Height;
+                    Position.Y = intersection.Top - Rect.Height;
                 }
             }
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
                 if (intersection.Width * intersection.Height > 0) {
-                    Position.Y -= intersection.Top - Rect.Height;
+                    Position.Y = intersection.Top - Rect.Height;
                 }
             }
         }
@@ -97,15 +101,27 @@ namespace MarioWorld1_1 {
                 }
             }
         }
-        protected virtual void ApplyGravity(float dTime,float velocity = 0) {
-            velocity += gravity * dTime;
-            if (velocity > gravity) {
-                velocity = gravity;
-            }
-            Position.Y += velocity * dTime;
+        protected virtual void ApplyGravity(float dTime) {
+            Position.Y += gravity * dTime;
         }
         protected virtual void HorizontalMovement(float dTime) {
-            Position.X += speed * dTime;
+            Position.X += speed * dTime*direction;
+            //right side collision
+            if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
+                if (intersection.Width * intersection.Height > 0) {
+                    direction *= -1;
+                }
+            }
+            
+            //left side collision
+            if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
+                if (intersection.Width * intersection.Height > 0) {
+                    direction *= -1;
+                }
+            }
+            
         }
     }
 }

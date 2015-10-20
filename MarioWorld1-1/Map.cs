@@ -249,9 +249,14 @@ namespace MarioWorld1_1 {
                 }
             }
             //items update/logic
-            for (int i = 0; i < items.Count; i++) {
+            for (int i = items.Count-1; i >= 0; i--) {
                 if (items[i].IsSpawned) {
                     items[i].Update(dTime);
+                }
+                Rectangle intersection = Intersections.Rect(hero.Rect, items[i].Rect);
+                if (intersection.Height * intersection.Width > 0) {
+                    items[i].Destroy();
+                    items.RemoveAt(i);
                 }
             }
         }
