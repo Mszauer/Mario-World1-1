@@ -60,6 +60,7 @@ namespace MarioWorld1_1 {
                 offsetPosition.X = (currentMap.Length - 14) * TILE_SIZE;
             }
             currentMap.Render(offsetPosition,hero.Center,hero);
+            hero.CurrentState = PlayerCharacter.State.Large;
             hero.Render(new PointF(offsetPosition.X,offsetPosition.Y-1));
         }
         public void Shutdown() {

@@ -8,6 +8,10 @@ using System.Drawing;
 
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
+        //what type is hero
+        public enum State { Normal, Large};
+        public State CurrentState { get; set; }
+
         public float speed = 3*Game.TILE_SIZE;
         public int Lifes = 3; //default amount of lifes
         public float Impulse = 0.0f;
@@ -18,17 +22,25 @@ namespace MarioWorld1_1 {
             AddSprite("Stand", new Rectangle(12, 6, 16, 16));
             AddSprite("Run", new Rectangle(30, 27, 16, 16), new Rectangle(47, 27, 16, 16), new Rectangle(64, 27, 16, 16));
             AddSprite("Jump", new Rectangle(29, 6, 16, 16));
+            AddSprite("LargeStand", new Rectangle(10, 65, 16, 32));
+            AddSprite("LargeRun",new Rectangle(30,105,16,32),new Rectangle(50,105,16,32),new Rectangle(70,105,16,32));
+            AddSprite("LargeJump", new Rectangle(30, 65, 16, 32));
             SetSprite("Stand");
             SetJump(/*3.50f*/4 * Game.TILE_SIZE, 0.75f);
         }
         public void Update(float dTime) {
             InputManager i = InputManager.Instance;
-            
+
             //move left
             if (i.KeyDown(OpenTK.Input.Key.Left)|| i.KeyDown(OpenTK.Input.Key.A)) {
                 if (velocity == gravity) {
                     faceLeft = true;
-                    SetSprite("Run");
+                    if (CurrentState == State.Normal) {
+                        SetSprite("Run");
+                    }
+                    else if (CurrentState == State.Large) {
+                        SetSprite("LargeRun");
+                    }
                     Animate(dTime);
                 }
                 Position.X -= speed * dTime;
@@ -53,7 +65,12 @@ namespace MarioWorld1_1 {
             if (i.KeyDown(OpenTK.Input.Key.Right)|| i.KeyDown(OpenTK.Input.Key.D)) {
                 if (velocity == gravity) {
                     faceLeft = false;
-                    SetSprite("Run");
+                    if (CurrentState == State.Normal) {
+                        SetSprite("Run");
+                    }
+                    else if (CurrentState == State.Large) {
+                        SetSprite("LargeRun");
+                    }
                     Animate(dTime);
                 }
                 Position.X += speed * dTime;
@@ -141,7 +158,12 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        SetSprite("Stand");
+                        if (CurrentState == State.Normal) {
+                            SetSprite("Stand");
+                        }
+                        else if(CurrentState == State.Large) {
+                            SetSprite("LargeStand");
+                        }
                     }
                     velocity = gravity;
                     isJumping = false;
@@ -171,6 +193,25 @@ namespace MarioWorld1_1 {
         public void Jump(float impulse) {
             velocity = impulse;
             SetSprite("Jump");
+        }
+        public override void Render(PointF offsetPosition) {
+            if (CurrentState == State.Normal) {
+                base.Render(offsetPosition);
+            }
+            else {
+                Point renderPosition = new Point((int)Position.X, (int)Position.Y);
+                renderPosition.X -= (int)offsetPosition.X - 1;
+                renderPosition.Y -= 1;
+                Rectangle renderRect = SpriteSources[currentSprite][currentFrame];
+                renderRect.X -= 1;
+                renderRect.Y -= 1;
+                if (!faceLeft) {
+                    TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, renderRect);
+                }
+                else {
+                    TextureManager.Instance.Draw(Sprite, new Point(renderPosition.X + renderRect.Width, renderPosition.Y), new Point(-1, 1), renderRect);
+                }
+            }
         }
     }
 }
