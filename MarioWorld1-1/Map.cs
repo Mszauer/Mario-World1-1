@@ -235,9 +235,11 @@ namespace MarioWorld1_1 {
             //do update stuff in here
             //enemy update/logic
             for (int i = enemies.Count - 1; i >= 0; i--) {
+                //has hero encountered enemy?
                 if (enemies[i].IsSeen) {
                     enemies[i].Update(dTime);
                 }
+                //Killed by hero
                 Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
                 if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[i].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[i].Rect.Height/2)) {
                     enemies[i].Destroy();
@@ -247,14 +249,37 @@ namespace MarioWorld1_1 {
                     Console.WriteLine("Collision with enemy!");
                     //game over
                 }
+                //enemy off map, X axis
+                if (enemies[i].Position.X / Game.TILE_SIZE < 0 || enemies[i].Position.X / Game.TILE_SIZE > tileMap[(int)enemies[i].Position.Y / Game.TILE_SIZE].Length) {
+                    enemies[i].Destroy();
+                    enemies.RemoveAt(i);
+                }
+                //Enemy off map, Y axis
+                else if (enemies[i].Position.Y / Game.TILE_SIZE < 0 || enemies[i].Position.Y / Game.TILE_SIZE > tileMap.Length) {
+                    enemies[i].Destroy();
+                    enemies.RemoveAt(i);
+                }
             }
             //items update/logic
             for (int i = items.Count-1; i >= 0; i--) {
+                
+                //update items, if spawned
                 if (items[i].IsSpawned) {
                     items[i].Update(dTime);
                 }
+                //hero picked up item
                 Rectangle intersection = Intersections.Rect(hero.Rect, items[i].Rect);
                 if (intersection.Height * intersection.Width > 0) {
+                    items[i].Destroy();
+                    items.RemoveAt(i);
+                }
+                //item off map, x axis
+                if (items[i].Position.X / Game.TILE_SIZE < 0 || items[i].Position.X / Game.TILE_SIZE > tileMap[(int)items[i].Position.Y / Game.TILE_SIZE].Length) {
+                    items[i].Destroy();
+                    items.RemoveAt(i);
+                }
+                //item off map, y axis
+                else if (items[i].Position.Y / Game.TILE_SIZE < 0 || items[i].Position.Y / Game.TILE_SIZE > tileMap.Length) {
                     items[i].Destroy();
                     items.RemoveAt(i);
                 }
