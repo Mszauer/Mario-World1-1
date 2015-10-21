@@ -9,7 +9,7 @@ using GameFramework;
 
 namespace MarioWorld1_1 {
     class Map {
-        public  Tile[][] tileMap = null;
+        public Tile[][] tileMap = null;
 
         public Tile[] this[int i] {
             get {
@@ -34,7 +34,7 @@ namespace MarioWorld1_1 {
         protected List<EnemyCharacter> enemies = null;
         public static List<Item> items = null;
 
-        public Map(string mapPath,PlayerCharacter hero) {
+        public Map(string mapPath, PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
                 unwalkableTiles = new List<int>();
                 List<int> doorIndex = new List<int>();
@@ -105,47 +105,47 @@ namespace MarioWorld1_1 {
 #endif
                         }
                         //add enemies
-                        else if(content[0] == "E") {
+                        else if (content[0] == "E") {
                             if (enemies == null) {
                                 enemies = new List<EnemyCharacter>();
                             }
                             bool upDownMove = content[2] == "X" ? false : true;
-                            enemies.Add(new EnemyCharacter(content[1],upDownMove));
-                            enemies[enemies.Count-1].Position.X = System.Convert.ToInt32(content[3])*Game.TILE_SIZE;
-                            enemies[enemies.Count-1].Position.Y = System.Convert.ToInt32(content[4])*Game.TILE_SIZE;
+                            enemies.Add(new EnemyCharacter(content[1], upDownMove));
+                            enemies[enemies.Count - 1].Position.X = System.Convert.ToInt32(content[3]) * Game.TILE_SIZE;
+                            enemies[enemies.Count - 1].Position.Y = System.Convert.ToInt32(content[4]) * Game.TILE_SIZE;
 #if DEBUG
                             Console.WriteLine("Enemy added, Y Axis Movement: " + upDownMove);
-                            Console.WriteLine("Enemy sprite path: "+content[1]);
-                            Console.WriteLine("Enemy starting location: " + content[3]+", " + content[4]);
+                            Console.WriteLine("Enemy sprite path: " + content[1]);
+                            Console.WriteLine("Enemy starting location: " + content[3] + ", " + content[4]);
 #endif
-                            
+
                         }
-                        else if(content[0] == "//" || content[0] == " ") {
+                        else if (content[0] == "//" || content[0] == " ") {
                             //used to make comments in txt file!
                         }
                         //which tiles are breakable
                         else if (content[0] == "B") {
-                            Console.WriteLine("Breakable dict length: " + (content.Length-1));
-                            for (int i = 1; i < (content.Length-1)/2+1; i++) {
-                                breakableTiles.Add(System.Convert.ToInt32(content[i]), System.Convert.ToInt32(content[content.Length-i]));
+                            Console.WriteLine("Breakable dict length: " + (content.Length - 1));
+                            for (int i = 1; i < (content.Length - 1) / 2 + 1; i++) {
+                                breakableTiles.Add(System.Convert.ToInt32(content[i]), System.Convert.ToInt32(content[content.Length - i]));
                                 //Console.WriteLine("Breakable tile: " + System.Convert.ToInt32(content[i]) + " turns into: " + System.Convert.ToInt32(content[content.Length - i]));
                                 //Console.WriteLine("i: " + i + ", content length-i: " + (content[content.Length - i]));
                             }
                         }
                         //add items to map
-                        else if(content[0] == "I") {
+                        else if (content[0] == "I") {
                             Item.ItemSheet = content[1];
 #if DEBUG
-                            Console.WriteLine("Item sheet: "+content[1]);
+                            Console.WriteLine("Item sheet: " + content[1]);
 #endif
                         }
                         //load rows
-                        else if(System.Convert.ToInt32(content[0]) >= 0) {
+                        else if (System.Convert.ToInt32(content[0]) >= 0) {
                             //create new row
                             mapFormat.Add(new List<int>());
                             for (int i = 0; i < content.Length; i++) {
                                 //add numbers to row
-                                if (string.IsNullOrEmpty(content[i])){
+                                if (string.IsNullOrEmpty(content[i])) {
                                     continue;
                                 }
                                 mapFormat[mapFormat.Count - 1].Add(System.Convert.ToInt32(content[i]));
@@ -191,13 +191,13 @@ namespace MarioWorld1_1 {
                             int b = tileMap[i][j].TileValue;
                             //check to see if the tile value is in the list of breakable values
                             tileMap[i][j].Breakable = breakableTiles.ContainsKey(b);
-                            
+
                         }
                         tileMap[i][j].WorldPosition = worldPosition;
                         tileMap[i][j].Scale = 1.0f;
                         //check if tile is walkable
                         foreach (int w in unwalkableTiles) {
-                            if(mapFormat[i][j] == w) {
+                            if (mapFormat[i][j] == w) {
                                 //txt file indexed unwalkable tiles
                                 tileMap[i][j].Walkable = false;
                             }
@@ -231,8 +231,14 @@ namespace MarioWorld1_1 {
                 Console.WriteLine("Map not found!");
             }
         }
-        public void Update(float dTime,PlayerCharacter hero) {
+        public void Update(float dTime, PlayerCharacter hero) {
             //do update stuff in here
+            //hero update/logic
+            if (hero.Position.Y/Game.TILE_SIZE > tileMap.Length) {
+                //lose a life
+                hero.Lifes -= 1;
+                //start over
+            }
             //enemy update/logic
             for (int i = enemies.Count - 1; i >= 0; i--) {
                 //has hero encountered enemy?

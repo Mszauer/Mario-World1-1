@@ -9,6 +9,7 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
         public float speed = 3*Game.TILE_SIZE;
+        public int Lifes = 3; //default amount of lifes
         public float Impulse = 0.0f;
         protected float velocity = 0.0f;
         protected float gravity = 0f;
