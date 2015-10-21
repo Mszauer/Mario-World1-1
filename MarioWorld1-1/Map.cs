@@ -242,6 +242,7 @@ namespace MarioWorld1_1 {
                 //Killed by hero
                 Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
                 if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[i].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[i].Rect.Height/2)) {
+                    hero.Jump(hero.Impulse * 0.5f);
                     enemies[i].Destroy();
                     enemies.RemoveAt(i);
                 }

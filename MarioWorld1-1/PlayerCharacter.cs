@@ -9,7 +9,7 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
         public float speed = 3*Game.TILE_SIZE;
-        protected float impulse = 0.0f;
+        public float Impulse = 0.0f;
         protected float velocity = 0.0f;
         protected float gravity = 0f;
         private bool isJumping = false;
@@ -77,8 +77,7 @@ namespace MarioWorld1_1 {
             if (!isJumping) {
                 isJumping = true;
                 if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)||i.KeyDown(OpenTK.Input.Key.Space)) {
-                    velocity = impulse;
-                    SetSprite("Jump");
+                    Jump(Impulse);
                 }
             }
             //S/Down = special case tile / go down pipe
@@ -164,9 +163,13 @@ namespace MarioWorld1_1 {
             }
         }//end update
         protected void SetJump(float height,float duration) {
-            impulse = 2 * height / duration;
-            impulse *= -1;
-            gravity = -impulse / duration;
+            Impulse = 2 * height / duration;
+            Impulse *= -1;
+            gravity = -Impulse / duration;
+        }
+        public void Jump(float impulse) {
+            velocity = impulse;
+            SetSprite("Jump");
         }
     }
 }
