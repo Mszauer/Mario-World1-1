@@ -9,8 +9,8 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
         //what type is hero
-        public enum State { Normal, Large};
-        public State CurrentState { get; set; }
+        protected enum State { Normal, Large};
+        protected State CurrentState { get; set; }
 
         public float speed = 3*Game.TILE_SIZE;
         public int Lifes = 3; //default amount of lifes
@@ -26,7 +26,7 @@ namespace MarioWorld1_1 {
             AddSprite("LargeRun",new Rectangle(30,105,16,32),new Rectangle(50,105,16,32),new Rectangle(70,105,16,32));
             AddSprite("LargeJump", new Rectangle(30, 65, 16, 32));
             SetSprite("Stand");
-            SetJump(/*3.50f*/4 * Game.TILE_SIZE, 0.75f);
+            SetJump(/*3.50f*/5 * Game.TILE_SIZE, 0.75f);
         }
         public void Update(float dTime) {
             InputManager i = InputManager.Instance;
@@ -174,7 +174,12 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        SetSprite("Stand");
+                        if (CurrentState == State.Normal) {
+                            SetSprite("Stand");
+                        }
+                        else if (CurrentState == State.Large) {
+                            SetSprite("LargeStand");
+                        }
                     }
                     velocity = gravity;
                     isJumping = false;
@@ -192,7 +197,17 @@ namespace MarioWorld1_1 {
         }
         public void Jump(float impulse) {
             velocity = impulse;
-            SetSprite("Jump");
+            if (CurrentState == State.Normal) {
+                SetSprite("Jump");
+            }
+            else if (CurrentState == State.Large) {
+                SetSprite("LargeJump");
+            }
+        }
+        public void ChangeForm(string newForm) {
+            if (newForm == "Large") {
+                CurrentState = State.Large;
+            }
         }
         public override void Render(PointF offsetPosition) {
             if (CurrentState == State.Normal) {

@@ -277,18 +277,24 @@ namespace MarioWorld1_1 {
                 //hero picked up item
                 Rectangle intersection = Intersections.Rect(hero.Rect, items[i].Rect);
                 if (intersection.Height * intersection.Width > 0) {
+                    if (items[i] is GrowMushroom) {
+                        hero.ChangeForm("Large");
+                        hero.currentSprite = "LargeStand";
+                    }
                     items[i].Destroy();
                     items.RemoveAt(i);
                 }
-                //item off map, x axis
-                if (items[i].Position.X / Game.TILE_SIZE < 0 || items[i].Position.X / Game.TILE_SIZE > tileMap[(int)items[i].Position.Y / Game.TILE_SIZE].Length) {
-                    items[i].Destroy();
-                    items.RemoveAt(i);
-                }
-                //item off map, y axis
-                else if (items[i].Position.Y / Game.TILE_SIZE < 0 || items[i].Position.Y / Game.TILE_SIZE > tileMap.Length) {
-                    items[i].Destroy();
-                    items.RemoveAt(i);
+                if (items.Count > 0) {
+                    //item off map, x axis
+                    if (items[i].Position.X / Game.TILE_SIZE < 0 || items[i].Position.X / Game.TILE_SIZE > tileMap[(int)items[i].Position.Y / Game.TILE_SIZE].Length) {
+                        items[i].Destroy();
+                        items.RemoveAt(i);
+                    }
+                    //item off map, y axis
+                    else if (items[i].Position.Y / Game.TILE_SIZE < 0 || items[i].Position.Y / Game.TILE_SIZE > tileMap.Length) {
+                        items[i].Destroy();
+                        items.RemoveAt(i);
+                    }
                 }
             }
         }
