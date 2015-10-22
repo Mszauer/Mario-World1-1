@@ -26,11 +26,15 @@ namespace MarioWorld1_1 {
             AddSprite("LargeRun",new Rectangle(30,105,16,32),new Rectangle(50,105,16,32),new Rectangle(70,105,16,32));
             AddSprite("LargeJump", new Rectangle(30, 65, 16, 32));
             SetSprite("Stand");
-            SetJump(/*3.50f*/5 * Game.TILE_SIZE, 0.75f);
         }
         public void Update(float dTime) {
             InputManager i = InputManager.Instance;
-
+            if (CurrentState == State.Normal) {
+                SetJump(/*3.50f*/4 * Game.TILE_SIZE, 0.75f);
+            }
+            else {
+                SetJump(5 * Game.TILE_SIZE, 1.0f);
+            }
             //move left
             if (i.KeyDown(OpenTK.Input.Key.Left)|| i.KeyDown(OpenTK.Input.Key.A)) {
                 if (velocity == gravity) {
