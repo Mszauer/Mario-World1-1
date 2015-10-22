@@ -260,10 +260,7 @@ namespace MarioWorld1_1 {
                 else {
                     TextureManager.Instance.Draw(Sprite, new Point(renderPosition.X + renderRect.Width, renderPosition.Y), new Point(-1, 1), renderRect);
                 }
-                foreach (PointF p in TopCorners) {
-                    RectangleF corner = new RectangleF(p.X, p.Y, 4, 4);
-                    GraphicsManager.Instance.DrawRect(corner, Color.Cyan);
-                }
+                
                 foreach (PointF p in BottomCorners) {
                     RectangleF corner = new RectangleF(p.X, p.Y, 4, 4);
                     GraphicsManager.Instance.DrawRect(corner, Color.Cyan);
