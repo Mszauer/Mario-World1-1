@@ -25,19 +25,16 @@ namespace MarioWorld1_1 {
                 if (CurrentState == State.Normal) {
                     return allCorners;
                 }
-                for (int i = 0; i < allCorners.Length; i++) {
-                    allCorners[i].Y -= 0.5f * Rect.Height - 1;
-                }
+                allCorners[0].Y += 0.5f * Rect.Height - 1;
+                allCorners[1].Y += 0.5f * Rect.Height - 1;
                 return allCorners;
             }
         }
         public PointF[] TopCorners {
             get {
                 PointF[] allCorners = Corners;
-                for (int i = 0; i < allCorners.Length; i++) {
-                    allCorners[i].Y -= 0.5f * Rect.Height - 1;
-                    allCorners[i].Y -= Rect.Height;
-                }
+                allCorners[2].Y -= Rect.Height * 0.5f - 1;
+                allCorners[3].Y -= Rect.Height * 0.5f - 1;
                 return allCorners;
             }
         }
@@ -242,10 +239,7 @@ namespace MarioWorld1_1 {
         public override void Render(PointF offsetPosition) {
             if (CurrentState == State.Normal) {
                 base.Render(offsetPosition);
-                foreach (PointF p in BottomCorners) {
-                    RectangleF corner = new RectangleF(p.X, p.Y, 4, 4);
-                    GraphicsManager.Instance.DrawRect(corner, Color.Cyan);
-                }
+                
             }
             else {
                 Point renderPosition = new Point((int)Position.X, (int)Position.Y);
@@ -260,10 +254,18 @@ namespace MarioWorld1_1 {
                 else {
                     TextureManager.Instance.Draw(Sprite, new Point(renderPosition.X + renderRect.Width, renderPosition.Y), new Point(-1, 1), renderRect);
                 }
-                
-                foreach (PointF p in BottomCorners) {
-                    RectangleF corner = new RectangleF(p.X, p.Y, 4, 4);
-                    GraphicsManager.Instance.DrawRect(corner, Color.Cyan);
+
+                foreach (PointF corner in Corners) {
+                    RectangleF draw = new RectangleF(corner.X - 3 - offsetPosition.X, corner.Y - 3 - offsetPosition.Y, 6, 6);
+                    GraphicsManager.Instance.DrawRect(draw, Color.Black);
+                }
+                foreach (PointF corner in BottomCorners) {
+                    RectangleF draw = new RectangleF(corner.X - 2 - offsetPosition.X, corner.Y - 2 - offsetPosition.Y, 4, 4);
+                    GraphicsManager.Instance.DrawRect(draw, Color.Blue);
+                }
+                foreach (PointF corner in TopCorners) {
+                    RectangleF draw = new RectangleF(corner.X - 2 - offsetPosition.X, corner.Y - 2 - offsetPosition.Y, 4, 4);
+                    GraphicsManager.Instance.DrawRect(draw, Color.Red);
                 }
             }
             
