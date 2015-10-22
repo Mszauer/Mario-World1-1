@@ -280,6 +280,7 @@ namespace MarioWorld1_1 {
                     if (items[i] is GrowMushroom) {
                         hero.ChangeForm("Large");
                         hero.currentSprite = "LargeStand";
+                        hero.Position.Y -= Game.TILE_SIZE;
                     }
                     items[i].Destroy();
                     items.RemoveAt(i);

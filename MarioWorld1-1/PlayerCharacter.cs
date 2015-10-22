@@ -18,6 +18,31 @@ namespace MarioWorld1_1 {
         protected float velocity = 0.0f;
         protected float gravity = 0f;
         private bool isJumping = false;
+
+        public PointF[] BottomCorners {
+            get {
+                PointF[] allCorners = Corners;
+                if (CurrentState == State.Normal) {
+                    return allCorners;
+                }
+                for (int i = 0; i < allCorners.Length; i++) {
+                    allCorners[i].Y /= 2;
+                }
+                return allCorners;
+            }
+        }
+        public PointF[] TopCorners {
+            get {
+                PointF[] allCorners = Corners;
+                for (int i = 0; i < allCorners.Length; i++) {
+                    float halfHeight = allCorners[i].Y / 2;
+                    allCorners[i].Y /= 2;
+                    allCorners[i].Y -= halfHeight;
+                }
+                return allCorners;
+            }
+        }
+
         public PlayerCharacter(string spritePath) : base(spritePath) {
             AddSprite("Stand", new Rectangle(12, 6, 16, 16));
             AddSprite("Run", new Rectangle(30, 27, 16, 16), new Rectangle(47, 27, 16, 16), new Rectangle(64, 27, 16, 16));
