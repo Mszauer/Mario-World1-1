@@ -26,7 +26,7 @@ namespace MarioWorld1_1 {
                     return allCorners;
                 }
                 for (int i = 0; i < allCorners.Length; i++) {
-                    allCorners[i].Y /= 2;
+                    allCorners[i].Y -= 0.5f * Rect.Height - 1;
                 }
                 return allCorners;
             }
@@ -35,9 +35,8 @@ namespace MarioWorld1_1 {
             get {
                 PointF[] allCorners = Corners;
                 for (int i = 0; i < allCorners.Length; i++) {
-                    float halfHeight = allCorners[i].Y / 2;
-                    allCorners[i].Y /= 2;
-                    allCorners[i].Y -= halfHeight;
+                    allCorners[i].Y -= 0.5f * Rect.Height - 1;
+                    allCorners[i].Y -= Rect.Height;
                 }
                 return allCorners;
             }
@@ -53,6 +52,8 @@ namespace MarioWorld1_1 {
             SetSprite("Stand");
         }
         public void Update(float dTime) {
+            CurrentState = State.Large;
+
             InputManager i = InputManager.Instance;
             if (CurrentState == State.Normal) {
                 SetJump(/*3.50f*/4 * Game.TILE_SIZE, 0.75f);
@@ -241,6 +242,10 @@ namespace MarioWorld1_1 {
         public override void Render(PointF offsetPosition) {
             if (CurrentState == State.Normal) {
                 base.Render(offsetPosition);
+                foreach (PointF p in BottomCorners) {
+                    RectangleF corner = new RectangleF(p.X, p.Y, 4, 4);
+                    GraphicsManager.Instance.DrawRect(corner, Color.Cyan);
+                }
             }
             else {
                 Point renderPosition = new Point((int)Position.X, (int)Position.Y);
@@ -255,7 +260,16 @@ namespace MarioWorld1_1 {
                 else {
                     TextureManager.Instance.Draw(Sprite, new Point(renderPosition.X + renderRect.Width, renderPosition.Y), new Point(-1, 1), renderRect);
                 }
+                foreach (PointF p in TopCorners) {
+                    RectangleF corner = new RectangleF(p.X, p.Y, 4, 4);
+                    GraphicsManager.Instance.DrawRect(corner, Color.Cyan);
+                }
+                foreach (PointF p in BottomCorners) {
+                    RectangleF corner = new RectangleF(p.X, p.Y, 4, 4);
+                    GraphicsManager.Instance.DrawRect(corner, Color.Cyan);
+                }
             }
+            
         }
     }
 }
