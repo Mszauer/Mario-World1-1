@@ -31,21 +31,21 @@ namespace MarioWorld1_1 {
         public Bullet(PointF pos, PointF vel) {
             Position = pos;
             Velocity = vel;
-            SetJump(2f * Game.TILE_SIZE, 0.75f);
+            SetJump(2f * Game.TILE_SIZE, 1.00f);
         }
         public void Update(float dTime) {
             //movement
             Position.X += Velocity.X * dTime;
+            //apply gravity
+            Velocity.Y += gravity * dTime;
             Position.Y += Velocity.Y * dTime;
 
-            //apply gravity
-            Position.Y += gravity * dTime;
             //collision with ground
-            if (!Game.Instance.GetTile(new PointF(Position.X+ (float)Rect.Height,Position.Y- (float)Rect.Width)).Walkable) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Position.X + (float)Rect.Height, Position.Y - (float)Rect.Width)));
+            if (!Game.Instance.GetTile(new PointF(Position.X+ (float)Rect.Height,Position.Y+ (float)Rect.Height)).Walkable ) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Position.X + (float)Rect.Height, Position.Y + (float)Rect.Height)));
                 if (intersection.Width * intersection.Height > 0) {
                     Jump(impulse);
-                    Position.Y = intersection.Y + Rect.Height;
+                    Position.Y = intersection.Y - Rect.Height;
                 }
             }
         }

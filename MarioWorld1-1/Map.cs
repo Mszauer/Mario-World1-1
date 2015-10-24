@@ -298,6 +298,30 @@ namespace MarioWorld1_1 {
                     }
                 }
             }
+            //projectiles update
+            if (hero.Projectiles != null) {
+                for (int i = hero.Projectiles.Count - 1; i >= 0; i--) {
+                    int yPos = (int)hero.Projectiles[i].Position.Y / Game.TILE_SIZE;
+                    int xPos = (int)hero.Projectiles[i].Position.X / Game.TILE_SIZE;
+                    //out of bounds on the y
+                    if (yPos > tileMap.Length) {
+                        hero.Projectiles.RemoveAt(i);
+                    }
+                    //out of bounds on the x
+                    if (xPos < 0 || xPos > tileMap[yPos].Length) {
+                        hero.Projectiles.RemoveAt(i);
+                    }
+                    //collision with enemies
+                    for (int j = enemies.Count - 1; j >= 0; j--) {
+                        Rectangle intersection = Intersections.Rect(hero.Projectiles[i].Rect, enemies[j].Rect);
+                        if (intersection.Width*intersection.Height > 0) {
+                            hero.Projectiles.RemoveAt(i);
+                            enemies[j].Destroy();
+                            enemies.RemoveAt(j);
+                        }
+                    }
+                }
+            }
         }
         /*
         public Map ResolveDoors(PlayerCharacter hero) {
