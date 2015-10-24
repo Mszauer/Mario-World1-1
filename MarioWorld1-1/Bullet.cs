@@ -7,7 +7,6 @@ namespace MarioWorld1_1 {
         public PointF Velocity = new PointF(0f, 0f);
         protected float gravity = 0.0f; //same formula as in player character
         protected float impulse = 0.0f;
-        protected float velocity = 0.0f;
         public Rectangle Rect {
             get {
                 return new Rectangle((int)Position.X - 5, (int)Position.Y - 5, 10, 10);
@@ -32,20 +31,21 @@ namespace MarioWorld1_1 {
         public Bullet(PointF pos, PointF vel) {
             Position = pos;
             Velocity = vel;
-            SetJump(2f * Game.TILE_SIZE, 0.5f);
+            SetJump(2f * Game.TILE_SIZE, 0.75f);
         }
         public void Update(float dTime) {
             //movement
             Position.X += Velocity.X * dTime;
             Position.Y += Velocity.Y * dTime;
+
             //apply gravity
-            
             Position.Y += gravity * dTime;
             //collision with ground
             if (!Game.Instance.GetTile(new PointF(Position.X+ (float)Rect.Height,Position.Y- (float)Rect.Width)).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Position.X + (float)Rect.Height, Position.Y - (float)Rect.Width)));
                 if (intersection.Width * intersection.Height > 0) {
                     Jump(impulse);
+                    Position.Y = intersection.Y + Rect.Height;
                 }
             }
         }
@@ -61,7 +61,7 @@ namespace MarioWorld1_1 {
             gravity = -impulse / duration;
         }
         public void Jump(float impulse) {
-            velocity = impulse;
+            Velocity.Y = impulse;
         }
     }
 }
