@@ -47,8 +47,12 @@ namespace MarioWorld1_1 {
         }
         public void Update(float dt) {
             //currentMap = currentMap.ResolveDoors(hero);
+
+            //if !GameOver
             currentMap.Update(dt, hero);
             hero.Update(1/30.0f);
+            //else
+
         }
         public void Render() {
             PointF offsetPosition = new PointF();

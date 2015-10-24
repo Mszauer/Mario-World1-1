@@ -9,9 +9,8 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
         //what type is hero
-        protected enum State { Normal, Large};
-        protected State CurrentState { get; set; }
-
+        public enum State { Normal, Large, Fire};
+        public State CurrentState { get; set; }
         public float speed = 3*Game.TILE_SIZE;
         public int Lifes = 3; //default amount of lifes
         public float Impulse = 0.0f;
@@ -53,7 +52,7 @@ namespace MarioWorld1_1 {
 
             InputManager i = InputManager.Instance;
             if (CurrentState == State.Normal) {
-                SetJump(/*3.50f*/4 * Game.TILE_SIZE, 0.75f);
+                SetJump(3.50f * Game.TILE_SIZE, 0.75f);
             }
             else {
                 SetJump(5 * Game.TILE_SIZE, 1.0f);
@@ -228,9 +227,31 @@ namespace MarioWorld1_1 {
                     isJumping = false;
                 }
             }
+#if DEBUG
             if (i.KeyPressed(OpenTK.Input.Key.P)) {
                 Console.WriteLine("Player Position, X: " + Position.X + " Y: " + Position.Y);
                 Console.WriteLine("Player Position, X: " + (int)(Position.X/Game.TILE_SIZE) + " Y: " + (int)(Position.Y/Game.TILE_SIZE));
+            }
+#endif
+            //shoot projectiles
+            if (CurrentState == State.Fire && i.KeyPressed(OpenTK.Input.Key.Space)) {
+                if (Projectiles == null) {
+                    Projectiles = new List<Bullet>();
+                }
+                PointF velocity = new PointF(0.0f, 0.0f);
+                if (faceLeft) {
+                    velocity.X = -100.0f;
+                }
+                else {
+                    velocity.X = 100.0f;
+                }
+                Projectiles.Add(new Bullet(Center, velocity));
+            }
+            //update projectiles
+            if (Projectiles.Count > 0) {
+                for (int j = Projectiles.Count-1;j >=0; j--) {
+                    Projectiles[j].Update(dTime);
+                }
             }
         }//end update
         protected void SetJump(float height,float duration) {
@@ -255,7 +276,6 @@ namespace MarioWorld1_1 {
         public override void Render(PointF offsetPosition) {
             if (CurrentState == State.Normal) {
                 base.Render(offsetPosition);
-                
             }
             else {
                 Point renderPosition = new Point((int)Position.X, (int)Position.Y);

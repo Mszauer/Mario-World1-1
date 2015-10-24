@@ -304,6 +304,7 @@ namespace MarioWorld1_1 {
             resolve doors here
         }
         */
+
         public void Render(PointF offsetPosition,PointF cameraCenter,PlayerCharacter hero) {
             int minX = (int)cameraCenter.X - 16 * Game.TILE_SIZE-Game.TILE_SIZE;
             int maxX = (int)cameraCenter.X + 16 * Game.TILE_SIZE+Game.TILE_SIZE;
@@ -335,6 +336,10 @@ namespace MarioWorld1_1 {
             for (int i = 0; i < items.Count; i++) {
                 items[i].Render(offsetPosition);
             }
+            //render projectiles
+            for (int i = 0; i < hero.Projectiles.Count; i++) {
+                hero.Projectiles[i].Render(offsetPosition);
+            }
         }
         public void Destroy() {
             //destroy map
@@ -351,6 +356,7 @@ namespace MarioWorld1_1 {
             for (int i = enemies.Count - 1; i >= 0; i--) {
                 enemies[i].Destroy();
             }
+            
         }
         public void ChangeTile(PointF location) {
             //new value is used to find source rect for textures only
