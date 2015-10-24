@@ -71,14 +71,22 @@ namespace MarioWorld1_1 {
                     Animate(dTime);
                 }
                 Position.X -= speed * dTime;
-                if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
-                    if (intersection.Width * intersection.Height>0) {
+                if (CurrentState == State.Large) {
+                    if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).Walkable) {
+                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_LEFT]));
+                        if (intersection.Width * intersection.Height > 0) {
+                            Position.X = intersection.Right;
+                        }
+                    }
+                }
+                if (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_LEFT]).Walkable) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_TOP_LEFT]));
+                    if (intersection.Width * intersection.Height > 0) {
                         Position.X = intersection.Right;
                     }
                 }
-                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
+                if (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_LEFT]).Walkable) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_BOTTOM_LEFT]));
                     if (intersection.Width * intersection.Height > 0) {
                         Position.X = intersection.Right;
                     }
@@ -101,14 +109,22 @@ namespace MarioWorld1_1 {
                     Animate(dTime);
                 }
                 Position.X += speed * dTime;
-                if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
+                if (CurrentState == State.Large) {
+                    if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).Walkable) {
+                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_RIGHT]));
+                        if (intersection.Width * intersection.Height > 0) {
+                            Position.X = intersection.Left - Rect.Width;
+                        }
+                    }
+                }
+                if (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_RIGHT]).Walkable) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_TOP_RIGHT]));
                     if (intersection.Width*intersection.Height > 0) {
                         Position.X = intersection.Left - Rect.Width;
                     }
                 }
-                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
+                if (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_RIGHT]).Walkable) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_BOTTOM_RIGHT]));
                     if (intersection.Width*intersection.Height > 0) {
                         Position.X = intersection.Left - Rect.Width;
                     }

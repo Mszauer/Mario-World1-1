@@ -1,0 +1,28 @@
+﻿using System.Drawing;
+using GameFramework;
+
+namespace MarioWorld1_1 {
+    class Bullet {
+        public PointF Position = new PointF(0f, 0f);
+        public PointF Velocity = new PointF(0f, 0f);
+        public Rectangle Rect {
+            get {
+                return new Rectangle((int)Position.X - 5, (int)Position.Y - 5, 10, 10);
+            }
+        }
+        public Bullet(PointF pos, PointF vel) {
+            Position = pos;
+            Velocity = vel;
+        }
+        public void Update(float dTime) {
+            Position.X += Velocity.X * dTime;
+            Position.Y += Velocity.Y * dTime;
+        }
+        public void Render(PointF offsetPosition) {
+            Rectangle renderRect = new Rectangle(0, 0, 10, 10);
+            renderRect.X = (int)(Position.X - 5.0f) - (int)offsetPosition.X;
+            renderRect.Y = (int)(Position.Y - 5.0f) - (int)offsetPosition.Y;
+            GraphicsManager.Instance.DrawRect(renderRect, Color.Red);
+        }
+    }
+}
