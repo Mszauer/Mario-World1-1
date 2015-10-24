@@ -48,7 +48,7 @@ namespace MarioWorld1_1 {
             SetSprite("Stand");
         }
         public void Update(float dTime) {
-            CurrentState = State.Large;
+            //CurrentState = State.Fire;
 
             InputManager i = InputManager.Instance;
             if (CurrentState == State.Normal) {
@@ -136,7 +136,7 @@ namespace MarioWorld1_1 {
             //jump!
             if (!isJumping) {
                 isJumping = true;
-                if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)||i.KeyDown(OpenTK.Input.Key.Space)) {
+                if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)) {
                     Jump(Impulse);
                 }
             }
@@ -248,7 +248,7 @@ namespace MarioWorld1_1 {
                 Projectiles.Add(new Bullet(Center, velocity));
             }
             //update projectiles
-            if (Projectiles.Count > 0) {
+            if (Projectiles != null && Projectiles.Count > 0) {
                 for (int j = Projectiles.Count-1;j >=0; j--) {
                     Projectiles[j].Update(dTime);
                 }
@@ -290,7 +290,14 @@ namespace MarioWorld1_1 {
                 else {
                     TextureManager.Instance.Draw(Sprite, new Point(renderPosition.X + renderRect.Width, renderPosition.Y), new Point(-1, 1), renderRect);
                 }
-
+                //render projectiles
+                if (Projectiles != null && Projectiles.Count > 0) {
+                    for (int i = 0; i < Projectiles.Count; i++) {
+                        Projectiles[i].Render(offsetPosition);
+                    }
+                }
+#if DEBUG
+                //render corners
                 foreach (PointF corner in Corners) {
                     RectangleF draw = new RectangleF(corner.X - 3 - offsetPosition.X, corner.Y - 3 - offsetPosition.Y, 6, 6);
                     GraphicsManager.Instance.DrawRect(draw, Color.Black);
@@ -303,8 +310,8 @@ namespace MarioWorld1_1 {
                     RectangleF draw = new RectangleF(corner.X - 2 - offsetPosition.X, corner.Y - 2 - offsetPosition.Y, 4, 4);
                     GraphicsManager.Instance.DrawRect(draw, Color.Red);
                 }
+#endif
             }
-            
         }
     }
 }

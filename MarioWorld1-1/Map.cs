@@ -336,10 +336,8 @@ namespace MarioWorld1_1 {
             for (int i = 0; i < items.Count; i++) {
                 items[i].Render(offsetPosition);
             }
-            //render projectiles
-            for (int i = 0; i < hero.Projectiles.Count; i++) {
-                hero.Projectiles[i].Render(offsetPosition);
-            }
+            
+            
         }
         public void Destroy() {
             //destroy map

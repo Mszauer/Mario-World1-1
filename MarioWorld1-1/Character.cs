@@ -16,6 +16,7 @@ namespace MarioWorld1_1 {
         float animFPS = 1.0f / 3.0f; //one sec / number of frames
         float animTimer = 0f;
         protected bool faceLeft = false;
+        public List<Bullet> Projectiles = null;
         public Rectangle Rect {
             get {
                 return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width-1, SpriteSources[currentSprite][currentFrame].Height-1);
@@ -60,7 +61,14 @@ namespace MarioWorld1_1 {
             }
         }
         public void Destroy() {
+            //unload texture
             TextureManager.Instance.UnloadTexture(Sprite);
+            //remove bullets
+            if (Projectiles != null) {
+                for (int i = Projectiles.Count - 1; i >= 0; i--) {
+                    Projectiles.RemoveAt(i);
+                }
+            }
         }
         public void SetSprite(string name) {
             if (SpriteSources.ContainsKey(name)) {
