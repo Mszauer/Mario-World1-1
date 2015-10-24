@@ -48,7 +48,7 @@ namespace MarioWorld1_1 {
             SetSprite("Stand");
         }
         public void Update(float dTime) {
-            //CurrentState = State.Fire;
+            CurrentState = State.Fire;
 
             InputManager i = InputManager.Instance;
             if (CurrentState == State.Normal) {
