@@ -5,8 +5,9 @@ namespace MarioWorld1_1 {
     class Bullet {
         public PointF Position = new PointF(0f, 0f);
         public PointF Velocity = new PointF(0f, 0f);
-        protected float gravity = 100.0f; //same formula as in player character
-        protected float impulse = 50.0f;
+        protected float gravity = 0.0f; //same formula as in player character
+        protected float impulse = 0.0f;
+        protected float velocity = 0.0f;
         public Rectangle Rect {
             get {
                 return new Rectangle((int)Position.X - 5, (int)Position.Y - 5, 10, 10);
@@ -31,26 +32,20 @@ namespace MarioWorld1_1 {
         public Bullet(PointF pos, PointF vel) {
             Position = pos;
             Velocity = vel;
+            SetJump(2f * Game.TILE_SIZE, 0.5f);
         }
         public void Update(float dTime) {
             //movement
             Position.X += Velocity.X * dTime;
             Position.Y += Velocity.Y * dTime;
             //apply gravity
+            
             Position.Y += gravity * dTime;
             //collision with ground
-            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
-                if (intersection.Width*intersection.Height > 0) {
-                    //add impulse
-                    Position.Y += impulse;
-                }
-            }
-            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
+            if (!Game.Instance.GetTile(new PointF(Position.X+ (float)Rect.Height,Position.Y- (float)Rect.Width)).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Position.X + (float)Rect.Height, Position.Y - (float)Rect.Width)));
                 if (intersection.Width * intersection.Height > 0) {
-                    //add impulse
-                    Position.Y += impulse;
+                    Jump(impulse);
                 }
             }
         }
@@ -60,6 +55,13 @@ namespace MarioWorld1_1 {
             renderRect.Y = (int)(Position.Y - 5.0f) - (int)offsetPosition.Y;
             GraphicsManager.Instance.DrawRect(renderRect, Color.Red);
         }
-
+        protected void SetJump(float height, float duration) {
+            impulse = 2 * height / duration;
+            impulse *= -1;
+            gravity = -impulse / duration;
+        }
+        public void Jump(float impulse) {
+            velocity = impulse;
+        }
     }
 }
