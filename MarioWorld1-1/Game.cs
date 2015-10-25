@@ -16,7 +16,6 @@ namespace MarioWorld1_1 {
         protected string heroSheet = "Assets/Mario.png";
 
         protected string startingMap = "Assets/world1-1.txt";
-        
         //rows before columns, map[y][x]
         public Tile GetTile(PointF pixelPoint) {
             return currentMap[(int)pixelPoint.Y / TILE_SIZE][(int)pixelPoint.X / TILE_SIZE];
