@@ -239,6 +239,17 @@ namespace MarioWorld1_1 {
                 hero.Lifes -= 1;
                 //start over
             }
+#if DEBUG
+            if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Number1)) {
+                hero.Position.X = 3 * Game.TILE_SIZE;
+            }
+            if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Number2)) {
+                hero.Position.X = 100 * Game.TILE_SIZE;
+            }
+            if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Number3)) {
+                hero.Position.X = 210 * Game.TILE_SIZE;
+            }
+#endif
             //enemy update/logic
             for (int i = enemies.Count - 1; i >= 0; i--) {
                 //has hero encountered enemy?
