@@ -41,8 +41,8 @@ namespace MarioWorld1_1 {
             Position.Y += Velocity.Y * dTime;
 
             //collision with ground
-            if (!Game.Instance.GetTile(new PointF(Position.X+ (float)Rect.Height,Position.Y+ (float)Rect.Height)).Walkable ) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Position.X + (float)Rect.Height, Position.Y + (float)Rect.Height)));
+            if (!Game.Instance.GetTile(new PointF(Rect.X+ (float)Rect.Height,Rect.Y+ (float)Rect.Height)).Walkable ) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height)));
                 if (intersection.Width * intersection.Height > 0) {
                     Jump(impulse);
                     Position.Y = intersection.Y - Rect.Height;
@@ -64,23 +64,19 @@ namespace MarioWorld1_1 {
             Velocity.Y = impulse;
         }
         public bool InBounds() {
-            //upper left
-            if (Position.X /Game.TILE_SIZE < 0 || Position.X /Game.TILE_SIZE > Game.currentMap[0].Length - 1) { //length of map x
-                return false;
+            Rectangle worldRect = new Rectangle(0, 0, Game.currentMap[0].Length-1, Game.currentMap.Length - 1);
+            Rectangle intersect = Intersections.Rect(Rect, worldRect);
+            bool inside = intersect.Width == Rect.Width && intersect.Height == Rect.Height;
+            return inside;
+            /*
+            this doesn't work
+            if (Rect.X /Game.TILE_SIZE > 0 || (Rect.X +Rect.Width)/Game.TILE_SIZE < Game.currentMap[0].Length - 1) { 
+                return true;
             }
-            //upper right
-            if ((Position.X + Rect.Width) /Game.TILE_SIZE < 0 || (Position.X+Rect.Width) / Game.TILE_SIZE > Game.currentMap[0].Length - 1) {
-                return false;
+            if (Rect.Y/Game.TILE_SIZE > 0 || (Rect.Y+Rect.Height)/Game.TILE_SIZE < Game.currentMap.Length - 1) {
+                return true;
             }
-            //lower left
-            if ((Position.X + Rect.Height) / Game.TILE_SIZE < 0 || (Position.X+Rect.Height) > Game.currentMap[0].Length - 1) {
-                return false;
-            }
-            //lower right
-            if ((Position.X +Rect.Height+Rect.Width) / Game.TILE_SIZE < 0 || (Position.X+Rect.Height+Rect.Width) / Game.TILE_SIZE > Game.currentMap[0].Length - 1) {
-                return false;
-            }
-            return true;
+            return false;*/
         }
     }
 }
