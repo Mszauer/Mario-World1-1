@@ -252,6 +252,7 @@ namespace MarioWorld1_1 {
                 for (int j = Projectiles.Count-1;j >=0; j--) {
                     if (!Projectiles[j].InBounds()) {
                         Projectiles.RemoveAt(j);
+                        continue;
                     }
                     Projectiles[j].Update(dTime);
 

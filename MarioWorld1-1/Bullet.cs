@@ -64,19 +64,10 @@ namespace MarioWorld1_1 {
             Velocity.Y = impulse;
         }
         public bool InBounds() {
-            Rectangle worldRect = new Rectangle(0, 0, Game.currentMap[0].Length-1, Game.currentMap.Length - 1);
+            Rectangle worldRect = new Rectangle(0, 0, (Game.currentMap[0].Length - 1) * Game.TILE_SIZE, (Game.currentMap.Length - 1)*Game.TILE_SIZE);
             Rectangle intersect = Intersections.Rect(Rect, worldRect);
             bool inside = intersect.Width == Rect.Width && intersect.Height == Rect.Height;
             return inside;
-            /*
-            this doesn't work
-            if (Rect.X /Game.TILE_SIZE > 0 || (Rect.X +Rect.Width)/Game.TILE_SIZE < Game.currentMap[0].Length - 1) { 
-                return true;
-            }
-            if (Rect.Y/Game.TILE_SIZE > 0 || (Rect.Y+Rect.Height)/Game.TILE_SIZE < Game.currentMap.Length - 1) {
-                return true;
-            }
-            return false;*/
         }
     }
 }
