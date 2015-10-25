@@ -247,7 +247,7 @@ namespace MarioWorld1_1 {
                 hero.Position.X = 100 * Game.TILE_SIZE;
             }
             if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Number3)) {
-                hero.Position.X = 210 * Game.TILE_SIZE;
+                hero.Position.X = 195 * Game.TILE_SIZE;
             }
 #endif
             //enemy update/logic
@@ -331,7 +331,7 @@ namespace MarioWorld1_1 {
                             hero.Projectiles.RemoveAt(i);
                             enemies[j].Destroy();
                             enemies.RemoveAt(j);
-                            continue;
+                            break;
                         }
                     }
                 }
