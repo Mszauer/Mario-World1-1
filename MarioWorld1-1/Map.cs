@@ -10,7 +10,6 @@ using GameFramework;
 namespace MarioWorld1_1 {
     class Map {
         public Tile[][] tileMap = null;
-
         public Tile[] this[int i] {
             get {
                 //Console.WriteLine("tileMap length: " + tileMap.Length);

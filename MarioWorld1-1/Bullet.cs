@@ -65,19 +65,19 @@ namespace MarioWorld1_1 {
         }
         public bool InBounds() {
             //upper left
-            if (Position.X /Game.TILE_SIZE < 0 || Position.X /Game.TILE_SIZE > 213) { //length of map x
+            if (Position.X /Game.TILE_SIZE < 0 || Position.X /Game.TILE_SIZE > Game.currentMap[0].Length) { //length of map x
                 return false;
             }
             //upper right
-            if (Position.X + Rect.Width /Game.TILE_SIZE < 0 || Position.X+Rect.Width / Game.TILE_SIZE > 213) {
+            if ((Position.X + Rect.Width) /Game.TILE_SIZE < 0 || (Position.X+Rect.Width) / Game.TILE_SIZE > Game.currentMap[0].Length) {
                 return false;
             }
             //lower left
-            if (Position.X + Rect.Height / Game.TILE_SIZE < 0 || Position.X+Rect.Height > 213) {
+            if ((Position.X + Rect.Height) / Game.TILE_SIZE < 0 || (Position.X+Rect.Height) > Game.currentMap[0].Length) {
                 return false;
             }
             //lower right
-            if (Position.X +Rect.Height+Rect.Width / Game.TILE_SIZE < 0 || Position.X+Rect.Height+Rect.Width / Game.TILE_SIZE > 213) {
+            if ((Position.X +Rect.Height+Rect.Width) / Game.TILE_SIZE < 0 || (Position.X+Rect.Height+Rect.Width) / Game.TILE_SIZE > Game.currentMap[0].Length) {
                 return false;
             }
             return true;
