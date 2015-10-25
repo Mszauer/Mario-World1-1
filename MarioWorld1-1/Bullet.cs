@@ -63,5 +63,24 @@ namespace MarioWorld1_1 {
         public void Jump(float impulse) {
             Velocity.Y = impulse;
         }
+        public bool InBounds() {
+            //upper left
+            if (Position.X /Game.TILE_SIZE < 0 || Position.X /Game.TILE_SIZE > 213) { //length of map x
+                return false;
+            }
+            //upper right
+            if (Position.X + Rect.Width /Game.TILE_SIZE < 0 || Position.X+Rect.Width / Game.TILE_SIZE > 213) {
+                return false;
+            }
+            //lower left
+            if (Position.X + Rect.Height / Game.TILE_SIZE < 0 || Position.X+Rect.Height > 213) {
+                return false;
+            }
+            //lower right
+            if (Position.X +Rect.Height+Rect.Width / Game.TILE_SIZE < 0 || Position.X+Rect.Height+Rect.Width / Game.TILE_SIZE > 213) {
+                return false;
+            }
+            return true;
+        }
     }
 }
