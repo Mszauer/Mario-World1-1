@@ -250,7 +250,9 @@ namespace MarioWorld1_1 {
             //update projectiles
             if (Projectiles != null && Projectiles.Count > 0) {
                 for (int j = Projectiles.Count-1;j >=0; j--) {
-                    Projectiles[j].Update(dTime);
+                    if (Projectiles[j].InBounds()) {
+                        Projectiles[j].Update(dTime);
+                    }
                 }
             }
         }//end update
