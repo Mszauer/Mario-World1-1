@@ -304,12 +304,14 @@ namespace MarioWorld1_1 {
                     int yPos = (int)hero.Projectiles[i].Position.Y / Game.TILE_SIZE;
                     int xPos = (int)hero.Projectiles[i].Position.X / Game.TILE_SIZE;
                     //out of bounds on the y
-                    if (yPos > tileMap.Length) {
+                    if (yPos > tileMap.Length-1 || yPos < 0) {
                         hero.Projectiles.RemoveAt(i);
+                        continue;
                     }
                     //out of bounds on the x
-                    if (xPos < 0 || xPos > tileMap[yPos].Length) {
+                    if (xPos < 0 || xPos > tileMap[yPos].Length-1) {
                         hero.Projectiles.RemoveAt(i);
+                        continue;
                     }
                     //collision with enemies
                     for (int j = enemies.Count - 1; j >= 0; j--) {
@@ -318,6 +320,7 @@ namespace MarioWorld1_1 {
                             hero.Projectiles.RemoveAt(i);
                             enemies[j].Destroy();
                             enemies.RemoveAt(j);
+                            continue;
                         }
                     }
                 }
