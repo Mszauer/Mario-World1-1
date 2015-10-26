@@ -67,17 +67,17 @@ namespace MarioWorld1_1 {
             if (i.KeyDown(OpenTK.Input.Key.Left)|| i.KeyDown(OpenTK.Input.Key.A)) {
                 if (velocity == gravity) {
                     faceLeft = true;
-                    if (CurrentState == State.Normal) {
-                        SetSprite("Run");
-                    }
-                    else if (CurrentState == State.Normal && Large) {
+                    if (CurrentState == State.Normal && Large) {
                         SetSprite("LargeRun");
                     }
-                    else if (CurrentState == State.Fire) {
-                        SetSprite("FireRun");
+                    else if (CurrentState == State.Normal) {
+                        SetSprite("Run");
                     }
                     else if (CurrentState == State.Fire && Large) {
                         SetSprite("LargeFireRun");
+                    }
+                    else if (CurrentState == State.Fire) {
+                        SetSprite("FireRun");
                     }
                     Animate(dTime);
                 }
@@ -111,18 +111,19 @@ namespace MarioWorld1_1 {
             if (i.KeyDown(OpenTK.Input.Key.Right)|| i.KeyDown(OpenTK.Input.Key.D)) {
                 if (velocity == gravity) {
                     faceLeft = false;
-                    if (CurrentState == State.Normal) {
-                        SetSprite("Run");
-                    }
-                    else if (CurrentState == State.Normal && Large) {
+                    if (CurrentState == State.Normal && Large) {
                         SetSprite("LargeRun");
                     }
-                    else if (CurrentState == State.Fire) {
-                        SetSprite("FireRun");
+                    else if (CurrentState == State.Normal) {
+                        SetSprite("Run");
                     }
                     else if (CurrentState == State.Fire && Large) {
                         SetSprite("LargeFireRun");
                     }
+                    else if (CurrentState == State.Fire) {
+                        SetSprite("FireRun");
+                    }
+                    
                     Animate(dTime);
                 }
                 Position.X += speed * dTime;
@@ -218,17 +219,17 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        if (CurrentState == State.Normal) {
-                            SetSprite("Stand");
-                        }
-                        else if(CurrentState == State.Normal && Large) {
+                        if (CurrentState == State.Normal && Large) {
                             SetSprite("LargeStand");
                         }
-                        else if (CurrentState == State.Fire) {
-                            SetSprite("FireStand");
+                        else if (CurrentState == State.Normal) {
+                            SetSprite("Stand");
                         }
                         else if (CurrentState == State.Fire && Large) {
                             SetSprite("LargeFireStand");
+                        }
+                        else if (CurrentState == State.Fire) {
+                            SetSprite("FireStand");
                         }
                     }
                     velocity = gravity;
@@ -240,17 +241,17 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     if (velocity != gravity) {
-                        if (CurrentState == State.Normal) {
-                            SetSprite("Stand");
-                        }
-                        else if (CurrentState == State.Normal && Large) {
+                        if (CurrentState == State.Normal && Large) {
                             SetSprite("LargeStand");
                         }
-                        else if (CurrentState == State.Fire) {
-                            SetSprite("FireStand");
+                        else if (CurrentState == State.Normal) {
+                            SetSprite("Stand");
                         }
                         else if (CurrentState == State.Fire && Large) {
                             SetSprite("LargeFireStand");
+                        }
+                        else if (CurrentState == State.Fire) {
+                            SetSprite("FireStand");
                         }
                     }
                     velocity = gravity;
@@ -261,6 +262,8 @@ namespace MarioWorld1_1 {
             if (i.KeyPressed(OpenTK.Input.Key.P)) {
                 Console.WriteLine("Player Position, X: " + Position.X + " Y: " + Position.Y);
                 Console.WriteLine("Player Position, X: " + (int)(Position.X/Game.TILE_SIZE) + " Y: " + (int)(Position.Y/Game.TILE_SIZE));
+                Console.WriteLine("Current state: " + CurrentState);
+                Console.WriteLine("Large form: " + Large);
             }
 #endif
             //shoot projectiles
@@ -296,18 +299,19 @@ namespace MarioWorld1_1 {
         }
         public void Jump(float impulse) {
             velocity = impulse;
-            if (CurrentState == State.Normal) {
-                SetSprite("Jump");
-            }
-            else if (CurrentState == State.Normal && Large) {
+            if (CurrentState == State.Normal && Large) {
                 SetSprite("LargeJump");
             }
-            else if (CurrentState == State.Fire) {
-                SetSprite("FireJump");
+            else if (CurrentState == State.Normal) {
+                SetSprite("Jump");
             }
             else if (CurrentState == State.Fire && Large) {
                 SetSprite("LargeFireJump");
             }
+            else if (CurrentState == State.Fire) {
+                SetSprite("FireJump");
+            }
+            
         }
         public void ChangeForm(string newForm) {
             if (newForm == "Large") {
