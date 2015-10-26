@@ -11,15 +11,15 @@ namespace MarioWorld1_1 {
         public int Sprite { get; set; }
         public PointF Position = new PointF(0.0f, 0.0f);
         public Dictionary<string, Rectangle[]> SpriteSources { get; private set; }
-        public string currentSprite { get; set; }
-        public int currentFrame = 0;
+        public string CurrentSprite { get; set; }
+        public int CurrentFrame = 0;
         float animFPS = 1.0f / 3.0f; //one sec / number of frames
         float animTimer = 0f;
         protected bool faceLeft = false;
         public List<Bullet> Projectiles = null;
         public Rectangle Rect {
             get {
-                return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[currentSprite][currentFrame].Width-1, SpriteSources[currentSprite][currentFrame].Height-1);
+                return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[CurrentSprite][CurrentFrame].Width-1, SpriteSources[CurrentSprite][CurrentFrame].Height-1);
             }
         }
         public PointF Center {
@@ -50,7 +50,7 @@ namespace MarioWorld1_1 {
             Point renderPosition = new Point((int)Position.X, (int)Position.Y);
             renderPosition.X -= (int)offsetPosition.X-1;
             renderPosition.Y -= 1;
-            Rectangle renderRect = SpriteSources[currentSprite][currentFrame];
+            Rectangle renderRect = SpriteSources[CurrentSprite][CurrentFrame];
             renderRect.X -= 1;
             renderRect.Y -= 1;
             if (!faceLeft) {
@@ -72,9 +72,9 @@ namespace MarioWorld1_1 {
         }
         public void SetSprite(string name) {
             if (SpriteSources.ContainsKey(name)) {
-                if (currentSprite != name) {
-                    currentSprite = name;
-                    currentFrame = 0;
+                if (CurrentSprite != name) {
+                    CurrentSprite = name;
+                    CurrentFrame = 0;
                 }
             }
             else {
@@ -87,8 +87,8 @@ namespace MarioWorld1_1 {
             if (SpriteSources == null) {
                 SpriteSources = new Dictionary<string, Rectangle[]>();
             }
-            if (currentSprite == null) {
-                currentSprite = name;
+            if (CurrentSprite == null) {
+                CurrentSprite = name;
             }
             SpriteSources.Add(name, source);
         }
@@ -96,9 +96,9 @@ namespace MarioWorld1_1 {
             animTimer += dTime;
             if (animTimer > animFPS) {
                 animTimer -= animFPS;
-                currentFrame += 1;
-                if (currentFrame > SpriteSources[currentSprite].Length - 1) {
-                    currentFrame = 0;
+                CurrentFrame += 1;
+                if (CurrentFrame > SpriteSources[CurrentSprite].Length - 1) {
+                    CurrentFrame = 0;
                 }
             }
         }

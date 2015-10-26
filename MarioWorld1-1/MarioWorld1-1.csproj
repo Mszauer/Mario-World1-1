@@ -55,6 +55,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="EnemyCharacter.cs" />
+    <Compile Include="FireFlower.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="GrowMushroom.cs" />
     <Compile Include="Intersections.cs" />

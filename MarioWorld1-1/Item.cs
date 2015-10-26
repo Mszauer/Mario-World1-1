@@ -73,7 +73,7 @@ namespace MarioWorld1_1 {
             }
             SpriteSources.Add(name, source);
         }
-        public void Update(float dTime) {
+        public virtual void Update(float dTime) {
             ApplyGravity(dTime);
             HorizontalMovement(dTime);
             

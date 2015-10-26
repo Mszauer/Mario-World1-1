@@ -9,7 +9,7 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
         //what type is hero
-        public enum State { Normal, Large, Fire};
+        public enum State { Normal, Fire};
         public State CurrentState { get; set; }
         public float speed = 3*Game.TILE_SIZE;
         public int Lifes = 3; //default amount of lifes
@@ -17,6 +17,7 @@ namespace MarioWorld1_1 {
         protected float velocity = 0.0f;
         protected float gravity = 0f;
         private bool isJumping = false;
+        public bool Large = false;
 
         public PointF[] BottomCorners {
             get {
@@ -42,13 +43,18 @@ namespace MarioWorld1_1 {
             AddSprite("Stand", new Rectangle(12, 6, 16, 16));
             AddSprite("Run", new Rectangle(30, 27, 16, 16), new Rectangle(47, 27, 16, 16), new Rectangle(64, 27, 16, 16));
             AddSprite("Jump", new Rectangle(29, 6, 16, 16));
+            AddSprite("FireRun", new Rectangle(295, 25, 16, 16), new Rectangle(313,25,16,16),new Rectangle(277,25,16,16));
+            AddSprite("FireStand", new Rectangle(260, 5, 16, 16));
+            AddSprite("FireJump", new Rectangle(277, 5, 16, 16));
             AddSprite("LargeStand", new Rectangle(10, 65, 16, 32));
             AddSprite("LargeRun",new Rectangle(30,105,16,32),new Rectangle(50,105,16,32),new Rectangle(70,105,16,32));
             AddSprite("LargeJump", new Rectangle(30, 65, 16, 32));
+            AddSprite("LargeFireStand", new Rectangle(258, 67, 16, 32));
+            AddSprite("LargeFireRun", new Rectangle(300,105,16,32),new Rectangle(280,105,16,32),new Rectangle(320,105,16,32));
+            AddSprite("LargeFireJump", new Rectangle(279, 67, 16, 32));
             SetSprite("Stand");
         }
         public void Update(float dTime) {
-            CurrentState = State.Fire;
 
             InputManager i = InputManager.Instance;
             if (CurrentState == State.Normal) {
@@ -64,13 +70,19 @@ namespace MarioWorld1_1 {
                     if (CurrentState == State.Normal) {
                         SetSprite("Run");
                     }
-                    else if (CurrentState == State.Large) {
+                    else if (CurrentState == State.Normal && Large) {
                         SetSprite("LargeRun");
+                    }
+                    else if (CurrentState == State.Fire) {
+                        SetSprite("FireRun");
+                    }
+                    else if (CurrentState == State.Fire && Large) {
+                        SetSprite("LargeFireRun");
                     }
                     Animate(dTime);
                 }
                 Position.X -= speed * dTime;
-                if (CurrentState == State.Large) {
+                if (CurrentState == State.Normal && Large) {
                     if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).Walkable) {
                         Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_LEFT]));
                         if (intersection.Width * intersection.Height > 0) {
@@ -102,13 +114,19 @@ namespace MarioWorld1_1 {
                     if (CurrentState == State.Normal) {
                         SetSprite("Run");
                     }
-                    else if (CurrentState == State.Large) {
+                    else if (CurrentState == State.Normal && Large) {
                         SetSprite("LargeRun");
+                    }
+                    else if (CurrentState == State.Fire) {
+                        SetSprite("FireRun");
+                    }
+                    else if (CurrentState == State.Fire && Large) {
+                        SetSprite("LargeFireRun");
                     }
                     Animate(dTime);
                 }
                 Position.X += speed * dTime;
-                if (CurrentState == State.Large) {
+                if (CurrentState == State.Normal && Large) {
                     if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).Walkable) {
                         Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_RIGHT]));
                         if (intersection.Width * intersection.Height > 0) {
@@ -203,8 +221,14 @@ namespace MarioWorld1_1 {
                         if (CurrentState == State.Normal) {
                             SetSprite("Stand");
                         }
-                        else if(CurrentState == State.Large) {
+                        else if(CurrentState == State.Normal && Large) {
                             SetSprite("LargeStand");
+                        }
+                        else if (CurrentState == State.Fire) {
+                            SetSprite("FireStand");
+                        }
+                        else if (CurrentState == State.Fire && Large) {
+                            SetSprite("LargeFireStand");
                         }
                     }
                     velocity = gravity;
@@ -219,8 +243,14 @@ namespace MarioWorld1_1 {
                         if (CurrentState == State.Normal) {
                             SetSprite("Stand");
                         }
-                        else if (CurrentState == State.Large) {
+                        else if (CurrentState == State.Normal && Large) {
                             SetSprite("LargeStand");
+                        }
+                        else if (CurrentState == State.Fire) {
+                            SetSprite("FireStand");
+                        }
+                        else if (CurrentState == State.Fire && Large) {
+                            SetSprite("LargeFireStand");
                         }
                     }
                     velocity = gravity;
@@ -269,13 +299,26 @@ namespace MarioWorld1_1 {
             if (CurrentState == State.Normal) {
                 SetSprite("Jump");
             }
-            else if (CurrentState == State.Large) {
+            else if (CurrentState == State.Normal && Large) {
                 SetSprite("LargeJump");
+            }
+            else if (CurrentState == State.Fire) {
+                SetSprite("FireJump");
+            }
+            else if (CurrentState == State.Fire && Large) {
+                SetSprite("LargeFireJump");
             }
         }
         public void ChangeForm(string newForm) {
             if (newForm == "Large") {
-                CurrentState = State.Large;
+                Large = true;
+            }
+            else if (newForm == "Fire") {
+                CurrentState = State.Fire;
+            }
+            else if (newForm == "LargeFire") {
+                CurrentState = State.Fire;
+                Large = true;
             }
         }
         public override void Render(PointF offsetPosition) {
@@ -286,7 +329,7 @@ namespace MarioWorld1_1 {
                 Point renderPosition = new Point((int)Position.X, (int)Position.Y);
                 renderPosition.X -= (int)offsetPosition.X - 1;
                 renderPosition.Y -= 1;
-                Rectangle renderRect = SpriteSources[currentSprite][currentFrame];
+                Rectangle renderRect = SpriteSources[CurrentSprite][CurrentFrame];
                 renderRect.X -= 1;
                 renderRect.Y -= 1;
                 if (!faceLeft) {

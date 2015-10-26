@@ -205,6 +205,9 @@ namespace MarioWorld1_1 {
                         if (tileMap[i][j].TileValue == 33) {
                             tileMap[i][j].Item = "GrowMushroom";
                         }
+                        else if (tileMap[i][j].TileValue == 37) {
+                            tileMap[i][j].Item = "FireFlower";
+                        }
                         /*
                         else if (tileMap[i][j].TileValue == 34) {
                             tileMap[i][j].Item = "Star";
@@ -289,8 +292,16 @@ namespace MarioWorld1_1 {
                 if (intersection.Height * intersection.Width > 0) {
                     if (items[i] is GrowMushroom) {
                         hero.ChangeForm("Large");
-                        hero.currentSprite = "LargeStand";
+                        hero.CurrentSprite = "LargeStand";
                         hero.Position.Y -= Game.TILE_SIZE;
+                    }
+                    else if(items[i] is FireFlower) {
+                        hero.ChangeForm("Fire");
+                        hero.CurrentSprite = "FireStand";
+                        if (hero.Large) {
+                            hero.CurrentSprite = "LargeFireStand";
+                            hero.Position.Y -= Game.TILE_SIZE;
+                        }
                     }
                     items[i].Destroy();
                     items.RemoveAt(i);
