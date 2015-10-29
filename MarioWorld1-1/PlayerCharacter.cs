@@ -199,6 +199,9 @@ namespace MarioWorld1_1 {
                     if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable) {
                         Console.WriteLine("Tile broken!");
                         //what item will spawn?
+#if DEBUG
+                        Console.WriteLine("Tile contains: " + Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
+#endif
                         if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
                             Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
                             Map.items.Add(item);
@@ -315,12 +318,15 @@ namespace MarioWorld1_1 {
         }
         public void ChangeForm(string newForm) {
             if (newForm == "Large") {
+                CurrentFrame = 0;
                 Large = true;
             }
             else if (newForm == "Fire") {
+                CurrentFrame = 0;
                 CurrentState = State.Fire;
             }
             else if (newForm == "LargeFire") {
+                CurrentFrame = 0;
                 CurrentState = State.Fire;
                 Large = true;
             }

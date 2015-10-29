@@ -59,6 +59,10 @@ namespace MarioWorld1_1 {
             if (itemType == "GrowMushroom") {
                 return new GrowMushroom(ItemSheet);
             }
+            if (itemType == "FireFlower") {
+                return new FireFlower(ItemSheet);
+            }
+            Console.WriteLine("Item not assigned to SpawnItem Function in Item.cs");
             return null;
         }
         public void Destroy() {
@@ -123,5 +127,6 @@ namespace MarioWorld1_1 {
             }
             
         }
+
     }
 }

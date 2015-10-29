@@ -12,7 +12,7 @@ namespace MarioWorld1_1 {
             currentSprite = "Default";
         }
         public override void Update(float dTime) {
-
+            Animate(dTime);
         }
     }
 }

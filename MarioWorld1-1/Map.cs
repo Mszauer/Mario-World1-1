@@ -290,6 +290,8 @@ namespace MarioWorld1_1 {
                 //hero picked up item
                 Rectangle intersection = Intersections.Rect(hero.Rect, items[i].Rect);
                 if (intersection.Height * intersection.Width > 0) {
+                    items[i].Update(dTime);
+
                     if (items[i] is GrowMushroom) {
                         hero.ChangeForm("Large");
                         hero.CurrentSprite = "LargeStand";
@@ -305,17 +307,20 @@ namespace MarioWorld1_1 {
                     }
                     items[i].Destroy();
                     items.RemoveAt(i);
+                    continue;
                 }
-                if (items.Count > 0) {
+                if (items.Count > 0 && items[i] is GrowMushroom) {
                     //item off map, x axis
                     if (items[i].Position.X / Game.TILE_SIZE < 0 || items[i].Position.X / Game.TILE_SIZE > tileMap[(int)items[i].Position.Y / Game.TILE_SIZE].Length) {
                         items[i].Destroy();
                         items.RemoveAt(i);
+                        continue;
                     }
                     //item off map, y axis
                     else if (items[i].Position.Y / Game.TILE_SIZE < 0 || items[i].Position.Y / Game.TILE_SIZE > tileMap.Length) {
                         items[i].Destroy();
                         items.RemoveAt(i);
+                        continue;
                     }
                 }
             }
