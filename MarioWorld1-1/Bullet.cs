@@ -45,7 +45,7 @@ namespace MarioWorld1_1 {
                 //collision 
                 if (Game.Instance.GetTile(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height)).TileValue == 1) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height)));
-                    if (intersection.) {
+                    if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height))) == Intersections.SideHit.Bottom) {
                         Jump(impulse);
                         Position.Y = intersection.Y - Rect.Height;
                     }
