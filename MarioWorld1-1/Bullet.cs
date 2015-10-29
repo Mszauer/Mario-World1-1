@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using GameFramework;
+using System;
 
 namespace MarioWorld1_1 {
     class Bullet {
@@ -43,12 +44,25 @@ namespace MarioWorld1_1 {
             //collision with non-walkable tile
             if (!Game.Instance.GetTile(new PointF(Rect.X+ (float)Rect.Height,Rect.Y+ (float)Rect.Height)).Walkable) {
                 //collision 
-                if (Game.Instance.GetTile(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height)).TileValue == 1) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height)));
-                    if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height))) == Intersections.SideHit.Bottom) {
-                        Jump(impulse);
-                        Position.Y = intersection.Y - Rect.Height;
-                    }
+                Console.WriteLine("Collision Direction: " + Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height))));
+
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height)));
+                //bottom collision
+                if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height))) == Intersections.SideHit.Bottom) {
+                    Jump(impulse);
+                    Position.Y = intersection.Y - Rect.Height;
+                }
+                //left collision
+                else if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height))) == Intersections.SideHit.Left) {
+                        
+                }
+                //right collision
+                else if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height))) == Intersections.SideHit.Right) {
+                        
+                }
+                //top collision
+                else if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height))) == Intersections.SideHit.Top) {
+                        
                 }
             }
         }
