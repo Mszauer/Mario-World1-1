@@ -40,12 +40,15 @@ namespace MarioWorld1_1 {
             Velocity.Y += gravity * dTime;
             Position.Y += Velocity.Y * dTime;
 
-            //collision with ground
-            if (!Game.Instance.GetTile(new PointF(Rect.X+ (float)Rect.Height,Rect.Y+ (float)Rect.Height)).Walkable ) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height)));
-                if (intersection.Width * intersection.Height > 0) {
-                    Jump(impulse);
-                    Position.Y = intersection.Y - Rect.Height;
+            //collision with non-walkable tile
+            if (!Game.Instance.GetTile(new PointF(Rect.X+ (float)Rect.Height,Rect.Y+ (float)Rect.Height)).Walkable) {
+                //collision 
+                if (Game.Instance.GetTile(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height)).TileValue == 1) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height)));
+                    if (intersection.) {
+                        Jump(impulse);
+                        Position.Y = intersection.Y - Rect.Height;
+                    }
                 }
             }
         }

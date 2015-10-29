@@ -309,7 +309,7 @@ namespace MarioWorld1_1 {
                     items.RemoveAt(i);
                     continue;
                 }
-                if (items.Count > 0 && items[i] is GrowMushroom) {
+                if (items.Count > 0 && (items[i] is GrowMushroom)) {
                     //item off map, x axis
                     if (items[i].Position.X / Game.TILE_SIZE < 0 || items[i].Position.X / Game.TILE_SIZE > tileMap[(int)items[i].Position.Y / Game.TILE_SIZE].Length) {
                         items[i].Destroy();
@@ -326,6 +326,7 @@ namespace MarioWorld1_1 {
             }
             //projectiles update
             if (hero.Projectiles != null) {
+                //PlayerCharacter controlls creation and update logic
                 for (int i = hero.Projectiles.Count - 1; i >= 0; i--) {
                     int yPos = (int)hero.Projectiles[i].Position.Y / Game.TILE_SIZE;
                     int xPos = (int)hero.Projectiles[i].Position.X / Game.TILE_SIZE;
@@ -339,6 +340,7 @@ namespace MarioWorld1_1 {
                         hero.Projectiles.RemoveAt(i);
                         continue;
                     }
+                    
                     //collision with enemies
                     for (int j = enemies.Count - 1; j >= 0; j--) {
                         Rectangle intersection = Intersections.Rect(hero.Projectiles[i].Rect, enemies[j].Rect);

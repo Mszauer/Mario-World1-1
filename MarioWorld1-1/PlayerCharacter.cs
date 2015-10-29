@@ -286,6 +286,8 @@ namespace MarioWorld1_1 {
             //update projectiles
             if (Projectiles != null && Projectiles.Count > 0) {
                 for (int j = Projectiles.Count-1;j >=0; j--) {
+                    float xPos = Projectiles[j].Position.X;
+                    float yPos = Projectiles[j].Position.Y;
                     if (!Projectiles[j].InBounds()) {
                         Projectiles.RemoveAt(j);
                         continue;
