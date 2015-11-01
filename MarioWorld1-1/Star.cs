@@ -14,7 +14,30 @@ namespace MarioWorld1_1 {
             currentSprite = "Default";
         }
         public override void Update(float dTime) {
+            //animations
             Animate(dTime);
+            //horizontal movement
+            //Position.X += (speed/0.75f) * dTime;
+            if ((Position.Y / Game.TILE_SIZE) > 5) {
+                direction *= -1;
+            }//vertical movement
+            Position.Y += 1.0f*direction;
+            //Ground Collision
+                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
+                    if (intersection.Width * intersection.Height > 0) {
+                        direction *= -1;
+                        Position.Y -= intersection.Top - Rect.Height;
+                    }
+                }
+                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
+                    if (intersection.Width * intersection.Height > 0) {
+                        direction *= -1;
+                        Position.Y -= intersection.Top - Rect.Height;
+                    }
+                }
+            }
+
         }
     }
-}
