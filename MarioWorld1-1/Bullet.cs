@@ -8,6 +8,7 @@ namespace MarioWorld1_1 {
         public PointF Velocity = new PointF(0f, 0f);
         protected float gravity = 0.0f; //same formula as in player character
         protected float impulse = 0.0f;
+        public bool ToDestroy = false;
         public Rectangle Rect {
             get {
                 return new Rectangle((int)Position.X - 5, (int)Position.Y - 5, 10, 10);
@@ -43,28 +44,37 @@ namespace MarioWorld1_1 {
 
             //collision with non-walkable tile
             if (!Game.Instance.GetTile(new PointF(Rect.X+ (float)Rect.Height,Rect.Y+ (float)Rect.Height)).Walkable) {
-                PointF tilePoint = new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height);
+                PointF bottomLeft = new PointF(Rect.X + (float)Rect.Height, Rect.Y + (float)Rect.Height);
                 //collision 
-                Console.WriteLine("Collision Direction: " + Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(tilePoint)));
+                Console.WriteLine("Collision Direction: " + Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(bottomLeft)));
 
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(tilePoint));
-                //bottom collision
-                if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(tilePoint)) == Intersections.SideHit.Bottom) {
-                    Jump(impulse);
-                    Position.Y = intersection.Y - Rect.Height;
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(bottomLeft));
+                if (intersection.Width*intersection.Height != 0) {
+                    //bottom collision
+                    if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(bottomLeft)) == Intersections.SideHit.Bottom) {
+                        Jump(impulse);
+                        Position.Y = intersection.Y - Rect.Height;
+                    }
+                    //left collision
+                    else if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(bottomLeft)) == Intersections.SideHit.Left) {
+                        Console.WriteLine("Destroy projectile: " + ToDestroy);
+                        if (!ToDestroy) {
+                            ToDestroy = true;
+                        }
+                    }
+                    //right collision
+                    else if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(bottomLeft)) == Intersections.SideHit.Right) {
+                        Console.WriteLine("Destroy projectile: " + ToDestroy);
+                        if (!ToDestroy) {
+                            ToDestroy = true;
+                        }
+                    }
+                    //top collision
+                    else if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(bottomLeft)) == Intersections.SideHit.Top) {
+
+                    }
                 }
-                //left collision
-                else if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(tilePoint)) == Intersections.SideHit.Left) {
-                        
-                }
-                //right collision
-                else if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(tilePoint)) == Intersections.SideHit.Right) {
-                        
-                }
-                //top collision
-                else if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(tilePoint)) == Intersections.SideHit.Top) {
-                        
-                }
+                
             }
         }
         public void Render(PointF offsetPosition) {

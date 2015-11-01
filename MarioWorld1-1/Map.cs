@@ -330,6 +330,10 @@ namespace MarioWorld1_1 {
                 for (int i = hero.Projectiles.Count - 1; i >= 0; i--) {
                     int yPos = (int)hero.Projectiles[i].Position.Y / Game.TILE_SIZE;
                     int xPos = (int)hero.Projectiles[i].Position.X / Game.TILE_SIZE;
+                    if (hero.Projectiles[i].ToDestroy) {
+                        hero.Projectiles.RemoveAt(i);
+                        continue;
+                    }
                     //out of bounds on the y
                     if (yPos > tileMap.Length-1 || yPos < 0) {
                         hero.Projectiles.RemoveAt(i);
