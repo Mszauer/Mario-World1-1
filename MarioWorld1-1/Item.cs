@@ -18,7 +18,7 @@ namespace MarioWorld1_1 {
         protected float speed = 75.0f;
         protected int direction = 1;
 
-        float animFPS = 1.0f / 3.0f; //one sec / number of frames
+        float animFPS = 1.0f / 10.0f; //one sec / number of frames
         float animTimer = 0f;
         public static string ItemSheet = null;
         public bool IsSpawned = false;
