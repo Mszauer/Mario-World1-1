@@ -17,24 +17,26 @@ namespace MarioWorld1_1 {
             //animations
             Animate(dTime);
             //horizontal movement
-            //Position.X += (speed/0.75f) * dTime;
-            if ((Position.Y / Game.TILE_SIZE) > 5) {
+            Position.X += (speed/2.0f) * dTime;
+            //bounce height limit
+            if ((Position.Y / Game.TILE_SIZE) < 6) {
                 direction *= -1;
-            }//vertical movement
-            Position.Y += 1.0f*direction;
+            }
+            //vertical movement
+            Position.Y += 1.5f*direction;
             //Ground Collision
-                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
                     if (intersection.Width * intersection.Height > 0) {
                         direction *= -1;
-                        Position.Y -= intersection.Top - Rect.Height;
+                        Position.Y = intersection.Top - Rect.Height;
                     }
                 }
                 if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
                     if (intersection.Width * intersection.Height > 0) {
                         direction *= -1;
-                        Position.Y -= intersection.Top - Rect.Height;
+                        Position.Y = intersection.Top - Rect.Height;
                     }
                 }
             }
