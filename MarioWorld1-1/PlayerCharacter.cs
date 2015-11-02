@@ -332,6 +332,9 @@ namespace MarioWorld1_1 {
                 CurrentState = State.Fire;
                 Large = true;
             }
+            else if (newForm == "Invincible") {
+                Invincible = true;
+            }
         }
         public override void Render(PointF offsetPosition) {
             if (CurrentState == State.Normal) {

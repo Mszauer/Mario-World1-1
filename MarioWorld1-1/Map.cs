@@ -309,6 +309,9 @@ namespace MarioWorld1_1 {
                             hero.Position.Y -= Game.TILE_SIZE;
                         }
                     }
+                    else if (items[i] is Star) {
+                        hero.Invincible = true;
+                    }
                     items[i].Destroy();
                     items.RemoveAt(i);
                     continue;
