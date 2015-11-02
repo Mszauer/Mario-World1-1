@@ -56,6 +56,10 @@ namespace MarioWorld1_1 {
             AddSprite("InvincibleLargeStand", new Rectangle(10, 65, 16, 32), new Rectangle(258, 67, 16, 32), new Rectangle(500, 65, 16, 32));
             AddSprite("InvincibleJump", new Rectangle(29, 6, 16, 16), new Rectangle(277, 5, 16, 16), new Rectangle(520, 5, 16, 16));
             AddSprite("InvincibleLargeJump", new Rectangle(30, 65, 16, 32), new Rectangle(279, 67, 16, 32), new Rectangle(523, 67, 16, 32));
+            AddSprite("InvincibleRun", new Rectangle(30, 26, 16, 16), new Rectangle(313, 25, 16, 16), new Rectangle(558, 25, 16, 16));
+            AddSprite("InvincibleLargeRun", new Rectangle(30, 105, 16, 32), new Rectangle(300, 105, 16, 32), new Rectangle(565, 105, 16, 32));
+            AddSprite("InvincibleJump", new Rectangle(29, 6, 16, 16), new Rectangle(277, 5, 16, 16),new Rectangle(523,7,16,16));
+            AddSprite("InvincibleLargeJump", new Rectangle(30, 65, 16, 32), new Rectangle(279, 67, 16, 32), new Rectangle(522, 67, 16, 32));
             SetSprite("Stand");
         }
         public void Update(float dTime) {
@@ -82,6 +86,12 @@ namespace MarioWorld1_1 {
                     }
                     else if (CurrentState == State.Fire) {
                         SetSprite("FireRun");
+                    }
+                    else if (CurrentState == State.Invincible && Large) {
+                        SetSprite("InvincibleLargeRun");
+                    }
+                    else if (CurrentState == State.Invincible) {
+                        SetSprite("InvincibleRun");
                     }
                     Animate(dTime);
                 }
@@ -127,7 +137,12 @@ namespace MarioWorld1_1 {
                     else if (CurrentState == State.Fire) {
                         SetSprite("FireRun");
                     }
-                    
+                    else if (CurrentState == State.Invincible && Large) {
+                        SetSprite("InvincibleLargeRun");
+                    }
+                    else if (CurrentState == State.Invincible) {
+                        SetSprite("InvincibleRun");
+                    }
                     Animate(dTime);
                 }
                 Position.X += speed * dTime;
@@ -238,6 +253,12 @@ namespace MarioWorld1_1 {
                         else if (CurrentState == State.Fire) {
                             SetSprite("FireStand");
                         }
+                        else if (CurrentState == State.Invincible && Large) {
+                            SetSprite("InvincibleLargeStand");
+                        }
+                        else if (CurrentState == State.Invincible) {
+                            SetSprite("InvincibleStand");
+                        }
                     }
                     velocity = gravity;
                     isJumping = false;
@@ -259,6 +280,12 @@ namespace MarioWorld1_1 {
                         }
                         else if (CurrentState == State.Fire) {
                             SetSprite("FireStand");
+                        }
+                        else if (CurrentState == State.Invincible && Large) {
+                            SetSprite("InvincibleLargeStand");
+                        }
+                        else if (CurrentState == State.Invincible) {
+                            SetSprite("InvincibleStand");
                         }
                     }
                     velocity = gravity;
@@ -320,7 +347,12 @@ namespace MarioWorld1_1 {
             else if (CurrentState == State.Fire) {
                 SetSprite("FireJump");
             }
-            
+            else if (CurrentState == State.Invincible && Large) {
+                SetSprite("InvincibleLargeJump");
+            }
+            else if (CurrentState == State.Invincible) {
+                SetSprite("InvincibleJump");
+            }
         }
         public void ChangeForm(string newForm) {
             if (newForm == "Large") {
@@ -337,7 +369,13 @@ namespace MarioWorld1_1 {
                 Large = true;
             }
             else if (newForm == "Invincible") {
-                Invincible = true;
+                CurrentFrame = 0;
+                CurrentState = State.Invincible;
+            }
+            else if (newForm == "LargeInvincible") {
+                CurrentFrame = 0;
+                CurrentState = State.Invincible;
+                Large = true;
             }
         }
         public override void Render(PointF offsetPosition) {
@@ -364,6 +402,7 @@ namespace MarioWorld1_1 {
                     }
                 }
 #if DEBUG
+                /*
                 //render corners
                 foreach (PointF corner in Corners) {
                     RectangleF draw = new RectangleF(corner.X - 3 - offsetPosition.X, corner.Y - 3 - offsetPosition.Y, 6, 6);
@@ -377,6 +416,7 @@ namespace MarioWorld1_1 {
                     RectangleF draw = new RectangleF(corner.X - 2 - offsetPosition.X, corner.Y - 2 - offsetPosition.Y, 4, 4);
                     GraphicsManager.Instance.DrawRect(draw, Color.Red);
                 }
+                */
 #endif
             }
         }

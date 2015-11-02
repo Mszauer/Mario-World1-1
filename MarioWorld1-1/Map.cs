@@ -265,7 +265,7 @@ namespace MarioWorld1_1 {
                     enemies[i].Destroy();
                     enemies.RemoveAt(i);
                 }
-                else if (intersection.Height*intersection.Width > 0 && hero.Invincible) {
+                else if (intersection.Height*intersection.Width > 0 && hero.CurrentState == PlayerCharacter.State.Invincible) {
                     enemies[i].Destroy();
                     enemies.RemoveAt(i);
                 }
@@ -310,7 +310,12 @@ namespace MarioWorld1_1 {
                         }
                     }
                     else if (items[i] is Star) {
-                        hero.Invincible = true;
+                        hero.ChangeForm("Invincible");
+                        hero.CurrentSprite = "InvincibleStand";
+                        if (hero.Large) {
+                            hero.CurrentSprite = "LargeInvincibleStand";
+                            hero.Position.Y -= Game.TILE_SIZE;
+                        }
                     }
                     items[i].Destroy();
                     items.RemoveAt(i);
