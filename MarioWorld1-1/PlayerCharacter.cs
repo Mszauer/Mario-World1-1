@@ -18,7 +18,7 @@ namespace MarioWorld1_1 {
         protected float gravity = 0f;
         private bool isJumping = false;
         public bool Large = false;
-
+        public bool Invincible = false;
         public PointF[] BottomCorners {
             get {
                 PointF[] allCorners = Corners;

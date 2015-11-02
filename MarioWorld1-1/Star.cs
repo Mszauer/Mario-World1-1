@@ -17,29 +17,24 @@ namespace MarioWorld1_1 {
             //animations
             Animate(dTime);
             //horizontal movement
-            Position.X += (speed/2.0f) * dTime;
+            Position.X += (speed / 2.0f) * dTime;
             //bounce height limit
             if ((Position.Y / Game.TILE_SIZE) < 6) {
                 direction *= -1;
             }
             //vertical movement
-            Position.Y += 1.5f*direction;
+            Position.Y += 1.5f * direction;
             //Ground Collision
-            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
-                    if (intersection.Width * intersection.Height > 0) {
+            if (Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).TileValue == 1 && !Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
+                if (intersection.Width*intersection.Height > 0) {
+                    //only interested in bottom collision
+                    if (Intersections.CollisionDirection(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT])) == Intersections.SideHit.Bottom) {
+                        Position.Y = intersection.Y - Rect.Height;
                         direction *= -1;
-                        Position.Y = intersection.Top - Rect.Height;
-                    }
-                }
-                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
-                    if (intersection.Width * intersection.Height > 0) {
-                        direction *= -1;
-                        Position.Y = intersection.Top - Rect.Height;
                     }
                 }
             }
-
         }
     }
+}

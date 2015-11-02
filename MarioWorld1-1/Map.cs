@@ -265,6 +265,10 @@ namespace MarioWorld1_1 {
                     enemies[i].Destroy();
                     enemies.RemoveAt(i);
                 }
+                else if (intersection.Height*intersection.Width > 0 && hero.Invincible) {
+                    enemies[i].Destroy();
+                    enemies.RemoveAt(i);
+                }
                 else if (intersection.Height*intersection.Width > 0) {
                     Console.WriteLine("Collision with enemy!");
                     //game over
