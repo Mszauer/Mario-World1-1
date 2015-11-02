@@ -9,7 +9,7 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
         //what type is hero
-        public enum State { Normal, Fire};
+        public enum State { Normal, Fire, Invincible};
         public State CurrentState { get; set; }
         public float speed = 3*Game.TILE_SIZE;
         public int Lifes = 3; //default amount of lifes
@@ -52,6 +52,10 @@ namespace MarioWorld1_1 {
             AddSprite("LargeFireStand", new Rectangle(258, 67, 16, 32));
             AddSprite("LargeFireRun", new Rectangle(300,105,16,32),new Rectangle(280,105,16,32),new Rectangle(320,105,16,32));
             AddSprite("LargeFireJump", new Rectangle(279, 67, 16, 32));
+            AddSprite("InvincibleStand", new Rectangle(12, 6, 16, 16), new Rectangle(260, 5, 16, 16), new Rectangle(502, 6, 16, 16));
+            AddSprite("InvincibleLargeStand", new Rectangle(10, 65, 16, 32), new Rectangle(258, 67, 16, 32), new Rectangle(500, 65, 16, 32));
+            AddSprite("InvincibleJump", new Rectangle(29, 6, 16, 16), new Rectangle(277, 5, 16, 16), new Rectangle(520, 5, 16, 16));
+            AddSprite("InvincibleLargeJump", new Rectangle(30, 65, 16, 32), new Rectangle(279, 67, 16, 32), new Rectangle(523, 67, 16, 32));
             SetSprite("Stand");
         }
         public void Update(float dTime) {
