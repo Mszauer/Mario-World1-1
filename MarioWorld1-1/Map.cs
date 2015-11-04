@@ -297,24 +297,30 @@ namespace MarioWorld1_1 {
                     items[i].Update(dTime);
 
                     if (items[i] is GrowMushroom) {
-                        hero.ChangeForm("Large");
-                        hero.CurrentSprite = "LargeStand";
-                        hero.Position.Y -= Game.TILE_SIZE;
-                    }
-                    else if(items[i] is FireFlower) {
-                        hero.ChangeForm("Fire");
-                        hero.CurrentSprite = "FireStand";
-                        if (hero.Large) {
-                            hero.CurrentSprite = "LargeFireStand";
+                        if (!hero.Large) {
+                            hero.ChangeForm("Large");
+                            hero.CurrentSprite = "LargeStand";
                             hero.Position.Y -= Game.TILE_SIZE;
                         }
                     }
+                    else if(items[i] is FireFlower) {
+                        if (hero.CurrentState != PlayerCharacter.State.Fire) {
+                            hero.ChangeForm("Fire");
+                            hero.CurrentSprite = "FireStand";
+                            if (hero.Large) {
+                                hero.CurrentSprite = "LargeFireStand";
+                                hero.Position.Y -= Game.TILE_SIZE;
+                            }
+                        }
+                    }
                     else if (items[i] is Star) {
-                        hero.ChangeForm("Invincible");
-                        hero.CurrentSprite = "InvincibleStand";
-                        if (hero.Large) {
-                            hero.CurrentSprite = "LargeInvincibleStand";
-                            hero.Position.Y -= Game.TILE_SIZE;
+                        if (hero.CurrentState != PlayerCharacter.State.Invincible) {
+                            hero.ChangeForm("Invincible");
+                            hero.CurrentSprite = "InvincibleStand";
+                            if (hero.Large) {
+                                hero.CurrentSprite = "LargeInvincibleStand";
+                                hero.Position.Y -= Game.TILE_SIZE;
+                            }
                         }
                     }
                     items[i].Destroy();
@@ -425,7 +431,6 @@ namespace MarioWorld1_1 {
             for (int i = enemies.Count - 1; i >= 0; i--) {
                 enemies[i].Destroy();
             }
-            
         }
         public void ChangeTile(PointF location) {
             //new value is used to find source rect for textures only

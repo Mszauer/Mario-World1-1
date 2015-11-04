@@ -58,8 +58,6 @@ namespace MarioWorld1_1 {
             AddSprite("InvincibleLargeJump", new Rectangle(30, 65, 16, 32), new Rectangle(279, 67, 16, 32), new Rectangle(523, 67, 16, 32));
             AddSprite("InvincibleRun", new Rectangle(30, 26, 16, 16), new Rectangle(313, 25, 16, 16), new Rectangle(558, 25, 16, 16));
             AddSprite("InvincibleLargeRun", new Rectangle(30, 105, 16, 32), new Rectangle(300, 105, 16, 32), new Rectangle(565, 105, 16, 32));
-            AddSprite("InvincibleJump", new Rectangle(29, 6, 16, 16), new Rectangle(277, 5, 16, 16),new Rectangle(523,7,16,16));
-            AddSprite("InvincibleLargeJump", new Rectangle(30, 65, 16, 32), new Rectangle(279, 67, 16, 32), new Rectangle(522, 67, 16, 32));
             SetSprite("Stand");
         }
         public void Update(float dTime) {

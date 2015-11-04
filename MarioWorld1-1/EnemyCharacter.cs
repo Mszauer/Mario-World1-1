@@ -7,15 +7,12 @@ using System.Drawing;
 
 namespace MarioWorld1_1 {
     class EnemyCharacter : Character{
-        float speed = 60.0f;
-        bool moveUpDown = false;
+        protected float speed = 60.0f;
+        protected bool moveUpDown = false;
         public bool IsSeen = false;
-        float directions = 1.0f;
+        protected float directions = 1.0f;
         public EnemyCharacter(string spritePath, bool movingUpDown) : base(spritePath) {
-            AddSprite("Walk", new Rectangle(1, 4, 16, 16), new Rectangle(22, 4, 16, 16));
-            AddSprite("Death", new Rectangle(44, 4, 16, 16));
-            SetSprite("Walk");
-            moveUpDown = movingUpDown;
+            
         }
         public void Update(float dTime) {
             //need to add death!

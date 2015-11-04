@@ -13,8 +13,8 @@ namespace MarioWorld1_1 {
         public Dictionary<string, Rectangle[]> SpriteSources { get; private set; }
         public string CurrentSprite { get; set; }
         public int CurrentFrame = 0;
-        float animFPS = 1.0f / 3.0f; //one sec / number of frames
-        float animTimer = 0f;
+        protected float animFPS = 1.0f / 3.0f; //one sec / number of frames
+        protected float animTimer = 0f;
         protected bool faceLeft = false;
         public List<Bullet> Projectiles = null;
         public Rectangle Rect {
