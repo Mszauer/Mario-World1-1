@@ -8,8 +8,7 @@ using GameFramework;
 
 namespace MarioWorld1_1 {
     class Koopa  : EnemyCharacter{
-        public enum State { Alive, Dead1, Dead2 }
-        public State CurrentState = State.Alive;
+        
         public Koopa(string spriteSheet, bool movingUpDown) : base(spriteSheet, movingUpDown) {
             AddSprite("Walk", new Rectangle(5, 100, 17, 22), new Rectangle(27, 100, 17, 22));
             AddSprite("Dying", new Rectangle(52, 105, 16, 16));
@@ -19,12 +18,17 @@ namespace MarioWorld1_1 {
             //Rect.Height -= 6;
         }
         public void Update(float dTime) {
+            /*Map.cs sets states*/
+
+            //do regular stuff
             if (CurrentState == State.Alive) {
                 base.Update(dTime);
             }
+            //not moving at all.
             else if (CurrentState == State.Dead1) {
 
             }
+            //moving death shell
             else if (CurrentState == State.Dead2) {
 
             }

@@ -7,6 +7,8 @@ using System.Drawing;
 
 namespace MarioWorld1_1 {
     class EnemyCharacter : Character{
+        public enum State { Alive, Dead1, Dead2 }
+        public State CurrentState = State.Alive;
         protected float speed = 60.0f;
         protected bool moveUpDown = false;
         public bool IsSeen = false;

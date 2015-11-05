@@ -268,13 +268,27 @@ namespace MarioWorld1_1 {
                 Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
                 if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[i].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[i].Rect.Height/2)) {
                     hero.Jump(hero.Impulse * 0.5f);
+                    //if koopa, change into appropriate state
+                    if (enemies[i] is Koopa) {
+                        if (enemies[i].CurrentState == EnemyCharacter.State.Alive) {
+                            enemies[i].CurrentState = EnemyCharacter.State.Dead1;
+                        }
+                        else if (enemies[i].CurrentState == EnemyCharacter.State.Dead1) {
+                            enemies[i].CurrentState = EnemyCharacter.State.Dead2;
+                        }
+                        else if (enemies[i].CurrentState == EnemyCharacter.State.Dead2) {
+                            enemies[i].CurrentState = EnemyCharacter.State.Dead1;
+                        }
+                    }
                     enemies[i].Destroy();
                     enemies.RemoveAt(i);
                 }
+                //killed by hero that is invincible
                 else if (intersection.Height*intersection.Width > 0 && hero.CurrentState == PlayerCharacter.State.Invincible) {
                     enemies[i].Destroy();
                     enemies.RemoveAt(i);
                 }
+                //hero killed by enemy
                 else if (intersection.Height*intersection.Width > 0) {
                     Console.WriteLine("Collision with enemy!");
                     //game over
