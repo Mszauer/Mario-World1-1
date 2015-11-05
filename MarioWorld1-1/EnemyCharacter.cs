@@ -14,7 +14,7 @@ namespace MarioWorld1_1 {
         protected EnemyCharacter(string spritePath, bool movingUpDown) : base(spritePath) {
             
         }
-        public void Update(float dTime) {
+        public virtual void Update(float dTime) {
             //need to add death!
             Animate(dTime);
             //movement
