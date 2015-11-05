@@ -17,7 +17,7 @@ namespace MarioWorld1_1 {
         protected float animTimer = 0f;
         protected bool faceLeft = false;
         public List<Bullet> Projectiles = null;
-        public Rectangle Rect {
+        public virtual Rectangle Rect {
             get {
                 return new Rectangle((int)Position.X, (int)Position.Y, SpriteSources[CurrentSprite][CurrentFrame].Width-1, SpriteSources[CurrentSprite][CurrentFrame].Height-1);
             }
