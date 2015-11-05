@@ -43,7 +43,7 @@ namespace MarioWorld1_1 {
         public static readonly int CORNER_TOP_RIGHT = 1;
         public static readonly int CORNER_BOTTOM_LEFT = 2;
         public static readonly int CORNER_BOTTOM_RIGHT = 3;
-        public Character(string spritePath) {
+        protected Character(string spritePath) {
             Sprite = TextureManager.Instance.LoadTexture(spritePath);
         }
         public virtual void Render(PointF offsetPosition) {

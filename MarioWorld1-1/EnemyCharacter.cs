@@ -11,7 +11,7 @@ namespace MarioWorld1_1 {
         protected bool moveUpDown = false;
         public bool IsSeen = false;
         protected float directions = 1.0f;
-        public EnemyCharacter(string spritePath, bool movingUpDown) : base(spritePath) {
+        protected EnemyCharacter(string spritePath, bool movingUpDown) : base(spritePath) {
             
         }
         public void Update(float dTime) {

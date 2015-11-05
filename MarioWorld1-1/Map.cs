@@ -108,14 +108,20 @@ namespace MarioWorld1_1 {
                             if (enemies == null) {
                                 enemies = new List<EnemyCharacter>();
                             }
-                            bool upDownMove = content[2] == "X" ? false : true;
-                            enemies.Add(new EnemyCharacter(content[1], upDownMove));
-                            enemies[enemies.Count - 1].Position.X = System.Convert.ToInt32(content[3]) * Game.TILE_SIZE;
-                            enemies[enemies.Count - 1].Position.Y = System.Convert.ToInt32(content[4]) * Game.TILE_SIZE;
+                            bool upDownMove = content[3] == "X" ? false : true;
+                            if (content[1] == "G") {
+                                enemies.Add(new Goomba(content[2], upDownMove));
+                            }
+                            else if (content[1] == "K") {
+                                //add koopa
+                            }
+                            enemies[enemies.Count - 1].Position.X = System.Convert.ToInt32(content[4]) * Game.TILE_SIZE;
+                            enemies[enemies.Count - 1].Position.Y = System.Convert.ToInt32(content[5]) * Game.TILE_SIZE;
 #if DEBUG
                             Console.WriteLine("Enemy added, Y Axis Movement: " + upDownMove);
-                            Console.WriteLine("Enemy sprite path: " + content[1]);
-                            Console.WriteLine("Enemy starting location: " + content[3] + ", " + content[4]);
+                            Console.WriteLine("Enemy type: " + content[1]);
+                            Console.WriteLine("Enemy sprite path: " + content[2]);
+                            Console.WriteLine("Enemy starting location: " + content[4] + ", " + content[5]);
 #endif
 
                         }
