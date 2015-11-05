@@ -17,21 +17,5 @@ namespace MarioWorld1_1 {
             moveUpDown = movingUpDown;
             //Rect.Height -= 6;
         }
-        public void Update(float dTime) {
-            /*Map.cs sets states*/
-
-            //do regular stuff
-            if (CurrentState == State.Alive) {
-                base.Update(dTime);
-            }
-            //not moving at all.
-            else if (CurrentState == State.Dead1) {
-
-            }
-            //moving death shell
-            else if (CurrentState == State.Dead2) {
-
-            }
-        }
     }
 }

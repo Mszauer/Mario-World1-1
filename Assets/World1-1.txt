@@ -21,7 +21,7 @@ U 1 10 11 26 27 2 3 0 33 34 35 36 37
 //,what blocks turn into another, element[i] turns into element[lenght-1-i] so input accordingly!
 B 2 3 33 34 35 37 0 7 7 0 0 7
 // Enemies
-E G Assets/NPC.png X 22 10
+E K Assets/NPC.png X 22 10
 E G Assets/NPC.png X 40 10
 E G Assets/NPC.png X 51 10
 E G Assets/NPC.png X 53 10
@@ -30,8 +30,7 @@ E G Assets/NPC.png X 84 2
 E G Assets/NPC.png X 99 10
 E G Assets/NPC.png X 101 10
 E G Assets/NPC.png X 103 10
-//,111isk
-E K Assets/NPC.png X 18 10
+E K Assets/NPC.png X 111 10
 E G Assets/NPC.png X 118 10
 E G Assets/NPC.png X 120 10
 E G Assets/NPC.png X 128 10
