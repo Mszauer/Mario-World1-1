@@ -113,7 +113,7 @@ namespace MarioWorld1_1 {
                                 enemies.Add(new Goomba(content[2], upDownMove));
                             }
                             else if (content[1] == "K") {
-                                //add koopa
+                                enemies.Add(new Koopa(content[2], upDownMove));
                             }
                             enemies[enemies.Count - 1].Position.X = System.Convert.ToInt32(content[4]) * Game.TILE_SIZE;
                             enemies[enemies.Count - 1].Position.Y = System.Convert.ToInt32(content[5]) * Game.TILE_SIZE;

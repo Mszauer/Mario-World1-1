@@ -33,19 +33,5 @@ namespace MarioWorld1_1 {
 
             }
         }
-        public void Render(Point offsetPosition) {
-            Point renderPosition = new Point((int)Position.X, (int)Position.Y);
-            renderPosition.X -= (int)offsetPosition.X - 1;
-            renderPosition.Y -= 1;
-            Rectangle renderRect = SpriteSources[CurrentSprite][CurrentFrame];
-            renderRect.X -= 1;
-            renderRect.Y -= 1;
-            if (!faceLeft) {
-                TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, renderRect);
-            }
-            else {
-                TextureManager.Instance.Draw(Sprite, new Point(renderPosition.X + renderRect.Width, renderPosition.Y), new Point(-1, 1), renderRect);
-            }
-        }
     }
 }
