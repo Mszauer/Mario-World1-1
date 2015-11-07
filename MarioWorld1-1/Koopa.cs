@@ -27,7 +27,7 @@ namespace MarioWorld1_1 {
             Rectangle visual = SpriteSources[CurrentSprite][CurrentFrame];
             //x is moved into screen space
             visual.X = (int)Position.X - ((int)offsetPosition.X - 1);
-            //subtract value, to make it so the feet touch are inline with the ground
+            //y is already in screen space, offset it by difference in sprite height / collision height to allign with ground
             visual.Y = (int)Position.Y - (SpriteSources[CurrentSprite][CurrentFrame].Height - Rect.Height) + 2;
             //GraphicsManager.Instance.DrawRect(visual, Color.Red);
 
