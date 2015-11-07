@@ -28,7 +28,7 @@ namespace MarioWorld1_1 {
             //x is moved into screen space
             visual.X = (int)Position.X - ((int)offsetPosition.X - 1);
             //subtract value, to make it so the feet touch are inline with the ground
-            visual.Y = (int)Position.Y - (SpriteSources[CurrentSprite][CurrentFrame].Height - Rect.Height);
+            visual.Y = (int)Position.Y - (SpriteSources[CurrentSprite][CurrentFrame].Height - Rect.Height) + 2;
             //GraphicsManager.Instance.DrawRect(visual, Color.Red);
 
             Rectangle collision = Rect;
@@ -40,8 +40,13 @@ namespace MarioWorld1_1 {
             //Move into screen space
             collision.X -= (int)offsetPosition.X;
             //GraphicsManager.Instance.DrawRect(collision, Color.Blue);
+            if (!faceLeft) {
+                TextureManager.Instance.Draw(Sprite, new Point(visual.X, visual.Y), 1.0f, SpriteSources[CurrentSprite][CurrentFrame]);
+            }
+            else {
+                TextureManager.Instance.Draw(Sprite, new Point(visual.X+visual.Width, visual.Y), new Point(-1,1), SpriteSources[CurrentSprite][CurrentFrame]);
 
-            TextureManager.Instance.Draw(Sprite, new Point(visual.X, visual.Y),1.0f, SpriteSources[CurrentSprite][CurrentFrame]);
+            }
         }
     }
 }

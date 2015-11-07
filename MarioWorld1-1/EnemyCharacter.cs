@@ -21,6 +21,12 @@ namespace MarioWorld1_1 {
             Animate(dTime);
             //movement
             Position.X += directions * speed * dTime;
+            if (directions > 0) {
+                faceLeft = false;
+            }
+            else {
+                faceLeft = true;
+            } 
             //wall collision
             //upper left
             if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
@@ -36,6 +42,7 @@ namespace MarioWorld1_1 {
                 if (intersection.Width*intersection.Height > 0) {
                     directions *= -1;
                     Position.X = intersection.Left - Rect.Width;
+                    
                 }
             }
             //lower left
