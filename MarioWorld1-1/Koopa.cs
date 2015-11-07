@@ -27,8 +27,9 @@ namespace MarioWorld1_1 {
             visual.X = (int)Position.X - ((int)offsetPosition.X - 1);
             visual.Y = (int)Position.Y - 1;
             //GraphicsManager.Instance.DrawRect(visual, Color.Red);
-            base.Render(offsetPosition);
-
+            Point renderPosition = new Point((int)Position.X, (int)Position.Y);
+            renderPosition.X -= (int)offsetPosition.X - 1;
+            renderPosition.Y -= 1;
 
             Rectangle collision = Rect;
             //Construct collision from corners
@@ -39,6 +40,12 @@ namespace MarioWorld1_1 {
             //Move into screen space
             collision.X -= (int)offsetPosition.X;
             //GraphicsManager.Instance.DrawRect(collision, Color.Blue);
+            if (!faceLeft) {
+                TextureManager.Instance.Draw(Sprite, renderPosition, 1.0f, visual);
+            }
+            else {
+                TextureManager.Instance.Draw(Sprite, new Point(renderPosition.X + visual.Width, renderPosition.Y), new Point(-1, 1), visual);
+            }
         }
     }
 }
