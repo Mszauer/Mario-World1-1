@@ -280,13 +280,25 @@ namespace MarioWorld1_1 {
                             enemies[i].CurrentState = EnemyCharacter.State.Dead1;
                         }
                     }
-                    enemies[i].Destroy();
-                    enemies.RemoveAt(i);
+                    else {
+                        enemies[i].Destroy();
+                        enemies.RemoveAt(i);
+                    }
                 }
                 //killed by hero that is invincible
                 else if (intersection.Height*intersection.Width > 0 && hero.CurrentState == PlayerCharacter.State.Invincible) {
-                    enemies[i].Destroy();
-                    enemies.RemoveAt(i);
+                    if (enemies[i] is Koopa) {
+                        if (enemies[i].CurrentState == EnemyCharacter.State.Dead1) {
+                            enemies[i].CurrentState = EnemyCharacter.State.Dead2;
+                        }
+                        else if (enemies[i].CurrentState == EnemyCharacter.State.Dead2) {
+                            enemies[i].CurrentState = EnemyCharacter.State.Dead1;
+                        }
+                    }
+                    else {
+                        enemies[i].Destroy();
+                        enemies.RemoveAt(i);
+                    }
                 }
                 //hero killed by enemy
                 else if (intersection.Height*intersection.Width > 0) {
@@ -387,6 +399,14 @@ namespace MarioWorld1_1 {
                     for (int j = enemies.Count - 1; j >= 0; j--) {
                         Rectangle intersection = Intersections.Rect(hero.Projectiles[i].Rect, enemies[j].Rect);
                         if (intersection.Width*intersection.Height > 0) {
+                            if (enemies[i] is Koopa) {
+                                if (enemies[i].CurrentState == EnemyCharacter.State.Dead1) {
+                                    enemies[i].CurrentState = EnemyCharacter.State.Dead2;
+                                }
+                                else if (enemies[i].CurrentState == EnemyCharacter.State.Dead2) {
+                                    enemies[i].CurrentState = EnemyCharacter.State.Dead1;
+                                }
+                            }
                             hero.Projectiles.RemoveAt(i);
                             enemies[j].Destroy();
                             enemies.RemoveAt(j);

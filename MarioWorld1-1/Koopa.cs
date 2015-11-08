@@ -17,10 +17,23 @@ namespace MarioWorld1_1 {
         }
         public Koopa(string spriteSheet, bool movingUpDown) : base(spriteSheet, movingUpDown) {
             AddSprite("Walk", new Rectangle(5, 100, 17, 22), new Rectangle(27, 100, 17, 22));
-            AddSprite("Dead1", new Rectangle(52, 105, 16, 16));
-            AddSprite("Dead2", new Rectangle(75, 110, 16, 16));
+            //AddSprite("Dead1", new Rectangle(52, 105, 16, 16));
+            AddSprite("Dead", new Rectangle(75, 110, 16, 16));
             SetSprite("Walk");
             moveUpDown = movingUpDown;
+        }
+        public override void Update(float dTime) {
+            if (CurrentState == State.Alive) {
+                SetSprite("Walk");
+                base.Update(dTime);
+            }
+            else if (CurrentState == State.Dead1) {
+                SetSprite("Dead");
+            }
+            else if (CurrentState == State.Dead2) {
+                SetSprite("Dead");
+                base.Update(dTime);
+            }
         }
         public override void Render(PointF offsetPosition) {
             //base.Render(offsetPosition);
