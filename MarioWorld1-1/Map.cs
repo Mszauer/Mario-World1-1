@@ -262,7 +262,10 @@ namespace MarioWorld1_1 {
             for (int i = enemies.Count - 1; i >= 0; i--) {
                 //has hero encountered enemy?
                 if (enemies[i].IsSeen) {
+                    //update once seen
                     enemies[i].Update(dTime);
+                    //Collide with a dead koopa shell
+                    //if enemy is koopa, check collision with other enemies (double loop)
                 }
                 //Killed by hero
                 Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
