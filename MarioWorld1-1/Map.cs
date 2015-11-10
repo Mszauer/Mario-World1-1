@@ -266,6 +266,27 @@ namespace MarioWorld1_1 {
                     enemies[i].Update(dTime);
                     //Collide with a dead koopa shell
                     //if enemy is koopa, check collision with other enemies (double loop)
+                    if (enemies[i] is Goomba) {
+                        //loop through all enemies
+                        for (int j = enemies.Count - 1; j >= 0; j--) {
+                            //if update and run into a koopa
+                            if (enemies[j] is Koopa) {
+                                //collision rect
+                                Rectangle collision = Intersections.Rect(enemies[i].Rect, enemies[i].Rect);
+                                //is there collision?
+                                if (collision.Left == enemies[i].Rect.Left ) {
+                                    //swap enemy collision
+                                    enemies[i].Direction *= -1;
+                                    enemies[i].Position.X = collision.Right;
+                                }
+                                else if (collision.Right == enemies[i].Rect.Right) {
+                                    enemies[i].Direction *= -1;
+                                    enemies[i].Position.X = collision.Left;
+                                }
+                            }
+                        }
+                    }
+                    
                 }
                 //Killed by hero
                 Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);

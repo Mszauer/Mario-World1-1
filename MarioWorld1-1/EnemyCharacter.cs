@@ -12,7 +12,7 @@ namespace MarioWorld1_1 {
         protected float speed = 60.0f;
         protected bool moveUpDown = false;
         public bool IsSeen = false;
-        protected float directions = 1.0f;
+        public float Direction = 1.0f;
         protected EnemyCharacter(string spritePath, bool movingUpDown) : base(spritePath) {
             
         }
@@ -20,8 +20,8 @@ namespace MarioWorld1_1 {
             //need to add death!
             Animate(dTime);
             //movement
-            Position.X += directions * speed * dTime;
-            if (directions > 0) {
+            Position.X += Direction * speed * dTime;
+            if (Direction > 0) {
                 faceLeft = false;
             }
             else {
@@ -32,7 +32,7 @@ namespace MarioWorld1_1 {
             if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
                 if (intersection.Width*intersection.Height > 0) {
-                    directions *= -1;
+                    Direction *= -1;
                     Position.X = intersection.Right;
                 }
             }
@@ -40,7 +40,7 @@ namespace MarioWorld1_1 {
             if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
                 if (intersection.Width*intersection.Height > 0) {
-                    directions *= -1;
+                    Direction *= -1;
                     Position.X = intersection.Left - Rect.Width;
                     
                 }
@@ -49,7 +49,7 @@ namespace MarioWorld1_1 {
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
                 if (intersection.Width * intersection.Height > 0) {
-                    directions *= -1;
+                    Direction *= -1;
                     Position.X = intersection.Right;
                 }
             }
@@ -57,7 +57,7 @@ namespace MarioWorld1_1 {
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
                 if (intersection.Width*intersection.Height > 0) {
-                    directions *= -1;
+                    Direction *= -1;
                     Position.X = intersection.Left - Rect.Width;
                 }
             }
