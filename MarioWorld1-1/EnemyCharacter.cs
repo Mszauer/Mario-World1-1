@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define ENEMYDEBUG
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -34,6 +35,9 @@ namespace MarioWorld1_1 {
                 if (intersection.Width*intersection.Height > 0) {
                     Direction *= -1;
                     Position.X = intersection.Right;
+#if ENEMYDEBUG
+                    Console.WriteLine("Enemy Position: X: " + Position.X + " , Y: " + Position.Y);
+#endif
                 }
             }
             //upper right
@@ -42,7 +46,9 @@ namespace MarioWorld1_1 {
                 if (intersection.Width*intersection.Height > 0) {
                     Direction *= -1;
                     Position.X = intersection.Left - Rect.Width;
-                    
+#if ENEMYDEBUG
+                    Console.WriteLine("Enemy Position: X: " + Position.X + " , Y: " + Position.Y);
+#endif
                 }
             }
             //lower left
@@ -51,6 +57,10 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Direction *= -1;
                     Position.X = intersection.Right;
+#if ENEMYDEBUG
+
+                    Console.WriteLine("Enemy Position: X: " + Position.X + " , Y: " + Position.Y);
+#endif
                 }
             }
             //lower right
@@ -59,6 +69,9 @@ namespace MarioWorld1_1 {
                 if (intersection.Width*intersection.Height > 0) {
                     Direction *= -1;
                     Position.X = intersection.Left - Rect.Width;
+#if ENEMYDEBUG
+                    Console.WriteLine("Enemy Position: X: " + Position.X + " , Y: " + Position.Y);
+#endif
                 }
             }
         }

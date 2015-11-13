@@ -1,4 +1,5 @@
-﻿using System;
+﻿#define DEBUG_POS
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +10,38 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class Character {
         public int Sprite { get; set; }
+#if DEBUG_POS
+        public class ProxyPoint {
+            public float X { 
+                //add debug code for koopa shell. X is too large
+                get {
+                    return _x;
+                }
+                set {
+                    _x = value;
+                }
+            }
+            public float Y {
+                get {
+                    return _y;
+                }
+                set {
+                    _y = value;
+                }
+            }
+            public float _x = 0;
+            public float _y = 0;
+            public ProxyPoint(float x, float y) {
+                X = x;
+                Y = y;
+            }
+        }
+
+        public ProxyPoint Position = new ProxyPoint(0.0f,0.0f);
+
+#else
         public PointF Position = new PointF(0.0f, 0.0f);
+#endif
         public Dictionary<string, Rectangle[]> SpriteSources { get; private set; }
         public string CurrentSprite { get; set; }
         public int CurrentFrame = 0;
