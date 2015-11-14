@@ -15,6 +15,9 @@ namespace MarioWorld1_1 {
             public float X { 
                 //add debug code for koopa shell. X is too large
                 get {
+                    if (_x > Game.currentMap[(int)_y].Length) {
+                        Console.WriteLine("X Position: "+_x);
+                    }
                     return _x;
                 }
                 set {
