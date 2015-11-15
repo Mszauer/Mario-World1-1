@@ -14,6 +14,7 @@ namespace MarioWorld1_1 {
         protected bool moveUpDown = false;
         public bool IsSeen = false;
         public float Direction = 1.0f;
+        protected float gravity = 150.0f; //same formula as in player character
         protected EnemyCharacter(string spritePath, bool movingUpDown) : base(spritePath) {
             
         }
@@ -22,6 +23,7 @@ namespace MarioWorld1_1 {
             Animate(dTime);
             //movement
             Position.X += Direction * speed * dTime;
+            //Position.Y += gravity * dTime;
             if (Direction > 0) {
                 faceLeft = false;
             }
@@ -57,6 +59,8 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Direction *= -1;
                     Position.X = intersection.Right;
+                    Position.Y = intersection.Top - Rect.Height;
+
 #if ENEMYDEBUG
 
                     Console.WriteLine("Enemy Position: X: " + Position.X + " , Y: " + Position.Y);
@@ -68,7 +72,10 @@ namespace MarioWorld1_1 {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
                 if (intersection.Width*intersection.Height > 0) {
                     Direction *= -1;
+                    //the intersection has both left/right, top/bottom and thus gets moved both ways when it should only be in the x or y dir
                     Position.X = intersection.Left - Rect.Width;
+                    Position.Y = intersection.Top - Rect.Height;
+
 #if ENEMYDEBUG
                     Console.WriteLine("Enemy Position: X: " + Position.X + " , Y: " + Position.Y);
 #endif
