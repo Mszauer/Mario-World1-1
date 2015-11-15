@@ -15,13 +15,13 @@ namespace MarioWorld1_1 {
             public float X { 
                 //add debug code for koopa shell. X is too large
                 get {
-                    if (_x / Game.TILE_SIZE > Game.currentMap[0].Length / Game.TILE_SIZE) { 
-                        //always executing?
-                        Console.WriteLine("X pos: " + _x);
-                    }
                     return _x;
                 }
                 set {
+                    if (value > 3000) {
+                        //always executing?
+                        Console.WriteLine("moved too much" + this.GetType().ToString());
+                    }
                     _x = value;
                 }
             }

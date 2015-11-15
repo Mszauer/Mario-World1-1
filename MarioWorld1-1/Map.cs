@@ -259,90 +259,90 @@ namespace MarioWorld1_1 {
             }
 #endif
             //enemy update/logic
-            for (int i = enemies.Count - 1; i >= 0; i--) {
+            for (int k = enemies.Count - 1; k >= 0; k--) {
                 //has hero encountered enemy?
-                if (enemies[i].IsSeen) {
+                if (enemies[k].IsSeen) {
                     //update once seen
-                    enemies[i].Update(dTime);
+                    enemies[k].Update(dTime);
                     //Collide with a dead koopa shell
                     //if enemy is koopa, check collision with other enemies (double loop)
-                    if (enemies[i] is Koopa) {
+                    if (enemies[k] is Koopa) {
                         //loop through all enemies
-                        for (int j = enemies.Count - 1; j >= 0; j--) {
+                        for (int g = enemies.Count - 1; g >= 0; g--) {
                             //if update and run into a koopa
-                            if (enemies[j] is Goomba && enemies[i].CurrentState == EnemyCharacter.State.Dead1) {
+                            if (enemies[g] is Goomba && enemies[k].CurrentState == EnemyCharacter.State.Dead1) {
                                 //collision rect
-                                Rectangle collision = Intersections.Rect(enemies[i].Rect, enemies[i].Rect);
+                                Rectangle collision = Intersections.Rect(enemies[k].Rect, enemies[g].Rect);
                                 //is there collision?
-                                if (collision.Left == enemies[i].Rect.Left ) {
+                                if (collision.Left == enemies[k].Rect.Left ) {
                                     //swap enemy collision
-                                    enemies[i].Direction *= -1;
-                                    enemies[i].Position.X = collision.Right;
+                                    enemies[g].Direction *= -1;
+                                    enemies[g].Position.X = collision.Left;
                                 }
-                                else if (collision.Right == enemies[i].Rect.Right) {
-                                    enemies[i].Direction *= -1;
-                                    enemies[i].Position.X = collision.Left;
+                                else if (collision.Right == enemies[k].Rect.Right) {
+                                    enemies[g].Direction *= -1;
+                                    enemies[g].Position.X = collision.Right;
                                 }
                             }
                         }
                     }
                 }
                 //Killed by hero
-                Rectangle intersection = Intersections.Rect(hero.Rect, enemies[i].Rect);
-                if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[i].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[i].Rect.Height/2)) {
+                Rectangle intersection = Intersections.Rect(hero.Rect, enemies[k].Rect);
+                if (intersection.Bottom == hero.Rect.Bottom && intersection.Top == enemies[k].Rect.Top && (intersection.Bottom-intersection.Top) < (enemies[k].Rect.Height/2)) {
                     hero.Jump(hero.Impulse * 0.5f);
                     //if koopa, change into appropriate state
-                    if (enemies[i] is Koopa) {
-                        if (enemies[i].CurrentState == EnemyCharacter.State.Alive) {
-                            Console.WriteLine("Pre koopa position: X: " + enemies[i].Position.X + ", Y: " + enemies[i].Position.Y);
-                            enemies[i].CurrentState = EnemyCharacter.State.Dead1;
+                    if (enemies[k] is Koopa) {
+                        if (enemies[k].CurrentState == EnemyCharacter.State.Alive) {
+                            Console.WriteLine("Pre koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
+                            enemies[k].CurrentState = EnemyCharacter.State.Dead1;
 #if DEBUG
-                            Console.WriteLine("koopa state: " + enemies[i].CurrentState);
-                            Console.WriteLine("Post koopa position: X: " + enemies[i].Position.X + ", Y: " + enemies[i].Position.Y);
+                            Console.WriteLine("koopa state: " + enemies[k].CurrentState);
+                            Console.WriteLine("Post koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
 #endif
                             continue;
                         }
-                        else if (enemies[i].CurrentState == EnemyCharacter.State.Dead1) {
-                            Console.WriteLine("Pre koopa position: X: " + enemies[i].Position.X + ", Y: " + enemies[i].Position.Y);
-                            enemies[i].CurrentState = EnemyCharacter.State.Dead2;
+                        else if (enemies[k].CurrentState == EnemyCharacter.State.Dead1) {
+                            Console.WriteLine("Pre koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
+                            enemies[k].CurrentState = EnemyCharacter.State.Dead2;
 #if DEBUG
-                            Console.WriteLine("koopa state: " + enemies[i].CurrentState);
-                            Console.WriteLine("Post koopa position: X: " + enemies[i].Position.X + ", Y: " + enemies[i].Position.Y);
+                            Console.WriteLine("koopa state: " + enemies[k].CurrentState);
+                            Console.WriteLine("Post koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
 #endif
                             continue;
                         }
-                        else if (enemies[i].CurrentState == EnemyCharacter.State.Dead2) {
-                            Console.WriteLine("Pre koopa position: X: " + enemies[i].Position.X + ", Y: " + enemies[i].Position.Y);
+                        else if (enemies[k].CurrentState == EnemyCharacter.State.Dead2) {
+                            Console.WriteLine("Pre koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
 
-                            enemies[i].CurrentState = EnemyCharacter.State.Dead1;
+                            enemies[k].CurrentState = EnemyCharacter.State.Dead1;
 #if DEBUG
-                            Console.WriteLine("koopa state: " + enemies[i].CurrentState);
-                            Console.WriteLine("Post koopa position: X: " + enemies[i].Position.X + ", Y: " + enemies[i].Position.Y);
+                            Console.WriteLine("koopa state: " + enemies[k].CurrentState);
+                            Console.WriteLine("Post koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
 #endif
                             continue;
                         }
                     }
                     else {
 #if DEBUG
-                        Console.WriteLine("Enemy Removed: " + enemies[i]);
+                        Console.WriteLine("Enemy Removed: " + enemies[k]);
 #endif
-                        enemies[i].Destroy();
-                        enemies.RemoveAt(i);
+                        enemies[k].Destroy();
+                        enemies.RemoveAt(k);
                     }
                 }
                 //killed by hero that is invincible
                 else if (intersection.Height*intersection.Width > 0 && hero.CurrentState == PlayerCharacter.State.Invincible) {
-                    if (enemies[i] is Koopa) {
-                        if (enemies[i].CurrentState == EnemyCharacter.State.Dead1) {
-                            enemies[i].CurrentState = EnemyCharacter.State.Dead2;
+                    if (enemies[k] is Koopa) {
+                        if (enemies[k].CurrentState == EnemyCharacter.State.Dead1) {
+                            enemies[k].CurrentState = EnemyCharacter.State.Dead2;
                         }
-                        else if (enemies[i].CurrentState == EnemyCharacter.State.Dead2) {
-                            enemies[i].CurrentState = EnemyCharacter.State.Dead1;
+                        else if (enemies[k].CurrentState == EnemyCharacter.State.Dead2) {
+                            enemies[k].CurrentState = EnemyCharacter.State.Dead1;
                         }
                     }
                     else {
-                        enemies[i].Destroy();
-                        enemies.RemoveAt(i);
+                        enemies[k].Destroy();
+                        enemies.RemoveAt(k);
                     }
                 }
                 //hero killed by enemy
@@ -351,14 +351,14 @@ namespace MarioWorld1_1 {
                     //game over
                 }
                 //enemy off map, X axis
-                if (enemies[i].Position.X / Game.TILE_SIZE < 0 || enemies[i].Position.X / Game.TILE_SIZE > tileMap[(int)enemies[i].Position.Y / Game.TILE_SIZE].Length) {
-                    enemies[i].Destroy();
-                    enemies.RemoveAt(i);
+                if (enemies[k].Position.X / Game.TILE_SIZE < 0 || enemies[k].Position.X / Game.TILE_SIZE > tileMap[(int)enemies[k].Position.Y / Game.TILE_SIZE].Length) {
+                    enemies[k].Destroy();
+                    enemies.RemoveAt(k);
                 }
                 //Enemy off map, Y axis
-                else if (enemies[i].Position.Y / Game.TILE_SIZE < 0 || enemies[i].Position.Y / Game.TILE_SIZE > tileMap.Length) {
-                    enemies[i].Destroy();
-                    enemies.RemoveAt(i);
+                else if (enemies[k].Position.Y / Game.TILE_SIZE < 0 || enemies[k].Position.Y / Game.TILE_SIZE > tileMap.Length) {
+                    enemies[k].Destroy();
+                    enemies.RemoveAt(k);
                 }
             }
             //items update/logic

@@ -42,7 +42,7 @@ namespace MarioWorld1_1 {
             visual.X = (int)Position.X - ((int)offsetPosition.X - 1);
             //y is already in screen space, offset it by difference in sprite height / collision height to allign with ground
             visual.Y = (int)Position.Y - (SpriteSources[CurrentSprite][CurrentFrame].Height - Rect.Height) + 2;
-            GraphicsManager.Instance.DrawRect(visual, Color.Red);
+            //GraphicsManager.Instance.DrawRect(visual, Color.Red);
 
             Rectangle collision = Rect;
             //Construct collision from corners
