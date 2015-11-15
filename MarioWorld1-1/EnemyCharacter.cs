@@ -1,4 +1,4 @@
-﻿#define ENEMYDEBUG
+﻿//#define ENEMYDEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +23,6 @@ namespace MarioWorld1_1 {
             Animate(dTime);
             //movement
             Position.X += Direction * speed * dTime;
-            //Position.Y += gravity * dTime;
             if (Direction > 0) {
                 faceLeft = false;
             }
@@ -59,7 +58,6 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Direction *= -1;
                     Position.X = intersection.Right;
-                    Position.Y = intersection.Top - Rect.Height;
 
 #if ENEMYDEBUG
 
@@ -72,13 +70,27 @@ namespace MarioWorld1_1 {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
                 if (intersection.Width*intersection.Height > 0) {
                     Direction *= -1;
-                    //the intersection has both left/right, top/bottom and thus gets moved both ways when it should only be in the x or y dir
                     Position.X = intersection.Left - Rect.Width;
-                    Position.Y = intersection.Top - Rect.Height;
 
 #if ENEMYDEBUG
                     Console.WriteLine("Enemy Position: X: " + Position.X + " , Y: " + Position.Y);
 #endif
+                }
+            }
+            //apply gravity
+            Position.Y += gravity * dTime;
+            //floor collision lower left
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
+                if (intersection.Width*intersection.Height > 0) {
+                    Position.Y = intersection.Top - Rect.Height;
+                }
+            }
+            //floor collision lower right
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
+                if (intersection.Width*intersection.Height > 0) {
+                    Position.Y = intersection.Top - Rect.Height;
                 }
             }
         }
