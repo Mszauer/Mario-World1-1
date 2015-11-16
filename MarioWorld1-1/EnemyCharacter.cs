@@ -38,6 +38,7 @@ namespace MarioWorld1_1 {
                     Position.Y = intersection.Top - Rect.Height;
                     xMovement = true;
                 }
+                //problem is there isn't always a collision, not the frame after it just got updated after
                 else {
                     xMovement = false;
                 }
@@ -49,6 +50,7 @@ namespace MarioWorld1_1 {
                     Position.Y = intersection.Top - Rect.Height;
                     xMovement = true;
                 }
+                //problem is there isn't always a collision, not the frame after it just got updated after
                 else {
                     xMovement = false;
                 }
