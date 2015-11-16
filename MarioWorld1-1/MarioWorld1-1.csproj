@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Bullet.cs" />
     <Compile Include="Character.cs" />
+    <Compile Include="Coin.cs" />
     <Compile Include="EnemyCharacter.cs" />
     <Compile Include="FireFlower.cs" />
     <Compile Include="Game.cs" />
