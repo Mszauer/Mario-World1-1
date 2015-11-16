@@ -19,10 +19,11 @@ namespace MarioWorld1_1 {
             
         }
         public virtual void Update(float dTime) {
+            //is enemy falling?
+            bool xMovement = false;
             //need to add death!
             Animate(dTime);
-            //movement
-            Position.X += Direction * speed * dTime;
+            
             if (Direction > 0) {
                 faceLeft = false;
             }
@@ -36,6 +37,7 @@ namespace MarioWorld1_1 {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
+                    xMovement = true;
                 }
                 return;
             }
@@ -44,8 +46,13 @@ namespace MarioWorld1_1 {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
+                    xMovement = true;
                 }
                 return;
+            }
+            //horizontal movement
+            if (xMovement) {
+                Position.X += Direction * speed * dTime;
             }
             //wall collision
             //upper left
