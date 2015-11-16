@@ -15,11 +15,11 @@ namespace MarioWorld1_1 {
         public bool IsSeen = false;
         public float Direction = 1.0f;
         protected float gravity = 150.0f; //same formula as in player character
-        bool xMovement = false;
         protected EnemyCharacter(string spritePath, bool movingUpDown) : base(spritePath) {
             
         }
         public virtual void Update(float dTime) {
+            bool xMovement = false;
             //need to add death!
             Animate(dTime);
             
@@ -38,10 +38,6 @@ namespace MarioWorld1_1 {
                     Position.Y = intersection.Top - Rect.Height;
                     xMovement = true;
                 }
-                //problem is there isn't always a collision, not the frame after it just got updated after
-                else {
-                    xMovement = false;
-                }
             }
             //floor collision lower right
             if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
@@ -49,10 +45,6 @@ namespace MarioWorld1_1 {
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
                     xMovement = true;
-                }
-                //problem is there isn't always a collision, not the frame after it just got updated after
-                else {
-                    xMovement = false;
                 }
             }
             //horizontal movement
