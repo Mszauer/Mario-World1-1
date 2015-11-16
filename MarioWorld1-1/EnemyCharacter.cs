@@ -28,7 +28,25 @@ namespace MarioWorld1_1 {
             }
             else {
                 faceLeft = true;
-            } 
+            }
+            //apply gravity
+            Position.Y += gravity * dTime;
+            //floor collision lower left
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
+                if (intersection.Width * intersection.Height > 0) {
+                    Position.Y = intersection.Top - Rect.Height;
+                }
+                return;
+            }
+            //floor collision lower right
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
+                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
+                if (intersection.Width * intersection.Height > 0) {
+                    Position.Y = intersection.Top - Rect.Height;
+                }
+                return;
+            }
             //wall collision
             //upper left
             if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
@@ -77,22 +95,7 @@ namespace MarioWorld1_1 {
 #endif
                 }
             }
-            //apply gravity
-            Position.Y += gravity * dTime;
-            //floor collision lower left
-            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
-                if (intersection.Width*intersection.Height > 0) {
-                    Position.Y = intersection.Top - Rect.Height;
-                }
-            }
-            //floor collision lower right
-            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
-                if (intersection.Width*intersection.Height > 0) {
-                    Position.Y = intersection.Top - Rect.Height;
-                }
-            }
+            
         }
     }
 }
