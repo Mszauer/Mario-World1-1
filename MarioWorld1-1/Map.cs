@@ -32,6 +32,7 @@ namespace MarioWorld1_1 {
         protected List<int> unwalkableTiles = null;
         protected List<EnemyCharacter> enemies = null;
         public static List<Item> items = null;
+        public List<Coin> coins = null;
 
         public Map(string mapPath, PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
@@ -217,12 +218,12 @@ namespace MarioWorld1_1 {
                         else if (tileMap[i][j].TileValue == 37) {
                             tileMap[i][j].Item = "FireFlower";
                         }
+                        else if (tileMap[i][j].TileValue == 36) {
+                            tileMap[i][j].Item = "Coin";
+                        }
                         /*
                         else if (tileMap[i][j].TileValue == 35) {
                             tileMap[i][j].Item = "OneUp";
-                        }
-                        else if (tileMap[i][j].TileValue == 36) {
-                            tileMap[i][j].Item = "Coin";
                         }
                         */
                     }

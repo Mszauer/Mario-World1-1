@@ -65,6 +65,9 @@ namespace MarioWorld1_1 {
             if (itemType == "Star") {
                 return new Star(ItemSheet);
             }
+            if (itemType == "Coin") {
+                return new Coin(ItemSheet);
+            }
             Console.WriteLine("Item not assigned to SpawnItem Function in Item.cs");
             return null;
         }

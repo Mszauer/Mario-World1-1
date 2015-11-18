@@ -7,7 +7,7 @@ using System.Drawing;
 using GameFramework;
 
 namespace MarioWorld1_1 {
-    class Coin {
+    class Coin : Item{
         protected int sprite = 0;
         public PointF Position = new PointF(0, 0);
         protected Dictionary<string, Rectangle[]> spriteSources = null;
@@ -15,7 +15,7 @@ namespace MarioWorld1_1 {
         protected int currentFrame = 0;
         private float animTimer = 0f;
         private float animFPS = 5.0f; //number of frames
-        public Coin(string spritepath){
+        public Coin(string spritepath) : base(spritepath){
             sprite = TextureManager.Instance.LoadTexture(spritepath);
             AddSprite("Default",new Rectangle(432, 113, 16, 16), new Rectangle(450, 113, 16, 16), new Rectangle(432, 113, 16, 16), new Rectangle(464, 113, 16, 16), new Rectangle(480, 113, 16, 16));
         }
