@@ -46,7 +46,8 @@ namespace MarioWorld1_1 {
                     currentFrame = 0;
                 }
             }
-
+            Position.Y -= speed * dTime;
+            //if position is greater than what????, destroy
         }
     }
 }
