@@ -195,13 +195,18 @@ namespace MarioWorld1_1 {
                         Console.WriteLine("Tile broken!");
                         //what item will spawn?
                         if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) {
-                            //create item by adding it into map
-                            Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item);
-                            Map.items.Add(item);
-                            //set items position
-                            Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.X;
-                            Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.Y - Game.TILE_SIZE;
-                            Map.items[Map.items.Count - 1].IsSpawned = true;
+                            if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).TileValue == 36) {//basically all coin valued blocks?
+                                //i don't know what to do here
+                            }
+                            else {
+                                //create item by adding it into map
+                                Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item);
+                                Map.items.Add(item);
+                                //set items position
+                                Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.X;
+                                Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.Y - Game.TILE_SIZE;
+                                Map.items[Map.items.Count - 1].IsSpawned = true;
+                            }
                         }
                         Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
                     }
