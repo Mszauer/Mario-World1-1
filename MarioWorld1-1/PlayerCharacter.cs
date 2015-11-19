@@ -63,7 +63,7 @@ namespace MarioWorld1_1 {
         public void Update(float dTime) {
 
             InputManager i = InputManager.Instance;
-            if (CurrentState == State.Normal) {
+            if (CurrentState == State.Normal && !Large) {
                 SetJump(3.50f * Game.TILE_SIZE, 0.75f);
             }
             else {

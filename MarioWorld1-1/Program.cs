@@ -19,6 +19,9 @@ namespace MarioWorld1_1 {
         }
         public static void Update(object sender, FrameEventArgs e) {
             float dTime = (float)e.Time;
+            if (dTime > 1 / 60.0f) {
+                dTime = 1 / 60.0f;
+            }
             InputManager.Instance.Update();
             Game.Instance.Update(dTime);
         }

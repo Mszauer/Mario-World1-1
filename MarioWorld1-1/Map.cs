@@ -214,16 +214,16 @@ namespace MarioWorld1_1 {
                         else if (tileMap[i][j].TileValue == 34) {
                             tileMap[i][j].Item = "Star";
                         }
-                        else if (tileMap[i][j].TileValue == 37) {
-                            tileMap[i][j].Item = "FireFlower";
+                        else if (tileMap[i][j].TileValue == 35) {
+                            tileMap[i][j].Item = "OneUp";
                         }
                         else if (tileMap[i][j].TileValue == 36) {
                             tileMap[i][j].Item = "Coin";
                         }
-                        /*
-                        else if (tileMap[i][j].TileValue == 35) {
-                            tileMap[i][j].Item = "OneUp";
-                        }
+                        else if (tileMap[i][j].TileValue == 37) {
+                            tileMap[i][j].Item = "FireFlower";
+                        }/*
+                        
                         */
                     }
                 }
@@ -399,6 +399,12 @@ namespace MarioWorld1_1 {
                                 hero.Position.Y -= Game.TILE_SIZE;
                             }
                         }
+                    }
+                    else if (items[i] is OneUp) {
+                        hero.Lifes += 1;
+#if DEBUG
+                        Console.WriteLine("Added extra life: " + hero.Lifes);
+#endif
                     }
                     items[i].Destroy();
                     items.RemoveAt(i);
