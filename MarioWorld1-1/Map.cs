@@ -356,7 +356,7 @@ namespace MarioWorld1_1 {
                     enemies.RemoveAt(k);
                 }
                 //Enemy off map, Y axis
-                else if (enemies[k].Position.Y / Game.TILE_SIZE < 0 || enemies[k].Position.Y / Game.TILE_SIZE > tileMap.Length) {
+                else if (enemies[k].Position.Y / Game.TILE_SIZE < 0 || enemies[k].Position.Y / Game.TILE_SIZE > tileMap.Length-1) {
                     enemies[k].Destroy();
                     enemies.RemoveAt(k);
                 }
