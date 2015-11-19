@@ -19,7 +19,7 @@ I Assets/items.png
 // collision blocks
 U 1 10 11 26 27 2 3 0 33 34 35 36 37
 //,what blocks turn into another, element[i] turns into element[lenght-1-i] so input accordingly!
-B 2 3 33 34 35 37 36 7 0 7 7 0 0 7
+B 2 3 33 34 35 37 36 7 0 0 7 0 0 7
 // Enemies
 E G Assets/NPC.png X 8 10
 E K Assets/NPC.png X 20 10
