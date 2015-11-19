@@ -368,11 +368,13 @@ namespace MarioWorld1_1 {
                 //update items, if spawned
                 if (items[i].IsSpawned) {
                     items[i].Update(dTime);
-                    float dY = items[i].StartPos.Y - items[i].Position.Y / Game.TILE_SIZE; //determines how many tiles it will rise
+                    //logic below does not work
+                    float dY = (items[i].StartPos.Y / Game.TILE_SIZE) - (items[i].Position.Y / Game.TILE_SIZE) ; //determines how many tiles it will rise
                     if (dY > 2.0f) {
                         items[i].Destroy();
                         items.RemoveAt(i);
                     }
+                    continue;
                 }
                 //hero picked up item
                 Rectangle intersection = Intersections.Rect(hero.Rect, items[i].Rect);
