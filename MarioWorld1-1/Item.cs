@@ -17,6 +17,7 @@ namespace MarioWorld1_1 {
         protected float gravity = 150.0f; //same formula as in player character
         protected float speed = 75.0f;
         protected int direction = 1;
+        public PointF StartPos = new PointF(0f,0f);
 
         float animFPS = 1.0f / 10.0f; //one sec / number of frames
         float animTimer = 0f;

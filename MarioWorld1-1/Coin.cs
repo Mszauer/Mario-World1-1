@@ -9,10 +9,8 @@ using GameFramework;
 namespace MarioWorld1_1 {
     class Coin : Item{
         protected int sprite = 0;
-        public PointF Position = new PointF(0, 0);
         protected Dictionary<string, Rectangle[]> spriteSources = null;
         protected string CurrentSprite = null;
-        protected int currentFrame = 0;
         private float animTimer = 0f;
         private float animFPS = 5.0f; //number of frames
         public Coin(string spritepath) : base(spritepath){
@@ -22,22 +20,8 @@ namespace MarioWorld1_1 {
         public Coin Spawn(string spriteSheet) {
             return new Coin(spriteSheet);
         }
-        public void Render() {
-            TextureManager.Instance.Draw(sprite, new Point((int)Position.X,(int)Position.Y), 1.0f);
-        }
-        public void AddSprite(string name, params Rectangle[] source) {
-            if (spriteSources == null) {
-                spriteSources = new Dictionary<string, Rectangle[]>();
-            }
-            if (CurrentSprite == null) {
-                CurrentSprite = name;
-            }
-            spriteSources.Add(name, source);
-        }
-        public void Destroy() {
-            TextureManager.Instance.UnloadTexture(sprite);
-        }
-        public void Update(float dTime) { //same as animate function
+        public override void Update(float dTime) { //same as animate function
+            Animate(dTime);
             animTimer += dTime;
             if (animTimer > animFPS) {
                 animTimer -= animFPS;
@@ -47,7 +31,11 @@ namespace MarioWorld1_1 {
                 }
             }
             Position.Y -= speed * dTime;
-            //if position is greater than what????, destroy
+            float dY = StartPos.Y - Position.Y / Game.TILE_SIZE; //determines how many tiles it will rise
+            if (dY > 2.0f) {
+                //Destroy();
+                //how to remove from item list?
+            }
         }
     }
 }
