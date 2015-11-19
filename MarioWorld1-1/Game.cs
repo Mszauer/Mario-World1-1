@@ -61,7 +61,10 @@ namespace MarioWorld1_1 {
             if (CurrentState == State.Start) {
                 Size windowSize = new Size(Program.Window.Size.Width,Program.Window.Height);
                 GraphicsManager.Instance.DrawRect(new Rectangle(new Point(0, 0), windowSize),Color.Black);
-                GraphicsManager.Instance.DrawString("Press Space to Begin!", new Point(windowSize.Width / 2 - 100,windowSize.Height/2), Color.White);
+                GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes,new Point(windowSize.Width - 80,4),Color.White);
+                GraphicsManager.Instance.DrawString("Mario, World 1-1", new Point((windowSize.Width /2) - 85, windowSize.Height / 2-20),Color.White);
+                GraphicsManager.Instance.DrawString("Press Space to Begin!", new Point(windowSize.Width / 2 - 100,windowSize.Height/2+30), Color.White);
+                GraphicsManager.Instance.DrawString("Created by: Martin Szauer", new Point(15, windowSize.Height - 20),Color.White);
                 if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Space)) {
                     CurrentState = State.Play;
                 }
