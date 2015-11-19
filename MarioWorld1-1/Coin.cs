@@ -13,6 +13,7 @@ namespace MarioWorld1_1 {
         protected string CurrentSprite = null;
         private float animTimer = 0f;
         private float animFPS = 5.0f; //number of frames
+
         public Coin(string spritepath) : base(spritepath){
             sprite = TextureManager.Instance.LoadTexture(spritepath);
             AddSprite("Default",new Rectangle(432, 113, 16, 16), new Rectangle(450, 113, 16, 16), new Rectangle(432, 113, 16, 16), new Rectangle(464, 113, 16, 16), new Rectangle(480, 113, 16, 16));

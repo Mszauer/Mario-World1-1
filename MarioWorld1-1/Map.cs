@@ -32,7 +32,6 @@ namespace MarioWorld1_1 {
         protected List<int> unwalkableTiles = null;
         protected List<EnemyCharacter> enemies = null;
         public static List<Item> items = null;
-        public List<Coin> coins = null;
 
         public Map(string mapPath, PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
@@ -368,13 +367,6 @@ namespace MarioWorld1_1 {
                 //update items, if spawned
                 if (items[i].IsSpawned) {
                     items[i].Update(dTime);
-                    //logic below does not work
-                    float dY = (items[i].StartPos.Y / Game.TILE_SIZE) - (items[i].Position.Y / Game.TILE_SIZE) ; //determines how many tiles it will rise
-                    if (dY > 2.0f) {
-                        items[i].Destroy();
-                        items.RemoveAt(i);
-                    }
-                    continue;
                 }
                 //hero picked up item
                 Rectangle intersection = Intersections.Rect(hero.Rect, items[i].Rect);
@@ -412,6 +404,7 @@ namespace MarioWorld1_1 {
                     items.RemoveAt(i);
                     continue;
                 }
+                //mushroom going off map
                 if (items.Count > 0 && (items[i] is GrowMushroom)) {
                     //item off map, x axis
                     if (items[i].Position.X / Game.TILE_SIZE < 0 || items[i].Position.X / Game.TILE_SIZE > tileMap[(int)items[i].Position.Y / Game.TILE_SIZE].Length) {
@@ -424,6 +417,15 @@ namespace MarioWorld1_1 {
                         items[i].Destroy();
                         items.RemoveAt(i);
                         continue;
+                    }
+                }
+                //coin life span
+                if (items.Count > 0 && (items[i] is Coin)) {
+                    items[i].TimeAlive += dTime;
+                    if (items[i].TimeAlive > 0.5f) {
+                        items[i].TimeAlive -= 0.5f;
+                        items[i].Destroy();
+                        items.RemoveAt(i);
                     }
                 }
             }
