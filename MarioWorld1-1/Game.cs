@@ -81,6 +81,7 @@ namespace MarioWorld1_1 {
                 hero.Render(new PointF(offsetPosition.X,offsetPosition.Y-1));
             }
             GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width - 80, 4), Color.White);
+            GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width - 81, 5), Color.Black);
 
         }
         public void Shutdown() {

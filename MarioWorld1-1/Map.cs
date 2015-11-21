@@ -242,10 +242,11 @@ namespace MarioWorld1_1 {
         public void Update(float dTime, PlayerCharacter hero) {
             //do update stuff in here
             //hero update/logic
-            if (hero.Position.Y/Game.TILE_SIZE > tileMap.Length) {
+            if ((hero.Position.Y+hero.Rect.Height)/Game.TILE_SIZE > tileMap.Length) {
                 //lose a life
                 hero.Lifes -= 1;
                 //start over
+                Game.Instance.CurrentState = Game.State.Start
             }
 #if DEBUG
             if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Number1)) {
