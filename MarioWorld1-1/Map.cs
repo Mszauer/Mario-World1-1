@@ -117,10 +117,10 @@ namespace MarioWorld1_1 {
                             }
                             enemies[enemies.Count - 1].Position.X = System.Convert.ToInt32(content[4]) * Game.TILE_SIZE;
                             enemies[enemies.Count - 1].Position.Y = System.Convert.ToInt32(content[5]) * Game.TILE_SIZE;
-                            if (System.Convert.ToInt32(content[6]) == 'R') {
+                            if (content[6] == "R") {
                                 enemies[enemies.Count - 1].Direction = 1;
                             }
-                            else if (System.Convert.ToInt32(content[6]) == 'L') {
+                            else if (content[6] == "L") {
                                 enemies[enemies.Count - 1].Direction = -1;
                             }
 #if DEBUG
