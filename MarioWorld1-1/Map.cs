@@ -246,7 +246,7 @@ namespace MarioWorld1_1 {
                 //lose a life
                 hero.Lifes -= 1;
                 //start over
-                Game.Instance.CurrentState = Game.State.Start
+                Game.Instance.CurrentState = Game.State.Start;
             }
 #if DEBUG
             if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Number1)) {
@@ -357,7 +357,7 @@ namespace MarioWorld1_1 {
                     enemies.RemoveAt(k);
                 }
                 //Enemy off map, Y axis
-                else if (enemies[k].Position.Y / Game.TILE_SIZE < 0 || enemies[k].Position.Y / Game.TILE_SIZE > tileMap.Length-1) {
+                else if (enemies[k].Position.Y / Game.TILE_SIZE < 0 || (enemies[k].Position.Y+enemies[k].Rect.Height) / Game.TILE_SIZE >= tileMap.Length-1) {
                     enemies[k].Destroy();
                     enemies.RemoveAt(k);
                 }
@@ -420,7 +420,7 @@ namespace MarioWorld1_1 {
                         continue;
                     }
                     //item off map, y axis
-                    else if (items[i].Position.Y / Game.TILE_SIZE < 0 || items[i].Position.Y / Game.TILE_SIZE > tileMap.Length) {
+                    else if (items[i].Position.Y / Game.TILE_SIZE < 0 || (items[i].Position.Y+items[i].Rect.Height) / Game.TILE_SIZE > tileMap.Length-1) {
                         items[i].Destroy();
                         items.RemoveAt(i);
                         continue;
