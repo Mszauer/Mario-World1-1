@@ -235,7 +235,7 @@ namespace MarioWorld1_1 {
                 }
             }
             //keep on the tiles
-            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
@@ -263,7 +263,7 @@ namespace MarioWorld1_1 {
                     isJumping = false;
                 }
             }
-            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
+            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
                 Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
                 if (intersection.Width * intersection.Height > 0) {
                     Position.Y = intersection.Top - Rect.Height;
