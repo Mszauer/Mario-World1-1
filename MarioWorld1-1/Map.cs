@@ -412,7 +412,7 @@ namespace MarioWorld1_1 {
                     continue;
                 }
                 //mushroom going off map
-                if (items.Count > 0 && (items[i] is GrowMushroom)) {
+                if (items.Count > 0 && ((items[i] is GrowMushroom) || (items[i] is OneUp))) {
                     //item off map, x axis
                     if (items[i].Position.X / Game.TILE_SIZE < 0 || items[i].Position.X / Game.TILE_SIZE > tileMap[(int)items[i].Position.Y / Game.TILE_SIZE].Length) {
                         items[i].Destroy();
