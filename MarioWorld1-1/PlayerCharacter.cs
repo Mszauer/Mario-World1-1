@@ -104,7 +104,7 @@ namespace MarioWorld1_1 {
                     if (!Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
                         Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_BOTTOM_LEFT]));
                         if (intersection.Width * intersection.Height > 0) {
-                            Position.X = intersection.Left - Rect.Width;
+                            Position.X = intersection.Right;
                         }
                     }
                 }
