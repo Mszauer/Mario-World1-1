@@ -306,6 +306,8 @@ namespace MarioWorld1_1 {
                         if (enemies[k].CurrentState == EnemyCharacter.State.Alive) {
                             Console.WriteLine("Pre koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
                             enemies[k].CurrentState = EnemyCharacter.State.Dead1;
+                            //add score
+                            Score += 100;
 #if DEBUG
                             Console.WriteLine("koopa state: " + enemies[k].CurrentState);
                             Console.WriteLine("Post koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
@@ -342,7 +344,7 @@ namespace MarioWorld1_1 {
                         enemies.RemoveAt(k);
                     }
                     //add score
-                    Score += 50;
+                    Score += 100;
                 }
                 //killed by hero that is invincible
                 else if (intersection.Height*intersection.Width > 0 && hero.CurrentState == PlayerCharacter.State.Invincible) {
@@ -362,14 +364,14 @@ namespace MarioWorld1_1 {
                         enemies.RemoveAt(k);
                     }
                     //add score
-                    Score += 50;
+                    Score += 100;
                 }
                 //hero killed by enemy
                 else if (intersection.Height*intersection.Width > 0) {
                     Console.WriteLine("Collision with enemy!");
                     //Death animation
-                    hero.SetSprite("Dead");
-                    hero.Jump(hero.Impulse / 3);
+
+                    //create hero.Die where mario jumps and stuff
 
                     //subtract lifes
                     hero.Lifes -= 1;
@@ -600,6 +602,8 @@ namespace MarioWorld1_1 {
             tileMap[yTile][xTile].WorldPosition = new Point(xPos, yPos);
             Console.WriteLine("Tile Location PostAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
             tileMap[yTile][xTile].Scale = 1.0f;
+            //add score
+            Score += 50;
         }
     }
 }
