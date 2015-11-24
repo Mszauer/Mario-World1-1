@@ -9,7 +9,7 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
         //what type is hero
-        public enum State { Normal, Fire, Invincible, Dead};
+        public enum State { Normal, Fire, Invincible};
         public State CurrentState { get; set; }
         public float speed = 3*Game.TILE_SIZE;
         public int Lifes = 3; //default amount of lifes

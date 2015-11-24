@@ -32,6 +32,8 @@ namespace MarioWorld1_1 {
         protected List<int> unwalkableTiles = null;
         protected List<EnemyCharacter> enemies = null;
         public static List<Item> items = null;
+        public float Timer = 0;
+        public int Score = 0;
 
         public Map(string mapPath, PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
@@ -247,6 +249,7 @@ namespace MarioWorld1_1 {
         }
         public void Update(float dTime, PlayerCharacter hero) {
             //do update stuff in here
+            Timer += dTime;
             //hero update/logic
             if ((hero.Position.Y+hero.Rect.Height)/Game.TILE_SIZE > tileMap.Length) {
                 //lose a life

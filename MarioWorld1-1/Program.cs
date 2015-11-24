@@ -29,8 +29,10 @@ namespace MarioWorld1_1 {
             GraphicsManager.Instance.ClearScreen(System.Drawing.Color.CadetBlue);
             int FPS = (int)(1 / e.Time);
             Game.Instance.Render();
-            GraphicsManager.Instance.DrawString("FPS: " + FPS, new PointF(5, 5), Color.Black);
-            GraphicsManager.Instance.DrawString("FPS: " + FPS, new PointF(4, 4), Color.White);
+            GraphicsManager.Instance.DrawString("FPS", new Point((Window.Width / 4) + 5, 6), Color.Black);
+            GraphicsManager.Instance.DrawString("FPS", new Point((Window.Width / 4) + 4, 5), Color.White);
+            GraphicsManager.Instance.DrawString(System.Convert.ToString(FPS), new Point((Window.Width / 4) + 10, 20), Color.Black);
+            GraphicsManager.Instance.DrawString(System.Convert.ToString(FPS), new Point((Window.Width / 4) + 9, 19), Color.White);
             GraphicsManager.Instance.SwapBuffers();
         }
         public static void Shutdown(object sender, EventArgs e) {

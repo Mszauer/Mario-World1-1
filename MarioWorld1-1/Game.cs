@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace MarioWorld1_1 {
     class Game {
-        public enum State { Start, Play }
+        public enum State { Start, Play}
         public State CurrentState = State.Start;
         public static readonly int TILE_SIZE = 16;
         public static Map currentMap = null;
@@ -61,12 +61,13 @@ namespace MarioWorld1_1 {
             Size windowSize = new Size(Program.Window.Size.Width,Program.Window.Height);
             if (CurrentState == State.Start) {
                 GraphicsManager.Instance.DrawRect(new Rectangle(new Point(0, 0), windowSize),Color.Black);
-                GraphicsManager.Instance.DrawString("Mario, World 1-1", new Point((windowSize.Width /2) - 85, windowSize.Height / 2-20),Color.White);
-                GraphicsManager.Instance.DrawString("Press Space to Begin!", new Point(windowSize.Width / 2 - 100,windowSize.Height/2+30), Color.White);
+                GraphicsManager.Instance.DrawString("Press Space to Begin!", new Point(windowSize.Width / 2 - 100,windowSize.Height-40), Color.White);
                 GraphicsManager.Instance.DrawString("Created by: Martin Szauer", new Point(15, windowSize.Height - 20),Color.White);
                 if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Space)) {
                     CurrentState = State.Play;
                 }
+                GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width /2 - 49, windowSize.Height / 2 + 1), Color.Black);
+                GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width /2 - 48, windowSize.Height / 2), Color.White);
             }
             else if (CurrentState == State.Play) {
                 PointF offsetPosition = new PointF();
@@ -80,8 +81,23 @@ namespace MarioWorld1_1 {
                 currentMap.Render(offsetPosition,hero.Center,hero);
                 hero.Render(new PointF(offsetPosition.X,offsetPosition.Y-1));
             }
-            GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width - 80, 4), Color.White);
-            GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width - 81, 5), Color.Black);
+            //HUD
+            //score
+            GraphicsManager.Instance.DrawString("Mario", new Point(5 + 1, 6), Color.Black);
+            GraphicsManager.Instance.DrawString("Mario", new Point(5, 5), Color.White);
+            GraphicsManager.Instance.DrawString(System.Convert.ToString(currentMap.Score), new Point(6 + 1, 20), Color.Black);
+            GraphicsManager.Instance.DrawString(System.Convert.ToString(currentMap.Score), new Point(5, 19), Color.White);
+            //world
+            GraphicsManager.Instance.DrawString("World", new Point(2*(windowSize.Width / 4)+1, 6), Color.Black);
+            GraphicsManager.Instance.DrawString("World", new Point(2*(windowSize.Width / 4), 5), Color.White);
+            GraphicsManager.Instance.DrawString("1-1", new Point(2 * (windowSize.Width / 4) + 10, 20), Color.Black);
+            GraphicsManager.Instance.DrawString("1-1", new Point(2 * (windowSize.Width / 4) + 9, 19), Color.White);
+            //fps - done in program.cs
+           //time
+            GraphicsManager.Instance.DrawString("Time", new Point(3 * (windowSize.Width / 4) + 1, 6), Color.Black);
+            GraphicsManager.Instance.DrawString("Time", new Point(3 * (windowSize.Width / 4), 5), Color.White);
+            GraphicsManager.Instance.DrawString(System.Convert.ToString((int)currentMap.Timer), new Point(3 * (windowSize.Width / 4) + 10, 20), Color.Black);
+            GraphicsManager.Instance.DrawString(System.Convert.ToString((int)currentMap.Timer), new Point(3 * (windowSize.Width / 4) + 9, 19), Color.White);
 
         }
         public void Shutdown() {
