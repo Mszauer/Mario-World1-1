@@ -9,7 +9,7 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class PlayerCharacter : Character{
         //what type is hero
-        public enum State { Normal, Fire, Invincible};
+        public enum State { Normal, Fire, Invincible, Dead};
         public State CurrentState { get; set; }
         public float speed = 3*Game.TILE_SIZE;
         public int Lifes = 3; //default amount of lifes
@@ -58,6 +58,7 @@ namespace MarioWorld1_1 {
             AddSprite("InvincibleLargeJump", new Rectangle(30, 65, 16, 32), new Rectangle(279, 67, 16, 32), new Rectangle(523, 67, 16, 32));
             AddSprite("InvincibleRun", new Rectangle(30, 26, 16, 16), new Rectangle(313, 25, 16, 16), new Rectangle(558, 25, 16, 16));
             AddSprite("InvincibleLargeRun", new Rectangle(30, 105, 16, 32), new Rectangle(300, 105, 16, 32), new Rectangle(565, 105, 16, 32));
+            AddSprite("Dead", new Rectangle(0, 0, 0, 0)); //add death state
             SetSprite("Stand");
         }
         public void Update(float dTime) {
@@ -94,7 +95,7 @@ namespace MarioWorld1_1 {
                     Animate(dTime);
                 }
                 Position.X -= speed * dTime;
-                if (CurrentState == State.Normal && Large) {
+                if ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large) {
                     if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).TileValue != 35) {
                         Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_LEFT]));
                         if (intersection.Width * intersection.Height > 0) {
@@ -150,7 +151,7 @@ namespace MarioWorld1_1 {
                     Animate(dTime);
                 }
                 Position.X += speed * dTime;
-                if (CurrentState == State.Normal && Large) {
+                if ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large) {
                     if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).TileValue != 35) {
                         Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_RIGHT]));
                         if (intersection.Width * intersection.Height > 0) {

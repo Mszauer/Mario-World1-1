@@ -402,7 +402,7 @@ namespace MarioWorld1_1 {
                             hero.ChangeForm("Invincible");
                             hero.CurrentSprite = "InvincibleStand";
                             if (hero.Large) {
-                                hero.CurrentSprite = "LargeInvincibleStand";
+                                hero.CurrentSprite = "InvincibleLargeStand";
                                 hero.Position.Y -= Game.TILE_SIZE;
                             }
                         }
