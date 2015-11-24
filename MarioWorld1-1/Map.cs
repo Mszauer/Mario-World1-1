@@ -319,6 +319,8 @@ namespace MarioWorld1_1 {
                             Console.WriteLine("koopa state: " + enemies[k].CurrentState);
                             Console.WriteLine("Post koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
 #endif
+                            //koopa direction logic (if hero.center > koopa.Center, go right otherwise go left)
+                            enemies[k].Direction = (hero.Rect.X + (hero.Rect.Width / 2) > (enemies[k].Rect.X+(enemies[k].Rect.Width / 2))) ? -1 : 1;//1 = left, -1 = right
                             continue;
                         }
                         else if (enemies[k].CurrentState == EnemyCharacter.State.Dead2) {
@@ -339,10 +341,14 @@ namespace MarioWorld1_1 {
                         enemies[k].Destroy();
                         enemies.RemoveAt(k);
                     }
+                    //add score
+                    Score += 50;
                 }
                 //killed by hero that is invincible
                 else if (intersection.Height*intersection.Width > 0 && hero.CurrentState == PlayerCharacter.State.Invincible) {
+                    //koopa logic
                     if (enemies[k] is Koopa) {
+                        //koopa shell logic
                         if (enemies[k].CurrentState == EnemyCharacter.State.Dead1) {
                             enemies[k].CurrentState = EnemyCharacter.State.Dead2;
                         }
@@ -350,15 +356,26 @@ namespace MarioWorld1_1 {
                             enemies[k].CurrentState = EnemyCharacter.State.Dead1;
                         }
                     }
+                    //all other enemies
                     else {
                         enemies[k].Destroy();
                         enemies.RemoveAt(k);
                     }
+                    //add score
+                    Score += 50;
                 }
                 //hero killed by enemy
                 else if (intersection.Height*intersection.Width > 0) {
                     Console.WriteLine("Collision with enemy!");
-                    //game over
+                    //Death animation
+                    hero.SetSprite("Dead");
+                    hero.Jump(hero.Impulse / 3);
+
+                    //subtract lifes
+                    hero.Lifes -= 1;
+                    if (hero.Lifes < 0) {
+                        //game over
+                    }
                 }
                 //enemy off map, X axis
                 if (enemies[k].Position.X / Game.TILE_SIZE < 0 || enemies[k].Position.X / Game.TILE_SIZE > tileMap[(int)enemies[k].Position.Y / Game.TILE_SIZE].Length) {
@@ -381,8 +398,10 @@ namespace MarioWorld1_1 {
                 //hero picked up item
                 Rectangle intersection = Intersections.Rect(hero.Rect, items[i].Rect);
                 if (intersection.Height * intersection.Width > 0) {
+                    //update items
                     items[i].Update(dTime);
-
+                    
+                    //mushroom logic
                     if (items[i] is GrowMushroom) {
                         if (!hero.Large) {
                             hero.ChangeForm("Large");
@@ -390,6 +409,7 @@ namespace MarioWorld1_1 {
                             hero.Position.Y -= Game.TILE_SIZE;
                         }
                     }
+                    //fireflower logic
                     else if(items[i] is FireFlower) {
                         if (hero.CurrentState != PlayerCharacter.State.Fire) {
                             hero.ChangeForm("Fire");
@@ -400,6 +420,7 @@ namespace MarioWorld1_1 {
                             }
                         }
                     }
+                    //star logic
                     else if (items[i] is Star) {
                         if (hero.CurrentState != PlayerCharacter.State.Invincible) {
                             hero.ChangeForm("Invincible");
@@ -410,12 +431,16 @@ namespace MarioWorld1_1 {
                             }
                         }
                     }
+                    //one up logic
                     else if (items[i] is OneUp) {
                         hero.Lifes += 1;
 #if DEBUG
                         Console.WriteLine("Added extra life: " + hero.Lifes);
 #endif
                     }
+                    //add points
+                    Score += 1000;
+                    //destroy/remove item
                     items[i].Destroy();
                     items.RemoveAt(i);
                     continue;

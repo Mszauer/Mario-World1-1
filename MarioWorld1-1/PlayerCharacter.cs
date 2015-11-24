@@ -58,7 +58,7 @@ namespace MarioWorld1_1 {
             AddSprite("InvincibleLargeJump", new Rectangle(30, 65, 16, 32), new Rectangle(279, 67, 16, 32), new Rectangle(523, 67, 16, 32));
             AddSprite("InvincibleRun", new Rectangle(30, 26, 16, 16), new Rectangle(313, 25, 16, 16), new Rectangle(558, 25, 16, 16));
             AddSprite("InvincibleLargeRun", new Rectangle(30, 105, 16, 32), new Rectangle(300, 105, 16, 32), new Rectangle(565, 105, 16, 32));
-            AddSprite("Dead", new Rectangle(0, 0, 0, 0)); //add death state
+            AddSprite("Dead", new Rectangle(49, 6, 16, 16));
             SetSprite("Stand");
         }
         public void Update(float dTime) {
