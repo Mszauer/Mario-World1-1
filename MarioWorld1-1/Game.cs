@@ -8,7 +8,7 @@ using System.Drawing;
 
 namespace MarioWorld1_1 {
     class Game {
-        public enum State { Start, Play}
+        public enum State { Start, Play, Dying}
         public State CurrentState = State.Start;
         public static readonly int TILE_SIZE = 16;
         public static Map currentMap = null;
