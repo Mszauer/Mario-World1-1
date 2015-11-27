@@ -19,6 +19,7 @@ namespace MarioWorld1_1 {
         private bool isJumping = false;
         public bool Large = false;
         public bool Invincible = false;
+        protected float deathTimer = 0;
         public PointF[] BottomCorners {
             get {
                 PointF[] allCorners = Corners;
@@ -62,7 +63,7 @@ namespace MarioWorld1_1 {
             SetSprite("Stand");
         }
         public void Update(float dTime) {
-
+            bool dead = Game.Instance.CurrentState == Game.State.Dying;
             InputManager i = InputManager.Instance;
             if (CurrentState == State.Normal && !Large) {
                 SetJump(3.50f * Game.TILE_SIZE, 0.75f);
@@ -70,123 +71,124 @@ namespace MarioWorld1_1 {
             else {
                 SetJump(5 * Game.TILE_SIZE, 1.0f);
             }
-            //move left
-            if (i.KeyDown(OpenTK.Input.Key.Left)|| i.KeyDown(OpenTK.Input.Key.A)) {
-                if (velocity == gravity) {
-                    faceLeft = true;
-                    if (CurrentState == State.Normal && Large) {
-                        SetSprite("LargeRun");
+            if (!dead) {
+                //move left
+                if (i.KeyDown(OpenTK.Input.Key.Left) || i.KeyDown(OpenTK.Input.Key.A)) {
+                    if (velocity == gravity) {
+                        faceLeft = true;
+                        if (CurrentState == State.Normal && Large) {
+                            SetSprite("LargeRun");
+                        }
+                        else if (CurrentState == State.Normal) {
+                            SetSprite("Run");
+                        }
+                        else if (CurrentState == State.Fire && Large) {
+                            SetSprite("LargeFireRun");
+                        }
+                        else if (CurrentState == State.Fire) {
+                            SetSprite("FireRun");
+                        }
+                        else if (CurrentState == State.Invincible && Large) {
+                            SetSprite("InvincibleLargeRun");
+                        }
+                        else if (CurrentState == State.Invincible) {
+                            SetSprite("InvincibleRun");
+                        }
+                        Animate(dTime);
                     }
-                    else if (CurrentState == State.Normal) {
-                        SetSprite("Run");
+                    Position.X -= speed * dTime;
+                    if ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large) {
+                        if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).TileValue != 35) {
+                            Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_LEFT]));
+                            if (intersection.Width * intersection.Height > 0) {
+                                Position.X = intersection.Right;
+                            }
+                        }
+                        if (!Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
+                            Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_BOTTOM_LEFT]));
+                            if (intersection.Width * intersection.Height > 0) {
+                                Position.X = intersection.Right;
+                            }
+                        }
                     }
-                    else if (CurrentState == State.Fire && Large) {
-                        SetSprite("LargeFireRun");
-                    }
-                    else if (CurrentState == State.Fire) {
-                        SetSprite("FireRun");
-                    }
-                    else if (CurrentState == State.Invincible && Large) {
-                        SetSprite("InvincibleLargeRun");
-                    }
-                    else if (CurrentState == State.Invincible) {
-                        SetSprite("InvincibleRun");
-                    }
-                    Animate(dTime);
-                }
-                Position.X -= speed * dTime;
-                if ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large) {
-                    if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).TileValue != 35) {
-                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_LEFT]));
+                    if (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_LEFT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_TOP_LEFT]).TileValue != 35) {
+                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_TOP_LEFT]));
                         if (intersection.Width * intersection.Height > 0) {
                             Position.X = intersection.Right;
                         }
                     }
-                    if (!Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
-                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_BOTTOM_LEFT]));
+                    if (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
+                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_BOTTOM_LEFT]));
                         if (intersection.Width * intersection.Height > 0) {
                             Position.X = intersection.Right;
                         }
                     }
-                }
-                if (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_LEFT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_TOP_LEFT]).TileValue != 35) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_TOP_LEFT]));
-                    if (intersection.Width * intersection.Height > 0) {
-                        Position.X = intersection.Right;
+                    //map boundry check
+                    if (Position.X < 0) {
+                        Position.X = 0;
                     }
                 }
-                if (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_BOTTOM_LEFT]));
-                    if (intersection.Width * intersection.Height > 0) {
-                        Position.X = intersection.Right;
+                //move right
+                if (i.KeyDown(OpenTK.Input.Key.Right) || i.KeyDown(OpenTK.Input.Key.D)) {
+                    if (velocity == gravity) {
+                        faceLeft = false;
+                        if (CurrentState == State.Normal && Large) {
+                            SetSprite("LargeRun");
+                        }
+                        else if (CurrentState == State.Normal) {
+                            SetSprite("Run");
+                        }
+                        else if (CurrentState == State.Fire && Large) {
+                            SetSprite("LargeFireRun");
+                        }
+                        else if (CurrentState == State.Fire) {
+                            SetSprite("FireRun");
+                        }
+                        else if (CurrentState == State.Invincible && Large) {
+                            SetSprite("InvincibleLargeRun");
+                        }
+                        else if (CurrentState == State.Invincible) {
+                            SetSprite("InvincibleRun");
+                        }
+                        Animate(dTime);
                     }
-                }
-                //map boundry check
-                if (Position.X < 0) {
-                    Position.X = 0;
-                }
-            }
-            //move right
-            if (i.KeyDown(OpenTK.Input.Key.Right)|| i.KeyDown(OpenTK.Input.Key.D)) {
-                if (velocity == gravity) {
-                    faceLeft = false;
-                    if (CurrentState == State.Normal && Large) {
-                        SetSprite("LargeRun");
+                    Position.X += speed * dTime;
+                    if ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large) {
+                        if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).TileValue != 35) {
+                            Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_RIGHT]));
+                            if (intersection.Width * intersection.Height > 0) {
+                                Position.X = intersection.Left - Rect.Width;
+                            }
+                        }
+                        if (!Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
+                            Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_BOTTOM_RIGHT]));
+                            if (intersection.Width * intersection.Height > 0) {
+                                Position.X = intersection.Left - Rect.Width;
+                            }
+                        }
                     }
-                    else if (CurrentState == State.Normal) {
-                        SetSprite("Run");
-                    }
-                    else if (CurrentState == State.Fire && Large) {
-                        SetSprite("LargeFireRun");
-                    }
-                    else if (CurrentState == State.Fire) {
-                        SetSprite("FireRun");
-                    }
-                    else if (CurrentState == State.Invincible && Large) {
-                        SetSprite("InvincibleLargeRun");
-                    }
-                    else if (CurrentState == State.Invincible) {
-                        SetSprite("InvincibleRun");
-                    }
-                    Animate(dTime);
-                }
-                Position.X += speed * dTime;
-                if ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large) {
-                    if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).TileValue != 35) {
-                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_RIGHT]));
+                    if (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_RIGHT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_TOP_RIGHT]).TileValue != 35) {
+                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_TOP_RIGHT]));
                         if (intersection.Width * intersection.Height > 0) {
                             Position.X = intersection.Left - Rect.Width;
                         }
                     }
-                    if (!Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
-                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_BOTTOM_RIGHT]));
+                    if (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
+                        Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_BOTTOM_RIGHT]));
                         if (intersection.Width * intersection.Height > 0) {
                             Position.X = intersection.Left - Rect.Width;
                         }
                     }
-                }
-                if (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_RIGHT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_TOP_RIGHT]).TileValue != 35) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_TOP_RIGHT]));
-                    if (intersection.Width*intersection.Height > 0) {
-                        Position.X = intersection.Left - Rect.Width;
+                    //map boundry check
+                    if (Position.X > 206f * Game.TILE_SIZE) {
+                        Position.X = 206f * Game.TILE_SIZE;
                     }
                 }
-                if (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
-                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_BOTTOM_RIGHT]));
-                    if (intersection.Width*intersection.Height > 0) {
-                        Position.X = intersection.Left - Rect.Width;
+                //jump!
+                if (!isJumping) {
+                    if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)) {
+                        Jump(Impulse);
                     }
-                }
-                //map boundry check
-                if (Position.X > 206f * Game.TILE_SIZE) {
-                    Position.X = 206f * Game.TILE_SIZE;
-                }
-            }
-            //jump!
-            if (!isJumping) {
-                isJumping = true;
-                if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)) {
-                    Jump(Impulse);
                 }
             }
             //S/Down = special case tile / go down pipe
@@ -198,16 +200,16 @@ namespace MarioWorld1_1 {
                 velocity = gravity;
             }
             Position.Y += velocity * dTime;
-            
-            //hit tile from below
-            if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
-                if (intersection.Width * intersection.Height > 0) {
-                    //break tile
-                    if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
-                        Console.WriteLine("Tile broken!");
-                        //what item will spawn?
-                        if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) {
+            if (!dead) {
+                //hit tile from below
+                if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
+                    if (intersection.Width * intersection.Height > 0) {
+                        //break tile
+                        if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
+                            Console.WriteLine("Tile broken!");
+                            //what item will spawn?
+                            if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) {
                                 //create item by adding it into map
                                 Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item);
                                 Map.items.Add(item);
@@ -216,136 +218,149 @@ namespace MarioWorld1_1 {
                                 Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.Y - Game.TILE_SIZE;
                                 Map.items[Map.items.Count - 1].IsSpawned = true;
                                 Map.items[Map.items.Count - 1].StartPos = Map.items[Map.items.Count - 1].Position;
+                            }
+                            Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
                         }
-                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
+                        Position.Y = intersection.Bottom;
+                        velocity = Math.Abs(velocity);
                     }
-                    Position.Y = intersection.Bottom;
-                    velocity = Math.Abs(velocity);
                 }
-            }
-            //hit tile from below
-            if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
-                if (intersection.Width * intersection.Height > 0) {
-                    if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable) {
-                        Console.WriteLine("Tile broken!");
-                        //what item will spawn?
+                //hit tile from below
+                if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
+                    if (intersection.Width * intersection.Height > 0) {
+                        if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable) {
+                            Console.WriteLine("Tile broken!");
+                            //what item will spawn?
 #if DEBUG
-                        Console.WriteLine("Tile contains: " + Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
+                            Console.WriteLine("Tile contains: " + Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
 #endif
-                        if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
-                            Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
-                            Map.items.Add(item);
-                            //set item position
-                            Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.X;
-                            Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.Y-Game.TILE_SIZE;
-                            Map.items[Map.items.Count - 1].IsSpawned = true;
+                            if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
+                                Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
+                                Map.items.Add(item);
+                                //set item position
+                                Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.X;
+                                Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.Y - Game.TILE_SIZE;
+                                Map.items[Map.items.Count - 1].IsSpawned = true;
+                            }
+                            Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
                         }
-                        Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
+                        Position.Y = intersection.Bottom;
+                        velocity = Math.Abs(velocity);
                     }
-                    Position.Y = intersection.Bottom;
-                    velocity = Math.Abs(velocity);
                 }
-            }
-            //keep on the tiles
-            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
-                if (intersection.Width * intersection.Height > 0) {
-                    Position.Y = intersection.Top - Rect.Height;
-                    if (velocity != gravity) {
-                        if (CurrentState == State.Normal && Large) {
-                            SetSprite("LargeStand");
+                //keep on the tiles
+                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
+                    if (intersection.Width * intersection.Height > 0) {
+                        Position.Y = intersection.Top - Rect.Height;
+                        if (velocity != gravity) {
+                            if (CurrentState == State.Normal && Large) {
+                                SetSprite("LargeStand");
+                            }
+                            else if (CurrentState == State.Normal) {
+                                SetSprite("Stand");
+                            }
+                            else if (CurrentState == State.Fire && Large) {
+                                SetSprite("LargeFireStand");
+                            }
+                            else if (CurrentState == State.Fire) {
+                                SetSprite("FireStand");
+                            }
+                            else if (CurrentState == State.Invincible && Large) {
+                                SetSprite("InvincibleLargeStand");
+                            }
+                            else if (CurrentState == State.Invincible) {
+                                SetSprite("InvincibleStand");
+                            }
                         }
-                        else if (CurrentState == State.Normal) {
-                            SetSprite("Stand");
-                        }
-                        else if (CurrentState == State.Fire && Large) {
-                            SetSprite("LargeFireStand");
-                        }
-                        else if (CurrentState == State.Fire) {
-                            SetSprite("FireStand");
-                        }
-                        else if (CurrentState == State.Invincible && Large) {
-                            SetSprite("InvincibleLargeStand");
-                        }
-                        else if (CurrentState == State.Invincible) {
-                            SetSprite("InvincibleStand");
-                        }
+                        velocity = gravity;
+                        isJumping = false;
                     }
-                    velocity = gravity;
-                    isJumping = false;
                 }
-            }
-            if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
-                Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
-                if (intersection.Width * intersection.Height > 0) {
-                    Position.Y = intersection.Top - Rect.Height;
-                    if (velocity != gravity) {
-                        if (CurrentState == State.Normal && Large) {
-                            SetSprite("LargeStand");
+                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
+                    Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
+                    if (intersection.Width * intersection.Height > 0) {
+                        Position.Y = intersection.Top - Rect.Height;
+                        if (velocity != gravity) {
+                            if (CurrentState == State.Normal && Large) {
+                                SetSprite("LargeStand");
+                            }
+                            else if (CurrentState == State.Normal) {
+                                SetSprite("Stand");
+                            }
+                            else if (CurrentState == State.Fire && Large) {
+                                SetSprite("LargeFireStand");
+                            }
+                            else if (CurrentState == State.Fire) {
+                                SetSprite("FireStand");
+                            }
+                            else if (CurrentState == State.Invincible && Large) {
+                                SetSprite("InvincibleLargeStand");
+                            }
+                            else if (CurrentState == State.Invincible) {
+                                SetSprite("InvincibleStand");
+                            }
                         }
-                        else if (CurrentState == State.Normal) {
-                            SetSprite("Stand");
-                        }
-                        else if (CurrentState == State.Fire && Large) {
-                            SetSprite("LargeFireStand");
-                        }
-                        else if (CurrentState == State.Fire) {
-                            SetSprite("FireStand");
-                        }
-                        else if (CurrentState == State.Invincible && Large) {
-                            SetSprite("InvincibleLargeStand");
-                        }
-                        else if (CurrentState == State.Invincible) {
-                            SetSprite("InvincibleStand");
-                        }
+                        velocity = gravity;
+                        isJumping = false;
                     }
-                    velocity = gravity;
-                    isJumping = false;
                 }
-            }
 #if DEBUG
-            if (i.KeyPressed(OpenTK.Input.Key.P)) {
-                Console.WriteLine("Player Position, X: " + Position.X + " Y: " + Position.Y);
-                Console.WriteLine("Player Position, X: " + (int)(Position.X/Game.TILE_SIZE) + " Y: " + (int)(Position.Y/Game.TILE_SIZE));
-                Console.WriteLine("Current state: " + CurrentState);
-                Console.WriteLine("Large form: " + Large);
-            }
+                if (i.KeyPressed(OpenTK.Input.Key.P)) {
+                    Console.WriteLine("Player Position, X: " + Position.X + " Y: " + Position.Y);
+                    Console.WriteLine("Player Position, X: " + (int)(Position.X / Game.TILE_SIZE) + " Y: " + (int)(Position.Y / Game.TILE_SIZE));
+                    Console.WriteLine("Current state: " + CurrentState);
+                    Console.WriteLine("Large form: " + Large);
+                }
 #endif
-            //shoot projectiles
-            if (CurrentState == State.Fire && i.KeyPressed(OpenTK.Input.Key.Space)) {
-                if (Projectiles == null) {
-                    Projectiles = new List<Bullet>();
-                }
-                PointF velocity = new PointF(0.0f, 0.0f);
-                if (faceLeft) {
-                    velocity.X = -100.0f;
-                }
-                else {
-                    velocity.X = 100.0f;
-                }
-                Projectiles.Add(new Bullet(Center, velocity));
-            }
-            //update projectiles
-            if (Projectiles != null && Projectiles.Count > 0) {
-                for (int j = Projectiles.Count-1;j >=0; j--) {
-                    float xPos = Projectiles[j].Position.X;
-                    float yPos = Projectiles[j].Position.Y;
-                    if (!Projectiles[j].InBounds()) {
-                        Projectiles.RemoveAt(j);
-                        continue;
+                //shoot projectiles
+                if (CurrentState == State.Fire && i.KeyPressed(OpenTK.Input.Key.Space)) {
+                    if (Projectiles == null) {
+                        Projectiles = new List<Bullet>();
                     }
-                    Projectiles[j].Update(dTime);
+                    PointF velocity = new PointF(0.0f, 0.0f);
+                    if (faceLeft) {
+                        velocity.X = -100.0f;
+                    }
+                    else {
+                        velocity.X = 100.0f;
+                    }
+                    Projectiles.Add(new Bullet(Center, velocity));
+                }
+                //update projectiles
+                if (Projectiles != null && Projectiles.Count > 0) {
+                    for (int j = Projectiles.Count - 1; j >= 0; j--) {
+                        float xPos = Projectiles[j].Position.X;
+                        float yPos = Projectiles[j].Position.Y;
+                        if (!Projectiles[j].InBounds()) {
+                            Projectiles.RemoveAt(j);
+                            continue;
+                        }
+                        Projectiles[j].Update(dTime);
 
+                    }
                 }
-            }
+            }//end !dead
         }//end update
         protected void SetJump(float height,float duration) {
             Impulse = 2 * height / duration;
             Impulse *= -1;
             gravity = -Impulse / duration;
         }
+        public void Die(float dTime) {
+            deathTimer += dTime;
+            if (!isJumping) {
+                Jump(Impulse*1.5f);
+                SetSprite("Dead");
+            }
+            if (deathTimer > 1.20f) {
+                deathTimer = 0.0f;
+                Game.Instance.CurrentState = Game.State.Start;
+            }
+        }
         public void Jump(float impulse) {
+            isJumping = true;
             velocity = impulse;
             if (CurrentState == State.Normal && Large) {
                 SetSprite("LargeJump");

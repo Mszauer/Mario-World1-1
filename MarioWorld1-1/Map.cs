@@ -9,7 +9,6 @@ using GameFramework;
 
 namespace MarioWorld1_1 {
     class Map {
-
         public Tile[][] tileMap = null;
         public Tile[] this[int i] {
             get {
@@ -24,7 +23,7 @@ namespace MarioWorld1_1 {
                 return tileMap.Length;
             }
         }
-        protected Point spawnTile = new Point(0, 0);
+        public Point SpawnTile = new Point(0, 0);
         protected string tileSheet = null;
         protected Dictionary<string, Point> nextRoom = null;
         protected List<List<int>> mapFormat = null;
@@ -101,7 +100,7 @@ namespace MarioWorld1_1 {
                         }
                         //starting tile
                         else if (content[0] == "S") {
-                            spawnTile = new Point(System.Convert.ToInt32(content[1]), System.Convert.ToInt32(content[2]));
+                            SpawnTile = new Point(System.Convert.ToInt32(content[1]), System.Convert.ToInt32(content[2]));
 #if DEBUG
                             Console.WriteLine("Starting tile: " + content[1] + ", " + content[2]);
 #endif
@@ -237,8 +236,8 @@ namespace MarioWorld1_1 {
                     }
                 }
                 //set hero position
-                hero.Position.X = spawnTile.X * Game.TILE_SIZE;
-                hero.Position.Y = spawnTile.Y * Game.TILE_SIZE;
+                hero.Position.X = SpawnTile.X * Game.TILE_SIZE;
+                hero.Position.Y = SpawnTile.Y * Game.TILE_SIZE;
 
 #if DEBUG
                 Console.WriteLine("Map has been loaded!");
@@ -249,7 +248,6 @@ namespace MarioWorld1_1 {
             }
         }
         public void Update(float dTime, PlayerCharacter hero) {
-            if (Game.Instance.CurrentState == Game.State.Play) {
                 //do update stuff in here
                 Timer += dTime;
                 //hero update/logic
@@ -371,14 +369,12 @@ namespace MarioWorld1_1 {
                     //hero killed by enemy
                     else if (intersection.Height * intersection.Width > 0) {
                         Console.WriteLine("Collision with enemy!");
-                        //Death animation
-
-                        //create hero.Die where mario jumps and stuff
-
                         //subtract lifes
                         hero.Lifes -= 1;
                         if (hero.Lifes < 0) {
-                            //game over
+                        }
+                        else {
+                            Game.Instance.CurrentState = Game.State.Dying;
                         }
                     }
                     //enemy off map, X axis
@@ -512,12 +508,8 @@ namespace MarioWorld1_1 {
                                 enemies.RemoveAt(j);
                                 break;
                             }
-                        }
                     }
                 }
-            }
-            else if (Game.Instance.CurrentState == Game.State.Dying) {
-
             }
         }
         /*

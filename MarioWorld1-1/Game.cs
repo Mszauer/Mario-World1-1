@@ -49,13 +49,20 @@ namespace MarioWorld1_1 {
         public void Update(float dt) {
             //currentMap = currentMap.ResolveDoors(hero);
             if (CurrentState == State.Start) {
-
+                hero.SetSprite("Stand");
+                hero.Position = new Point(currentMap.SpawnTile.X * Game.TILE_SIZE, currentMap.SpawnTile.Y * Game.TILE_SIZE);
+                if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Space)) {
+                    CurrentState = State.Play;
+                }
             }
             else if (CurrentState == State.Play) {
                 currentMap.Update(dt, hero);
                 hero.Update(1 / 30.0f);
             }
-
+            else if (CurrentState == State.Dying) {
+                hero.Update(1 / 30.0f);
+                hero.Die(dt);
+            }
         }
         public void Render() {
             Size windowSize = new Size(Program.Window.Size.Width,Program.Window.Height);
@@ -63,13 +70,10 @@ namespace MarioWorld1_1 {
                 GraphicsManager.Instance.DrawRect(new Rectangle(new Point(0, 0), windowSize),Color.Black);
                 GraphicsManager.Instance.DrawString("Press Space to Begin!", new Point(windowSize.Width / 2 - 100,windowSize.Height-40), Color.White);
                 GraphicsManager.Instance.DrawString("Created by: Martin Szauer", new Point(15, windowSize.Height - 20),Color.White);
-                if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Space)) {
-                    CurrentState = State.Play;
-                }
                 GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width /2 - 49, windowSize.Height / 2 + 1), Color.Black);
                 GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width /2 - 48, windowSize.Height / 2), Color.White);
             }
-            else if (CurrentState == State.Play) {
+            else if (CurrentState == State.Play || CurrentState == State.Dying) {
                 PointF offsetPosition = new PointF();
                 offsetPosition.X = hero.Position.X - (float)(7.625 * TILE_SIZE);//7.625 == half of map displayed
                 if (hero.Position.X < 7.625 * TILE_SIZE) {
