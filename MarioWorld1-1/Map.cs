@@ -340,7 +340,7 @@ namespace MarioWorld1_1 {
 #if DEBUG
                             Console.WriteLine("Enemy Removed: " + enemies[k]);
 #endif
-                            enemies[k].Destroy();
+                            enemies[k].Die(dTime);
                             enemies.RemoveAt(k);
                         }
                         //add score
@@ -360,7 +360,7 @@ namespace MarioWorld1_1 {
                         }
                         //all other enemies
                         else {
-                            enemies[k].Destroy();
+                            enemies[k].Die(dTime);
                             enemies.RemoveAt(k);
                         }
                         //add score
