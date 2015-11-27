@@ -16,7 +16,7 @@ namespace MarioWorld1_1 {
         public bool GameOver = false;
         protected PlayerCharacter hero = null;
         protected string heroSheet = "Assets/Mario.png";
-
+        protected float deathTimer = 0.0f;
         protected string startingMap = "Assets/world1-1.txt";
         //rows before columns, map[y][x]
         public Tile GetTile(PointF pixelPoint) {
@@ -60,8 +60,10 @@ namespace MarioWorld1_1 {
                 hero.Update(1 / 30.0f);
             }
             else if (CurrentState == State.Dying) {
+                deathTimer += dt;
                 hero.Update(1 / 30.0f);
                 hero.Die(dt);
+
             }
         }
         public void Render() {
@@ -107,6 +109,11 @@ namespace MarioWorld1_1 {
         public void Shutdown() {
             currentMap.Destroy();
             hero.Destroy();
+        }
+        public void Reset() {
+            currentMap.Destroy();
+            hero.Destroy();
+            Initialize();
         }
     }
 }

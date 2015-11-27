@@ -357,6 +357,9 @@ namespace MarioWorld1_1 {
             if (deathTimer > 1.20f) {
                 deathTimer = 0.0f;
                 Game.Instance.CurrentState = Game.State.Start;
+                if (Lifes < 0) {
+                    Game.Instance.Reset();
+                }
             }
         }
         public void Jump(float impulse) {

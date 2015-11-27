@@ -371,11 +371,7 @@ namespace MarioWorld1_1 {
                         Console.WriteLine("Collision with enemy!");
                         //subtract lifes
                         hero.Lifes -= 1;
-                        if (hero.Lifes < 0) {
-                        }
-                        else {
-                            Game.Instance.CurrentState = Game.State.Dying;
-                        }
+                        Game.Instance.CurrentState = Game.State.Dying;
                     }
                     //enemy off map, X axis
                     if (enemies[k].Position.X / Game.TILE_SIZE < 0 || enemies[k].Position.X / Game.TILE_SIZE > tileMap[(int)enemies[k].Position.Y / Game.TILE_SIZE].Length) {
