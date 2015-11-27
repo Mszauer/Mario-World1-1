@@ -19,6 +19,8 @@ namespace MarioWorld1_1 {
             AddSprite("Default",new Rectangle(432, 113, 16, 16), new Rectangle(450, 113, 16, 16), new Rectangle(432, 113, 16, 16), new Rectangle(464, 113, 16, 16), new Rectangle(480, 113, 16, 16));
         }
         public Coin Spawn(string spriteSheet) {
+            //Play coin sound
+            SoundManager.Instance.PlaySound(Game.Instance.CoinSound);
             return new Coin(spriteSheet);
         }
         public override void Update(float dTime) { //same as animate function

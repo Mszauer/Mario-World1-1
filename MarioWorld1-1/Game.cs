@@ -8,16 +8,34 @@ using System.Drawing;
 
 namespace MarioWorld1_1 {
     class Game {
+        //map state
         public enum State { Start, Play, Dying}
         public State CurrentState = State.Start;
+        //meta data
         public static readonly int TILE_SIZE = 16;
         public static Map currentMap = null;
+        protected string startingMap = "Assets/world1-1.txt";
+
         PointF offsetPosition = new PointF();
         public bool GameOver = false;
+        //hero stuff
         protected PlayerCharacter hero = null;
         protected string heroSheet = "Assets/Mario.png";
         protected float deathTimer = 0.0f;
-        protected string startingMap = "Assets/world1-1.txt";
+
+        //sounds, possibly create a list for easier disposal?
+        public int CoinSound = SoundManager.Instance.LoadMp3("Assets/coin.mp3");
+        public int BreakBlockSound = SoundManager.Instance.LoadMp3("Assets/breakblock.mp3");
+        public int HeroDeathSound = SoundManager.Instance.LoadMp3("Assets/mariodie.mp3");
+        public int HeroJumpSound = SoundManager.Instance.LoadMp3("Assets/jump.mp3");
+        public int OneUpSound = SoundManager.Instance.LoadMp3("Assets/1up.mp3");
+        public int ProjectileSound = SoundManager.Instance.LoadMp3("Assets/fireball.mp3");
+        public int GrowSound = SoundManager.Instance.LoadMp3("Assets/grow.mp3");
+        public int WinSound = SoundManager.Instance.LoadMp3("Assets/win.mp3");
+        public int ItemSpawnSound = SoundManager.Instance.LoadMp3("Assets/itemspawn.mp3");
+        public int StompSound = SoundManager.Instance.LoadMp3("Assets/stomp.mp3");
+
+
         //rows before columns, map[y][x]
         public Tile GetTile(PointF pixelPoint) {
             return currentMap[(int)pixelPoint.Y / TILE_SIZE][(int)pixelPoint.X / TILE_SIZE];
@@ -109,6 +127,18 @@ namespace MarioWorld1_1 {
         public void Shutdown() {
             currentMap.Destroy();
             hero.Destroy();
+            //get rid of the sounds
+            SoundManager s = SoundManager.Instance;
+            s.UnloadSound(CoinSound);
+            s.UnloadSound(BreakBlockSound);
+            s.UnloadSound(HeroDeathSound);
+            s.UnloadSound(HeroJumpSound);
+            s.UnloadSound(OneUpSound);
+            s.UnloadSound(ProjectileSound);
+            s.UnloadSound(GrowSound);
+            s.UnloadSound(StompSound);
+            s.UnloadSound(WinSound);
+            s.UnloadSound(ItemSpawnSound);
         }
         public void Reset() {
             currentMap.Destroy();

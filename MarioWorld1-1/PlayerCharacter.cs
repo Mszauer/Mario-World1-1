@@ -210,6 +210,8 @@ namespace MarioWorld1_1 {
                             Console.WriteLine("Tile broken!");
                             //what item will spawn?
                             if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) {
+                                //item spawn sounds
+                                SoundManager.Instance.PlaySound(Game.Instance.ItemSpawnSound);
                                 //create item by adding it into map
                                 Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item);
                                 Map.items.Add(item);
@@ -236,6 +238,8 @@ namespace MarioWorld1_1 {
                             Console.WriteLine("Tile contains: " + Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
 #endif
                             if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
+                                //item spawn sounds
+                                SoundManager.Instance.PlaySound(Game.Instance.ItemSpawnSound);
                                 Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
                                 Map.items.Add(item);
                                 //set item position
@@ -316,6 +320,9 @@ namespace MarioWorld1_1 {
 #endif
                 //shoot projectiles
                 if (CurrentState == State.Fire && i.KeyPressed(OpenTK.Input.Key.Space)) {
+                    //play projectile sound
+                    SoundManager.Instance.PlaySound(Game.Instance.ProjectileSound);
+
                     if (Projectiles == null) {
                         Projectiles = new List<Bullet>();
                     }
@@ -363,6 +370,8 @@ namespace MarioWorld1_1 {
             }
         }
         public void Jump(float impulse) {
+            //play jump sound
+            SoundManager.Instance.PlaySound(Game.Instance.HeroJumpSound);
             isJumping = true;
             velocity = impulse;
             if (CurrentState == State.Normal && Large) {
