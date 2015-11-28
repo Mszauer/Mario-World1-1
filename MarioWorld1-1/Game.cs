@@ -24,17 +24,19 @@ namespace MarioWorld1_1 {
         protected float deathTimer = 0.0f;
 
         //sounds, possibly create a list for easier disposal?
-        public int CoinSound = SoundManager.Instance.LoadMp3("Assets/coin.mp3");
-        public int BreakBlockSound = SoundManager.Instance.LoadMp3("Assets/breakblock.mp3");
-        public int HeroDeathSound = SoundManager.Instance.LoadMp3("Assets/mariodie.mp3");
-        public int HeroJumpSound = SoundManager.Instance.LoadMp3("Assets/jump.mp3");
-        public int OneUpSound = SoundManager.Instance.LoadMp3("Assets/1up.mp3");
-        public int ProjectileSound = SoundManager.Instance.LoadMp3("Assets/fireball.mp3");
-        public int GrowSound = SoundManager.Instance.LoadMp3("Assets/grow.mp3");
-        public int WinSound = SoundManager.Instance.LoadMp3("Assets/win.mp3");
-        public int ItemSpawnSound = SoundManager.Instance.LoadMp3("Assets/itemspawn.mp3");
-        public int StompSound = SoundManager.Instance.LoadMp3("Assets/stomp.mp3");
-
+        //dictionary<string,int> SoundBank
+        //AudioManager.Instance.LoadMP3(“Path”));
+        public int CoinSound = SoundManager.Instance.LoadWav("Assets/coin.mp3");
+        public int BreakBlockSound = SoundManager.Instance.LoadWav("Assets/breakblock.mp3");
+        public int HeroDeathSound = SoundManager.Instance.LoadWav("Assets/mariodie.mp3");
+        public int HeroJumpSound = SoundManager.Instance.LoadWav("Assets/jump.mp3");
+        public int OneUpSound = SoundManager.Instance.LoadWav("Assets/1up.mp3");
+        public int ProjectileSound = SoundManager.Instance.LoadWav("Assets/fireball.mp3");
+        public int GrowSound = SoundManager.Instance.LoadWav("Assets/grow.mp3");
+        public int WinSound = SoundManager.Instance.LoadWav("Assets/win.mp3");
+        public int ItemSpawnSound = SoundManager.Instance.LoadWav("Assets/itemspawn.mp3");
+        public int StompSound = SoundManager.Instance.LoadWav("Assets/stomp.mp3");
+        public int BackgroundSound = SoundManager.Instance.LoadMp3("Assets/background.mp3");
 
         //rows before columns, map[y][x]
         public Tile GetTile(PointF pixelPoint) {
@@ -74,10 +76,14 @@ namespace MarioWorld1_1 {
                 }
             }
             else if (CurrentState == State.Play) {
+                if (!SoundManager.Instance.IsPlaying(BackgroundSound)) {
+                    SoundManager.Instance.PlaySound(BackgroundSound);
+                }
                 currentMap.Update(dt, hero);
                 hero.Update(1 / 30.0f);
             }
             else if (CurrentState == State.Dying) {
+                SoundManager.Instance.StopSound(BackgroundSound);
                 deathTimer += dt;
                 hero.Update(1 / 30.0f);
                 hero.Die(dt);

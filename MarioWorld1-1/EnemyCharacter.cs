@@ -31,7 +31,7 @@ namespace MarioWorld1_1 {
             //apply gravity
             Position.Y += gravity * dTime;
             //floor collision lower left
-            if (CurrentState == State.Alive) {
+            if (CurrentState != State.Dead) {
                 if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
                     if (intersection.Width * intersection.Height > 0) {
