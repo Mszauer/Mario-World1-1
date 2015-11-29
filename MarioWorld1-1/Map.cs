@@ -377,6 +377,7 @@ namespace MarioWorld1_1 {
                     Console.WriteLine("Collision with enemy!");
                     //subtract lifes
                     hero.Lifes -= 1;
+                    //make mario small or do below
                     //play death sound
                     s.PlaySound(Game.Instance.HeroDeathSound);
                     Game.Instance.CurrentState = Game.State.Dying;
