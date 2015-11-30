@@ -23,20 +23,8 @@ namespace MarioWorld1_1 {
         protected string heroSheet = "Assets/Mario.png";
         protected float deathTimer = 0.0f;
 
-        //sounds, possibly create a list for easier disposal?
-        //dictionary<string,int> SoundBank
-        //AudioManager.Instance.LoadMP3(“Path”));
-        public int CoinSound = SoundManager.Instance.LoadWav("Assets/coin.mp3");
-        public int BreakBlockSound = SoundManager.Instance.LoadWav("Assets/breakblock.mp3");
-        public int HeroDeathSound = SoundManager.Instance.LoadWav("Assets/mariodie.mp3");
-        public int HeroJumpSound = SoundManager.Instance.LoadWav("Assets/jump.mp3");
-        public int OneUpSound = SoundManager.Instance.LoadWav("Assets/1up.mp3");
-        public int ProjectileSound = SoundManager.Instance.LoadWav("Assets/fireball.mp3");
-        public int GrowSound = SoundManager.Instance.LoadWav("Assets/grow.mp3");
-        public int WinSound = SoundManager.Instance.LoadWav("Assets/win.mp3");
-        public int ItemSpawnSound = SoundManager.Instance.LoadWav("Assets/itemspawn.mp3");
-        public int StompSound = SoundManager.Instance.LoadWav("Assets/stomp.mp3");
-        public int BackgroundSound = SoundManager.Instance.LoadMp3("Assets/background.mp3");
+        //sounds
+        public Dictionary<string, int> SoundBank = null;
 
         //rows before columns, map[y][x]
         public Tile GetTile(PointF pixelPoint) {
@@ -63,9 +51,25 @@ namespace MarioWorld1_1 {
         }
         public void Initialize() {
             TextureManager.Instance.UseNearestFiltering = true;
+            //load hero
             hero = new PlayerCharacter(heroSheet);
+            //load map
             currentMap = new Map(startingMap,hero);
-        }
+            //load sounds
+            SoundBank = new Dictionary<string, int>();
+            SoundBank.Add("Coin", SoundManager.Instance.LoadWav("Assets/coin.mp3"));
+            SoundBank.Add("BreakBlock", SoundManager.Instance.LoadWav("Assets/breakblock.mp3"));
+            SoundBank.Add("HeroDeath", SoundManager.Instance.LoadWav("Assets/mariodie.mp3"));
+            SoundBank.Add("HeroJump", SoundManager.Instance.LoadWav("Assets/jump.mp3"));
+            SoundBank.Add("OneUp", SoundManager.Instance.LoadWav("Assets/1up.mp3"));
+            SoundBank.Add("Projectile", SoundManager.Instance.LoadWav("Assets/fireball.mp3"));
+            SoundBank.Add("Grow", SoundManager.Instance.LoadWav("Assets/grow.mp3"));
+            SoundBank.Add("Win", SoundManager.Instance.LoadWav("Assets/win.mp3"));
+            SoundBank.Add("ItemSpawn", SoundManager.Instance.LoadWav("Assets/itemspawn.mp3"));
+            SoundBank.Add("Stomp", SoundManager.Instance.LoadWav("Assets/stomp.mp3"));
+            SoundBank.Add("Background", SoundManager.Instance.LoadMp3("Assets/background.mp3"));
+            SoundBank.Add("DudBrick", SoundManager.Instance.LoadWav("Assets/dudbrick.wav"));
+    }
         public void Update(float dt) {
             //currentMap = currentMap.ResolveDoors(hero);
             if (CurrentState == State.Start) {
@@ -76,14 +80,14 @@ namespace MarioWorld1_1 {
                 }
             }
             else if (CurrentState == State.Play) {
-                if (!SoundManager.Instance.IsPlaying(BackgroundSound)) {
-                    SoundManager.Instance.PlaySound(BackgroundSound);
+                if (!SoundManager.Instance.IsPlaying(SoundBank["Background"])) {
+                    SoundManager.Instance.PlaySound(SoundBank["Background"]);
                 }
                 currentMap.Update(dt, hero);
                 hero.Update(1 / 30.0f);
             }
             else if (CurrentState == State.Dying) {
-                SoundManager.Instance.StopSound(BackgroundSound);
+                SoundManager.Instance.StopSound(SoundBank["Background"]);
                 deathTimer += dt;
                 hero.Update(1 / 30.0f);
                 hero.Die(dt);
@@ -134,17 +138,10 @@ namespace MarioWorld1_1 {
             currentMap.Destroy();
             hero.Destroy();
             //get rid of the sounds
-            SoundManager s = SoundManager.Instance;
-            s.UnloadSound(CoinSound);
-            s.UnloadSound(BreakBlockSound);
-            s.UnloadSound(HeroDeathSound);
-            s.UnloadSound(HeroJumpSound);
-            s.UnloadSound(OneUpSound);
-            s.UnloadSound(ProjectileSound);
-            s.UnloadSound(GrowSound);
-            s.UnloadSound(StompSound);
-            s.UnloadSound(WinSound);
-            s.UnloadSound(ItemSpawnSound);
+            foreach (KeyValuePair<string,int> sound in SoundBank) {
+                SoundManager.Instance.UnloadSound(sound.Value);
+                SoundBank.Remove(sound.Key);
+            }
         }
         public void Reset() {
             currentMap.Destroy();

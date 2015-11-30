@@ -188,7 +188,9 @@ namespace MarioWorld1_1 {
                 if (!isJumping) {
                     if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)) {
                         //play jump sound
-                        SoundManager.Instance.PlaySound(Game.Instance.HeroJumpSound);
+                        if (!SoundManager.Instance.IsPlaying(Game.Instance.SoundBank["HeroJump"])) {
+                            SoundManager.Instance.PlaySound(Game.Instance.SoundBank["HeroJump"]);
+                        }
                         //jump
                         Jump(Impulse);
                     }
@@ -210,17 +212,15 @@ namespace MarioWorld1_1 {
                     if (intersection.Width * intersection.Height > 0) {
                         //break tile
                         if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
-                            //block break sound
-                            SoundManager.Instance.PlaySound(Game.Instance.BreakBlockSound);
                             Console.WriteLine("Tile broken!");
                             //what item will spawn?
                             if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) {
                                 //item spawn sounds
                                 if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item == "Coin") {
-                                    SoundManager.Instance.PlaySound(Game.Instance.CoinSound);
+                                    SoundManager.Instance.PlaySound(Game.Instance.SoundBank["Coin"]);
                                 }
                                 else {
-                                    SoundManager.Instance.PlaySound(Game.Instance.ItemSpawnSound);
+                                    SoundManager.Instance.PlaySound(Game.Instance.SoundBank["ItemSpawn"]);
                                 }
                                 //create item by adding it into map
                                 Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item);
@@ -231,7 +231,15 @@ namespace MarioWorld1_1 {
                                 Map.items[Map.items.Count - 1].IsSpawned = true;
                                 Map.items[Map.items.Count - 1].StartPos = Map.items[Map.items.Count - 1].Position;
                             }
+                            else {
+                                //block break sound
+                                SoundManager.Instance.PlaySound(Game.Instance.SoundBank["BreakBlock"]);
+                            }
                             Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
+                        }
+                        else {
+                            //play dud brick sound
+                            SoundManager.Instance.PlaySound(Game.Instance.SoundBank["DudBrick"]);
                         }
                         Position.Y = intersection.Bottom;
                         velocity = Math.Abs(velocity);
@@ -250,10 +258,10 @@ namespace MarioWorld1_1 {
                             if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
                                 //item spawn sounds
                                 if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item == "Coin") {
-                                    SoundManager.Instance.PlaySound(Game.Instance.CoinSound);
+                                    SoundManager.Instance.PlaySound(Game.Instance.SoundBank["Coin"]);
                                 }
                                 else {
-                                    SoundManager.Instance.PlaySound(Game.Instance.ItemSpawnSound);
+                                    SoundManager.Instance.PlaySound(Game.Instance.SoundBank["ItemSpawn"]);
                                 }
                                 Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
                                 Map.items.Add(item);
@@ -262,7 +270,15 @@ namespace MarioWorld1_1 {
                                 Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.Y - Game.TILE_SIZE;
                                 Map.items[Map.items.Count - 1].IsSpawned = true;
                             }
+                            else {
+                                //block break sound
+                                SoundManager.Instance.PlaySound(Game.Instance.SoundBank["BreakBlock"]);
+                            }
                             Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
+                        }
+                        else {
+                            //play dud brick sound
+                            SoundManager.Instance.PlaySound(Game.Instance.SoundBank["DudBrick"]);
                         }
                         Position.Y = intersection.Bottom;
                         velocity = Math.Abs(velocity);
@@ -336,7 +352,7 @@ namespace MarioWorld1_1 {
                 //shoot projectiles
                 if (CurrentState == State.Fire && i.KeyPressed(OpenTK.Input.Key.Space)) {
                     //play projectile sound
-                    SoundManager.Instance.PlaySound(Game.Instance.ProjectileSound);
+                    SoundManager.Instance.PlaySound(Game.Instance.SoundBank["Projectile"]);
 
                     if (Projectiles == null) {
                         Projectiles = new List<Bullet>();

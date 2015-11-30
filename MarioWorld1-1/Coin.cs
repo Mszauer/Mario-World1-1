@@ -20,7 +20,7 @@ namespace MarioWorld1_1 {
         }
         public Coin Spawn(string spriteSheet) {
             //Play coin sound
-            SoundManager.Instance.PlaySound(Game.Instance.CoinSound);
+            SoundManager.Instance.PlaySound(Game.Instance.SoundBank["Coin"]);
             return new Coin(spriteSheet);
         }
         public override void Update(float dTime) { //same as animate function

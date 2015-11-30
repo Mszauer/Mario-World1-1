@@ -256,7 +256,7 @@ namespace MarioWorld1_1 {
                 //lose a life
                 hero.Lifes -= 1;
                 //play death sound
-                s.PlaySound(Game.Instance.HeroDeathSound);
+                s.PlaySound(Game.Instance.SoundBank["HeroDeath"]);
                 //start over
                 Game.Instance.CurrentState = Game.State.Start;
             }
@@ -347,7 +347,7 @@ namespace MarioWorld1_1 {
                         enemies.RemoveAt(k);
                     }
                     //Play enemy death sound
-                    s.PlaySound(Game.Instance.StompSound);
+                    s.PlaySound(Game.Instance.SoundBank["Stomp"]);
                     //add score
                     Score += 100;
                 }
@@ -377,10 +377,17 @@ namespace MarioWorld1_1 {
                     Console.WriteLine("Collision with enemy!");
                     //subtract lifes
                     hero.Lifes -= 1;
-                    //make mario small or do below
-                    //play death sound
-                    s.PlaySound(Game.Instance.HeroDeathSound);
-                    Game.Instance.CurrentState = Game.State.Dying;
+                    //make mario small
+                    if (hero.Large) {
+                        hero.Large = false;
+                        hero.SetSprite("Stand");
+                    }
+                    else {
+                        //play death sound
+                        s.PlaySound(Game.Instance.SoundBank["HeroDeath"]);
+                        //do death stuff
+                        Game.Instance.CurrentState = Game.State.Dying;
+                    }
                 }
                 //enemy off map, X axis
                 if (enemies[k].Position.X / Game.TILE_SIZE < 0 || enemies[k].Position.X / Game.TILE_SIZE > tileMap[(int)enemies[k].Position.Y / Game.TILE_SIZE].Length) {
@@ -410,7 +417,7 @@ namespace MarioWorld1_1 {
                     if (items[i] is GrowMushroom) {
                         if (!hero.Large) {
                             //play grow sound
-                            s.PlaySound(Game.Instance.GrowSound);
+                            s.PlaySound(Game.Instance.SoundBank["Grow"]);
                             hero.ChangeForm("Large");
                             hero.CurrentSprite = "LargeStand";
                             hero.Position.Y -= Game.TILE_SIZE;
@@ -442,7 +449,7 @@ namespace MarioWorld1_1 {
                     else if (items[i] is OneUp) {
                         hero.Lifes += 1;
                         //play sound
-                        s.PlaySound(Game.Instance.OneUpSound);
+                        s.PlaySound(Game.Instance.SoundBank["OneUp"]);
 #if DEBUG
                         Console.WriteLine("Added extra life: " + hero.Lifes);
 #endif
