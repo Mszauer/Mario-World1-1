@@ -211,7 +211,7 @@ namespace MarioWorld1_1 {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
                     if (intersection.Width * intersection.Height > 0) {
                         //break tile
-                        if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable) {
+                        if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable && Large) {
                             Console.WriteLine("Tile broken!");
                             //what item will spawn?
                             if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) {
@@ -236,7 +236,7 @@ namespace MarioWorld1_1 {
                                 SoundManager.Instance.PlaySound(Game.Instance.SoundBank["BreakBlock"]);
                             }
                             Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
-                        }
+                        }//end break if
                         else {
                             //play dud brick sound
                             SoundManager.Instance.PlaySound(Game.Instance.SoundBank["DudBrick"]);
@@ -249,7 +249,7 @@ namespace MarioWorld1_1 {
                 if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
                     if (intersection.Width * intersection.Height > 0) {
-                        if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable) {
+                        if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable && Large) {
                             Console.WriteLine("Tile broken!");
                             //what item will spawn?
 #if DEBUG
