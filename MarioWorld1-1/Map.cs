@@ -297,6 +297,15 @@ namespace MarioWorld1_1 {
                                     enemies[g].Position.X = collision.Right;
                                 }
                             }
+                            //collision with moving enemy shell
+                            else if (enemies[g] is Goomba && enemies[k].CurrentState == EnemyCharacter.State.Dead2) {
+                                Rectangle collision = Intersections.Rect(enemies[k].Rect, enemies[g].Rect);
+                                //collision detected?
+                                if (collision.Height*collision.Width > 0) {
+                                    enemies[g].Die(dTime);
+                                    enemies.RemoveAt(g);
+                                }
+                            }
                         }
                     }
                 }
@@ -351,6 +360,7 @@ namespace MarioWorld1_1 {
                     //add score
                     Score += 100;
                 }
+
                 //killed by hero that is invincible
                 else if (intersection.Height * intersection.Width > 0 && hero.CurrentState == PlayerCharacter.State.Invincible) {
                     //koopa logic
