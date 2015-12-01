@@ -1,4 +1,8 @@
-﻿using System;
+﻿//#define LOADMAPDEBUG
+#define POSITIONDEBUG
+//#define KOOPADEBUG
+//#define ITEMDEBUG
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -61,7 +65,7 @@ namespace MarioWorld1_1 {
                         if (content[0] == "T") {
                             string path = content[1];
                             tileSheet = path;
-#if DEBUG
+#if LOADMAPDEBUG
                             Console.WriteLine("Texture Path: " + tileSheet);
 #endif
                         }
@@ -71,7 +75,7 @@ namespace MarioWorld1_1 {
                             Rectangle r = new Rectangle(System.Convert.ToInt32(content[2]), System.Convert.ToInt32(content[3]), System.Convert.ToInt32(content[4]), System.Convert.ToInt32(content[5]));
                             //adds rect index and source rect to dictionary
                             spriteSources.Add(System.Convert.ToInt32(content[1]), r);
-#if DEBUG
+#if LOADMAPDEBUG
                             Console.WriteLine("Rectangle Added: " + r);
 #endif
                         }
@@ -79,7 +83,7 @@ namespace MarioWorld1_1 {
                         else if (content[0] == "U") {
                             for (int i = 1; i < content.Length; i++) {
                                 unwalkableTiles.Add(System.Convert.ToInt32(content[i]));
-#if DEBUG
+#if LOADMAPDEBUG
                                 Console.WriteLine("Unwalkable Tiles: " + content[i]);
 #endif
                             }
@@ -92,7 +96,7 @@ namespace MarioWorld1_1 {
                             nextRoom.Add(content[2], new Point(System.Convert.ToInt32(content[3]), System.Convert.ToInt32(content[4])));
                             //door spawn destination
                             nextMap.Add(System.Convert.ToInt32(content[1]), content[2]);
-#if DEBUG
+#if LOADMAPDEBUG
                             Console.WriteLine("Door tile index: " + content[1]);
                             Console.WriteLine("Next room path: " + content[2]);
                             Console.WriteLine("Door spaw location: " + content[3] + "," + content[4]);
@@ -101,7 +105,7 @@ namespace MarioWorld1_1 {
                         //starting tile
                         else if (content[0] == "S") {
                             SpawnTile = new Point(System.Convert.ToInt32(content[1]), System.Convert.ToInt32(content[2]));
-#if DEBUG
+#if LOADMAPDEBUG
                             Console.WriteLine("Starting tile: " + content[1] + ", " + content[2]);
 #endif
                         }
@@ -125,7 +129,7 @@ namespace MarioWorld1_1 {
                             else if (content[6] == "L") {
                                 enemies[enemies.Count - 1].Direction = -1;
                             }
-#if DEBUG
+#if LOADMAPDEBUG
                             Console.WriteLine("Enemy added, Y Axis Movement: " + upDownMove);
                             Console.WriteLine("Enemy type: " + content[1]);
                             Console.WriteLine("Enemy sprite path: " + content[2]);
@@ -138,7 +142,9 @@ namespace MarioWorld1_1 {
                         }
                         //which tiles are breakable
                         else if (content[0] == "B") {
+#if LOADMAPDEBUG
                             Console.WriteLine("Breakable dict length: " + (content.Length - 1));
+#endif
                             for (int i = 1; i < (content.Length - 1) / 2 + 1; i++) {
                                 breakableTiles.Add(System.Convert.ToInt32(content[i]), System.Convert.ToInt32(content[content.Length - i]));
                                 //Console.WriteLine("Breakable tile: " + System.Convert.ToInt32(content[i]) + " turns into: " + System.Convert.ToInt32(content[content.Length - i]));
@@ -148,7 +154,7 @@ namespace MarioWorld1_1 {
                         //add items to map
                         else if (content[0] == "I") {
                             Item.ItemSheet = content[1];
-#if DEBUG
+#if LOADMAPDEBUG
                             Console.WriteLine("Item sheet: " + content[1]);
 #endif
                         }
@@ -163,7 +169,7 @@ namespace MarioWorld1_1 {
                                 }
                                 mapFormat[mapFormat.Count - 1].Add(System.Convert.ToInt32(content[i]));
                             }
-#if DEBUG
+#if LOADMAPDEBUG
                             Console.WriteLine("Row created");
 #endif
                         }
@@ -239,7 +245,7 @@ namespace MarioWorld1_1 {
                 hero.Position.X = SpawnTile.X * Game.TILE_SIZE;
                 hero.Position.Y = SpawnTile.Y * Game.TILE_SIZE;
 
-#if DEBUG
+#if LOADMAPDEBUG
                 Console.WriteLine("Map has been loaded!");
 #endif
             }
@@ -260,7 +266,7 @@ namespace MarioWorld1_1 {
                 //start over
                 Game.Instance.CurrentState = Game.State.Start;
             }
-#if DEBUG
+#if POSITIONDEBUG
             if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Number1)) {
                 hero.Position.X = 3 * Game.TILE_SIZE;
             }
@@ -320,7 +326,7 @@ namespace MarioWorld1_1 {
                             enemies[k].CurrentState = EnemyCharacter.State.Dead1;
                             //add score
                             Score += 100;
-#if DEBUG
+#if KOOPADEBUG
                             Console.WriteLine("koopa state: " + enemies[k].CurrentState);
                             Console.WriteLine("Post koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
 #endif
@@ -329,7 +335,7 @@ namespace MarioWorld1_1 {
                         else if (enemies[k].CurrentState == EnemyCharacter.State.Dead1) {
                             Console.WriteLine("Pre koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
                             enemies[k].CurrentState = EnemyCharacter.State.Dead2;
-#if DEBUG
+#if KOOPADEBUG
                             Console.WriteLine("koopa state: " + enemies[k].CurrentState);
                             Console.WriteLine("Post koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
 #endif
@@ -341,7 +347,7 @@ namespace MarioWorld1_1 {
                             Console.WriteLine("Pre koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
 
                             enemies[k].CurrentState = EnemyCharacter.State.Dead1;
-#if DEBUG
+#if KOOPADEBUG
                             Console.WriteLine("koopa state: " + enemies[k].CurrentState);
                             Console.WriteLine("Post koopa position: X: " + enemies[k].Position.X + ", Y: " + enemies[k].Position.Y);
 #endif
@@ -349,7 +355,7 @@ namespace MarioWorld1_1 {
                         }
                     }
                     else {
-#if DEBUG
+#if KOOPADEBUG
                         Console.WriteLine("Enemy Removed: " + enemies[k]);
 #endif
                         enemies[k].Die(dTime);
@@ -460,7 +466,7 @@ namespace MarioWorld1_1 {
                         hero.Lifes += 1;
                         //play sound
                         s.PlaySound(Game.Instance.SoundBank["OneUp"]);
-#if DEBUG
+#if ITEMDEBUG
                         Console.WriteLine("Added extra life: " + hero.Lifes);
 #endif
                     }

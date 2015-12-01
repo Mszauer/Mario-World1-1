@@ -17,7 +17,7 @@ namespace MarioWorld1_1 {
         public float Scale { get; set; }
         public bool Breakable { get; set; }
         public int TileValue { get; set; }
-
+        public float YOffset = 0.0f;
         public string Item { get; set; }
 
         public Tile(string spritePath, Rectangle source) {
