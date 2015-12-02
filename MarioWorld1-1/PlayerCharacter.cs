@@ -271,6 +271,15 @@ namespace MarioWorld1_1 {
                                 Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.Y - Game.TILE_SIZE;
                                 Map.items[Map.items.Count - 1].IsSpawned = true;
                             }
+                            else if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable && Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).TileValue == 2) {
+                                //set tile bumpage height
+                                Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).YOffset = 3.75f; //3.75 is arbritrary that fits
+#if TILEDEBUG
+                                Console.WriteLine("Tile Bumped");
+#endif
+                                //play dud brick sound
+                                SoundManager.Instance.PlaySound(Game.Instance.SoundBank["DudBrick"]);
+                            }
                             else {
                                 //block break sound
                                 SoundManager.Instance.PlaySound(Game.Instance.SoundBank["BreakBlock"]);
@@ -280,7 +289,7 @@ namespace MarioWorld1_1 {
                         //mario is small and can't break the brick
                         else if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable && Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).TileValue == 2){
                             //set tile bumpage height
-                            Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).YOffset = 15.0f;
+                            Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).YOffset = 3.75f; //3.75 is arbritrary that fits
 #if TILEDEBUG
                             Console.WriteLine("Tile Bumped");
 #endif

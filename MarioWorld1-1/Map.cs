@@ -257,6 +257,12 @@ namespace MarioWorld1_1 {
             SoundManager s = SoundManager.Instance;
             //do update stuff in here
             Timer += dTime;
+            //tile position update
+            for (int y = 0; y < tileMap.Length; y++) {
+                for (int x = 0; x < tileMap[y].Length; x++) {
+                    tileMap[y][x].Update(dTime);
+                }
+            }
             //hero update/logic
             if ((hero.Position.Y + hero.Rect.Height) / Game.TILE_SIZE > tileMap.Length) {
                 //lose a life

@@ -27,8 +27,16 @@ namespace MarioWorld1_1 {
             Walkable = false;
             WorldPosition = new Point(0, 0);
         }
+        public void Update(float dTime) {
+            if (YOffset > 0) {
+                YOffset -= dTime * 9.0f; //9 is arbritrary that looks good
+                if (YOffset < 0.0f) {
+                    YOffset = 0.0f;
+                }
+            }
+        }
         public void Render(PointF offsetPosition) {
-            Point renderPos = new Point(WorldPosition.X, WorldPosition.Y);
+            Point renderPos = new Point(WorldPosition.X, WorldPosition.Y-(int)YOffset);
             renderPos.X = (int)(Scale * renderPos.X);
             renderPos.Y = (int)(Scale * renderPos.Y);
             renderPos.X -= (int)offsetPosition.X;
