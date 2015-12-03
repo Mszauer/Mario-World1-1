@@ -264,7 +264,7 @@ namespace MarioWorld1_1 {
                 }
             }
             //hero update/logic
-            if ((hero.Position.Y + hero.Rect.Height) / Game.TILE_SIZE > tileMap.Length) {
+            if ((hero.Position.Y + hero.Rect.Height) / Game.TILE_SIZE >= tileMap.Length) {
                 //lose a life
                 hero.Lifes -= 1;
                 //play death sound

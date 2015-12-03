@@ -62,16 +62,14 @@ namespace MarioWorld1_1 {
             AddSprite("InvincibleLargeRun", new Rectangle(30, 105, 16, 32), new Rectangle(300, 105, 16, 32), new Rectangle(565, 105, 16, 32));
             AddSprite("Dead", new Rectangle(49, 6, 16, 16));
             SetSprite("Stand");
+            SetJump(5 * Game.TILE_SIZE, 1.0f);
+
         }
         public void Update(float dTime) {
             bool dead = Game.Instance.CurrentState == Game.State.Dying;
             InputManager i = InputManager.Instance;
-            if (CurrentState == State.Normal && !Large) {
-                SetJump(3.50f * Game.TILE_SIZE, 0.75f);
-            }
-            else {
-                SetJump(5 * Game.TILE_SIZE, 1.0f);
-            }
+            //out of bounds check (Y axis)
+            
             if (!dead) {
                 //move left
                 if (i.KeyDown(OpenTK.Input.Key.Left) || i.KeyDown(OpenTK.Input.Key.A)) {
@@ -98,7 +96,7 @@ namespace MarioWorld1_1 {
                         Animate(dTime);
                     }
                     Position.X -= speed * dTime;
-                    if ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large) {
+                    if (Position.Y > 0 && ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large)) {
                         if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_TOP_LEFT]).TileValue != 35) {
                             Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_LEFT]));
                             if (intersection.Width * intersection.Height > 0) {
@@ -112,13 +110,13 @@ namespace MarioWorld1_1 {
                             }
                         }
                     }
-                    if (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_LEFT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_TOP_LEFT]).TileValue != 35) {
+                    if (Position.Y > 0 && (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_LEFT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_TOP_LEFT]).TileValue != 35)) {
                         Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_TOP_LEFT]));
                         if (intersection.Width * intersection.Height > 0) {
                             Position.X = intersection.Right;
                         }
                     }
-                    if (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
+                    if (Position.Y > 0 && (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_LEFT]).TileValue != 35)) {
                         Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_BOTTOM_LEFT]));
                         if (intersection.Width * intersection.Height > 0) {
                             Position.X = intersection.Right;
@@ -128,6 +126,7 @@ namespace MarioWorld1_1 {
                     if (Position.X < 0) {
                         Position.X = 0;
                     }
+                    
                 }
                 //move right
                 if (i.KeyDown(OpenTK.Input.Key.Right) || i.KeyDown(OpenTK.Input.Key.D)) {
@@ -154,7 +153,7 @@ namespace MarioWorld1_1 {
                         Animate(dTime);
                     }
                     Position.X += speed * dTime;
-                    if ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large) {
+                    if (Position.Y > 0 && ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large)) {
                         if (!Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).Walkable && Game.Instance.GetTile(TopCorners[CORNER_TOP_RIGHT]).TileValue != 35) {
                             Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(TopCorners[CORNER_TOP_RIGHT]));
                             if (intersection.Width * intersection.Height > 0) {
@@ -168,13 +167,13 @@ namespace MarioWorld1_1 {
                             }
                         }
                     }
-                    if (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_RIGHT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_TOP_RIGHT]).TileValue != 35) {
+                    if (Position.Y > 0 && (!Game.Instance.GetTile(BottomCorners[CORNER_TOP_RIGHT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_TOP_RIGHT]).TileValue != 35)) {
                         Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_TOP_RIGHT]));
                         if (intersection.Width * intersection.Height > 0) {
                             Position.X = intersection.Left - Rect.Width;
                         }
                     }
-                    if (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
+                    if (Position.Y > 0 && (!Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(BottomCorners[CORNER_BOTTOM_RIGHT]).TileValue != 35)) {
                         Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(BottomCorners[CORNER_BOTTOM_RIGHT]));
                         if (intersection.Width * intersection.Height > 0) {
                             Position.X = intersection.Left - Rect.Width;
@@ -206,15 +205,19 @@ namespace MarioWorld1_1 {
                 velocity = gravity;
             }
             Position.Y += velocity * dTime;
-            if (!dead) {
+            if (!dead && Position.Y > 0) {
                 //hit tile from below
                 if (!Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Walkable) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
                     if (intersection.Width * intersection.Height > 0) {
                         //break tile
-                        if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable && Large) {
-                            Console.WriteLine("Tile broken!");
+                        if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable && (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null ||Large)) {
                             //what item will spawn?
+#if TILEDEBUG
+                            Console.WriteLine("Tile broken!");
+                            Console.WriteLine("Tile Value: " + Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).TileValue);
+                            Console.WriteLine("Tile contains: " + Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
+#endif
                             if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) {
                                 //item spawn sounds
                                 if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item == "Coin") {
@@ -256,13 +259,14 @@ namespace MarioWorld1_1 {
                     }
                 }
                 //hit tile from below
-                if (!Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
+                if (Position.Y > 0 && !Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Walkable) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_RIGHT]));
                     if (intersection.Width * intersection.Height > 0) {
-                        if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable && Large) {
-                            Console.WriteLine("Tile broken!");
+                        if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable && (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null ||Large)) {
                             //what item will spawn?
-#if DEBUG
+#if TILEDEBUG
+                            Console.WriteLine("Tile broken!");
+                            Console.WriteLine("Tile Value: "+ Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).TileValue);
                             Console.WriteLine("Tile contains: " + Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
 #endif
                             if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
@@ -305,7 +309,7 @@ namespace MarioWorld1_1 {
                     }
                 }
                 //keep on the tiles
-                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).TileValue != 35) {
+                if (Position.Y > 0 && (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_LEFT]).TileValue != 35)) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_LEFT]));
                     if (intersection.Width * intersection.Height > 0) {
                         Position.Y = intersection.Top - Rect.Height;
@@ -333,7 +337,7 @@ namespace MarioWorld1_1 {
                         isJumping = false;
                     }
                 }
-                if (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).TileValue != 35) {
+                if (Position.Y > 0 && (!Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).Walkable && Game.Instance.GetTile(Corners[CORNER_BOTTOM_RIGHT]).TileValue != 35)) {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_BOTTOM_RIGHT]));
                     if (intersection.Width * intersection.Height > 0) {
                         Position.Y = intersection.Top - Rect.Height;
