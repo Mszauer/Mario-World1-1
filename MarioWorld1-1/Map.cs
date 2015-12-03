@@ -1,6 +1,6 @@
 ﻿//#define LOADMAPDEBUG
 #define POSITIONDEBUG
-#define HEROPOSITIONDEBUG
+//#define HEROPOSITIONDEBUG
 //#define KOOPADEBUG
 //#define ITEMDEBUG
 using System;
@@ -402,12 +402,12 @@ namespace MarioWorld1_1 {
                     Score += 100;
                 }
                 //hero killed by enemy
-                else if (intersection.Height * intersection.Width > 0) {
+                else if ((intersection.Height * intersection.Width > 0) && hero.InvincibilityTimer == 0.0f) {
                     Console.WriteLine("Collision with enemy!");
                     //subtract lifes
-                    hero.Lifes -= 1;
                     //make mario small
                     if (hero.Large) {
+                        hero.InvincibilityTimer += 2.5f;
                         hero.Large = false;
                         hero.SetSprite("Stand");
                     }
@@ -415,6 +415,7 @@ namespace MarioWorld1_1 {
                         //play death sound
                         s.PlaySound(Game.Instance.SoundBank["HeroDeath"]);
                         //do death stuff
+                        hero.Lifes -= 1;
                         Game.Instance.CurrentState = Game.State.Dying;
                     }
                 }
@@ -567,7 +568,7 @@ namespace MarioWorld1_1 {
             int minX = (int)cameraCenter.X - 16 * Game.TILE_SIZE-Game.TILE_SIZE;
             int maxX = (int)cameraCenter.X + 16 * Game.TILE_SIZE+Game.TILE_SIZE;
             int minY = (int)cameraCenter.Y - 9 * Game.TILE_SIZE - Game.TILE_SIZE;
-            int maxY = (int)cameraCenter.Y + 13 * Game.TILE_SIZE + Game.TILE_SIZE;
+            int maxY = (int)cameraCenter.Y + 15 * Game.TILE_SIZE + Game.TILE_SIZE;
             minX /= Game.TILE_SIZE;
             maxX /= Game.TILE_SIZE;
             minY /= Game.TILE_SIZE;

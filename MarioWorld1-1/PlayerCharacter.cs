@@ -20,7 +20,8 @@ namespace MarioWorld1_1 {
         private bool isJumping = false;
         public bool Large = false;
         public bool Invincible = false;
-        protected float deathTimer = 0;
+        protected float deathTimer = 0.0f;
+        public float InvincibilityTimer = 0.0f;
         public PointF[] BottomCorners {
             get {
                 PointF[] allCorners = Corners;
@@ -68,8 +69,13 @@ namespace MarioWorld1_1 {
         public void Update(float dTime) {
             bool dead = Game.Instance.CurrentState == Game.State.Dying;
             InputManager i = InputManager.Instance;
-            //out of bounds check (Y axis)
-            
+            //death invincibility
+            if (InvincibilityTimer > 0.0f) {
+                InvincibilityTimer -= dTime;
+                if (InvincibilityTimer < 0.0f) {
+                    InvincibilityTimer = 0.0f;
+                }
+            }
             if (!dead) {
                 //move left
                 if (i.KeyDown(OpenTK.Input.Key.Left) || i.KeyDown(OpenTK.Input.Key.A)) {
