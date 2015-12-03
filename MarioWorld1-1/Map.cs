@@ -1,5 +1,6 @@
 ﻿//#define LOADMAPDEBUG
 #define POSITIONDEBUG
+#define HEROPOSITIONDEBUG
 //#define KOOPADEBUG
 //#define ITEMDEBUG
 using System;
@@ -263,8 +264,11 @@ namespace MarioWorld1_1 {
                     tileMap[y][x].Update(dTime);
                 }
             }
+#if HEROPOSITIONDEBUG
+            Console.WriteLine("Map updated");
+#endif
             //hero update/logic
-            if ((hero.Position.Y + hero.Rect.Height) / Game.TILE_SIZE >= tileMap.Length) {
+            if ((hero.Position.Y + hero.Rect.Height) / Game.TILE_SIZE > tileMap.Length-1) {
                 //lose a life
                 hero.Lifes -= 1;
                 //play death sound
@@ -272,6 +276,9 @@ namespace MarioWorld1_1 {
                 //start over
                 Game.Instance.CurrentState = Game.State.Start;
             }
+#if HEROPOSITIONDEBUG
+            Console.WriteLine("Hero bounds check completed");
+#endif
 #if POSITIONDEBUG
             if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Number1)) {
                 hero.Position.X = 3 * Game.TILE_SIZE;
