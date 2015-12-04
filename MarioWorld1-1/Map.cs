@@ -237,6 +237,9 @@ namespace MarioWorld1_1 {
                         }
                         else if (tileMap[i][j].TileValue == 37) {
                             tileMap[i][j].Item = "FireFlower";
+                        }
+                        else if (tileMap[i][j].TileValue == 3) {
+                            tileMap[i][j].Item = "Coin";
                         }/*
                         
                         */
@@ -407,7 +410,7 @@ namespace MarioWorld1_1 {
                     //subtract lifes
                     //make mario small
                     if (hero.Large) {
-                        hero.InvincibilityTimer += 2.5f;
+                        hero.InvincibilityTimer += 3.0f;
                         hero.Large = false;
                         hero.SetSprite("Stand");
                     }
