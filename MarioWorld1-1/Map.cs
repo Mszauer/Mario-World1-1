@@ -374,8 +374,11 @@ namespace MarioWorld1_1 {
 #if KOOPADEBUG
                         Console.WriteLine("Enemy Removed: " + enemies[k]);
 #endif
-                        enemies[k].Die(dTime);
-                        enemies.RemoveAt(k);
+                        enemies[k].SetSprite("Dead");
+                        enemies[k].CurrentState = EnemyCharacter.State.Dead;
+                        if (enemies[k].Die(dTime)){
+                            enemies.RemoveAt(k);
+                        }
                     }
                     //Play enemy death sound
                     s.PlaySound(Game.Instance.SoundBank["Stomp"]);

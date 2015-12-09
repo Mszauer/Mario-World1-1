@@ -102,14 +102,15 @@ namespace MarioWorld1_1 {
             }//end alive
 
         }
-        public void Die(float dTime) {
-            SetSprite("Dead");
+        public bool Die(float dTime) {
             //jump
             deathTimer += dTime;
             if (deathTimer > 1.25f) {
                 deathTimer -= 1.25f;
                 Destroy();
+                return true;
             }
+            return false;
         }
     }
 }
