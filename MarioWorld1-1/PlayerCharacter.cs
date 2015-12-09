@@ -272,12 +272,12 @@ namespace MarioWorld1_1 {
                             //what item will spawn?
 #if TILEDEBUG
                             Console.WriteLine("Tile broken!");
-                            Console.WriteLine("Tile Value: "+ Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).TileValue);
+                            Console.WriteLine("Tile Value: "+ Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).TileValue);
                             Console.WriteLine("Tile contains: " + Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
 #endif
                             if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null) {
                                 //item spawn sounds
-                                if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item == "Coin") {
+                                if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item == "Coin") {
                                     SoundManager.Instance.PlaySound(Game.Instance.SoundBank["Coin"]);
                                 }
                                 else {
