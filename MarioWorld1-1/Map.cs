@@ -36,6 +36,7 @@ namespace MarioWorld1_1 {
         protected Dictionary<int, int> breakableTiles = null;
         protected List<int> unwalkableTiles = null;
         protected List<EnemyCharacter> enemies = null;
+        protected Dictionary<string,Rectangle> blockBreak = null;
         public static List<Item> items = null;
         public float Timer = 0;
         public int Score = 0;
@@ -247,7 +248,7 @@ namespace MarioWorld1_1 {
                 }
                 //set hero position
                 hero.Position.X = SpawnTile.X * Game.TILE_SIZE;
-                hero.Position.Y = SpawnTile.Y * Game.TILE_SIZE;
+                hero.Position.Y = SpawnTile.Y * Game.TILE_SIZE;                
 
 #if LOADMAPDEBUG
                 Console.WriteLine("Map has been loaded!");
@@ -628,15 +629,20 @@ namespace MarioWorld1_1 {
             int yPos = ((int)location.Y / Game.TILE_SIZE) * Game.TILE_SIZE;
             //new value holds the tile value of what it turns into
             int oldValue = tileMap[yTile][xTile].TileValue;
+#if TILEDEBUG
             Console.WriteLine("Tile old value: " + oldValue);
+#endif
             tileMap[yTile][xTile].Destroy();
 
             tileMap[yTile][xTile] = new Tile(tileSheet, spriteSources[breakableTiles[oldValue]]);
+#if TILEDEBUG
             Console.WriteLine("Source rect: " + spriteSources[breakableTiles[oldValue]]);
-
+#endif
             tileMap[yTile][xTile].TileValue = breakableTiles[oldValue];
             mapFormat[yTile][xTile] = tileMap[yTile][xTile].TileValue;
+#if TILEDEBUG
             Console.WriteLine("Tile new value: " + tileMap[yTile][xTile].TileValue);
+#endif
             tileMap[yTile][xTile].Walkable = true;
             foreach (int w in unwalkableTiles) {
                 if (mapFormat[yTile][xTile] == w) {
@@ -648,9 +654,11 @@ namespace MarioWorld1_1 {
                 tileMap[yTile][xTile].Breakable = breakableTiles.ContainsKey(b);
 
             }
+#if TILEDEBUG
             Console.WriteLine("Tile Location PreAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
             tileMap[yTile][xTile].WorldPosition = new Point(xPos, yPos);
             Console.WriteLine("Tile Location PostAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
+#endif
             tileMap[yTile][xTile].Scale = 1.0f;
             //add score
             Score += 50;

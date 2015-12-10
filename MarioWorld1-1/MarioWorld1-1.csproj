@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BreakEffect.cs" />
     <Compile Include="Bullet.cs" />
     <Compile Include="Character.cs" />
     <Compile Include="Coin.cs" />

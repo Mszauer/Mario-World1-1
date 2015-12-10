@@ -22,6 +22,7 @@ namespace MarioWorld1_1 {
         public bool Invincible = false;
         protected float deathTimer = 0.0f;
         public float InvincibilityTimer = 0.0f;
+        BreakEffect breakFX = null;
         public PointF[] BottomCorners {
             get {
                 PointF[] allCorners = Corners;
@@ -244,8 +245,12 @@ namespace MarioWorld1_1 {
                             else {
                                 //block break sound
                                 SoundManager.Instance.PlaySound(Game.Instance.SoundBank["BreakBlock"]);
+                                //break block effect
+                                breakFX = new BreakEffect("Assets/brickexplode.jpg", Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition);
+                                breakFX.Animate(dTime);
                             }
                             Game.currentMap.ChangeTile(Corners[CORNER_TOP_LEFT]);
+                            //create broken brick effect
                         }//end break if
                         else if (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Breakable && Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).TileValue == 2) {
                             //set tile bumpage height
@@ -294,6 +299,9 @@ namespace MarioWorld1_1 {
                             else {
                                 //block break sound
                                 SoundManager.Instance.PlaySound(Game.Instance.SoundBank["BreakBlock"]);
+                                //break block effect
+                                breakFX = new BreakEffect("Assets/brickexplode.jpg", Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition);
+                                breakFX.Animate(dTime);
                             }
                             Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
                         }
@@ -478,6 +486,9 @@ namespace MarioWorld1_1 {
             }
         }
         public override void Render(PointF offsetPosition) {
+            if (breakFX != null) {
+                breakFX.Render();
+            }
             if (CurrentState == State.Normal) {
                 base.Render(offsetPosition);
             }
