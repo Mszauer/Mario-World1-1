@@ -217,14 +217,14 @@ namespace MarioWorld1_1 {
                     Rectangle intersection = Intersections.Rect(Rect, Game.Instance.GetTileRect(Corners[CORNER_TOP_LEFT]));
                     if (intersection.Width * intersection.Height > 0) {
                         //break tile
-                        if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable && (Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item != null ||Large)) {
+                        if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Breakable && (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null ||Large)) {
                             //what item will spawn?
 #if TILEDEBUG
                             Console.WriteLine("Tile broken!");
                             Console.WriteLine("Tile Value: " + Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).TileValue);
-                            Console.WriteLine("Tile contains: " + Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
+                            Console.WriteLine("Tile contains: " + Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item);
 #endif
-                            if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) {
+                            if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item != null) { 
                                 //item spawn sounds
                                 if (Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item == "Coin") {
                                     SoundManager.Instance.PlaySound(Game.Instance.SoundBank["Coin"]);
