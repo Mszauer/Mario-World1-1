@@ -487,7 +487,7 @@ namespace MarioWorld1_1 {
         }
         public override void Render(PointF offsetPosition) {
             if (breakFX != null) {
-                breakFX.Render();
+                breakFX.Render(offsetPosition);
             }
             if (CurrentState == State.Normal) {
                 base.Render(offsetPosition);

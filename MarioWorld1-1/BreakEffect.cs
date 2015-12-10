@@ -23,18 +23,19 @@ namespace MarioWorld1_1 {
             }
             spriteSources.Add(source);
         }
-        public bool Animate(float dTime) {
+        public void Animate(float dTime) {
             currentFrame += 1;
             if (currentFrame > spriteSources.Count - 1) {
                 Destroy();
                 currentFrame = 0;
-                return true;
+                //return true;
             }
-            return false;
+            //return false;
         }
-        public void Render() {
+        public void Render(PointF offsetPosition) {
             Point renderPos = new Point(Position.X, Position.Y);
             renderPos.X -= Game.TILE_SIZE;
+            renderPos.X -= (int)offsetPosition.X;
             TextureManager.Instance.Draw(sprite, renderPos);
         }
         protected void Destroy() {
