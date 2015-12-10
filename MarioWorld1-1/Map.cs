@@ -656,7 +656,9 @@ namespace MarioWorld1_1 {
             }
 #if TILEDEBUG
             Console.WriteLine("Tile Location PreAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
+#endif
             tileMap[yTile][xTile].WorldPosition = new Point(xPos, yPos);
+#if TILEDEBUG
             Console.WriteLine("Tile Location PostAdjustment, X: " + tileMap[yTile][xTile].WorldPosition.X + " , Y: " + tileMap[yTile][xTile].WorldPosition.Y);
 #endif
             tileMap[yTile][xTile].Scale = 1.0f;

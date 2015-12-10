@@ -36,7 +36,7 @@ namespace MarioWorld1_1 {
             Point renderPos = new Point(Position.X, Position.Y);
             renderPos.X -= Game.TILE_SIZE;
             renderPos.X -= (int)offsetPosition.X;
-            TextureManager.Instance.Draw(sprite, renderPos);
+            TextureManager.Instance.Draw(sprite, renderPos,1.0f,spriteSources[0][currentFrame]);
         }
         protected void Destroy() {
             TextureManager.Instance.UnloadTexture(sprite);
