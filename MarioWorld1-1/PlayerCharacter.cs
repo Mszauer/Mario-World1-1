@@ -299,7 +299,7 @@ namespace MarioWorld1_1 {
                                 //block break sound
                                 SoundManager.Instance.PlaySound(Game.Instance.SoundBank["BreakBlock"]);
                                 //break block effect
-                                Game.currentMap.breakFX.Add(new BreakEffect("Assets/breakexplode.jpg", Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition));
+                                Game.currentMap.breakFX.Add(new BreakEffect("Assets/brickexplode.jpg", Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition));
                             }
                             Game.currentMap.ChangeTile(Corners[CORNER_TOP_RIGHT]);
                         }

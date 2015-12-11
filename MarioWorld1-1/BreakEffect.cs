@@ -12,10 +12,13 @@ namespace MarioWorld1_1 {
         protected List<Rectangle> frames = null;
         protected int currentFrame = 0;
         public Point Position = new Point(0, 0);
+        float frameTimer = 0.0f;
+        float frameSpeed = 0.0f;
         public BreakEffect(string spritePath,Point position) {
             sprite = TextureManager.Instance.LoadTexture(spritePath);
-            AddSprite(new Rectangle(0, 0, 48, 48), new Rectangle(48, 0, 48, 48), new Rectangle(144, 0, 48, 48), new Rectangle(0, 48, 48, 48),new Rectangle(48,48,48,48));
+            AddSprite(new Rectangle(0, 0, 48, 48), new Rectangle(48, 0, 48, 48), new Rectangle(96, 0, 48, 48), new Rectangle(0, 48, 48, 48),new Rectangle(48,48,48,48));
             Position = position;
+            frameSpeed = 1.0f / 30.0f;
         }
         protected void AddSprite(params Rectangle[] source) {
             if (frames == null) {
@@ -24,14 +27,18 @@ namespace MarioWorld1_1 {
             frames.AddRange(source);
         }
         public bool Animate(float dTime) {
-            currentFrame += 1;
 #if BREAKDEBUG
             Console.WriteLine("Current frame: " + currentFrame);
 #endif
-            if (currentFrame > frames.Count - 1) {
-                Destroy();
-                currentFrame = 0;
-                return true;
+            frameTimer += dTime;
+            if (frameTimer > frameSpeed) {
+                currentFrame += 1;
+                frameTimer = 0.0f;
+                if (currentFrame > frames.Count - 1) {
+                    Destroy();
+                    currentFrame = 0;
+                    return true;
+                }
             }
             return false;
         }
