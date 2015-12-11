@@ -282,14 +282,15 @@ namespace MarioWorld1_1 {
                 //start over
                 Game.Instance.CurrentState = Game.State.Start;
             }
-            //if Get tile, if flagpole tile using corners of hero switch state to win
-            //if current tile is a flagpole tile
-            if (Game.Instance.GetTile(hero.BottomCorners[Character.CORNER_TOP_RIGHT]).TileValue  == 28 || Game.Instance.GetTile(hero.BottomCorners[Character.CORNER_TOP_RIGHT]).TileValue == 12) {
-                Game.Instance.CurrentState = Game.State.Win;
-            }
-            //30 == door tile
-            if (Game.Instance.GetTile(hero.BottomCorners[Character.CORNER_TOP_RIGHT]).TileValue == 30) {
-                Game.Instance.CurrentState = Game.State.Won;
+            if (hero.Position.Y > 0 && hero.Position.Y/Game.TILE_SIZE < 13) {
+                //if current tile is a flagpole tile
+                if (Game.Instance.GetTile(hero.BottomCorners[Character.CORNER_TOP_RIGHT]).TileValue == 28 || Game.Instance.GetTile(hero.BottomCorners[Character.CORNER_TOP_RIGHT]).TileValue == 12) {
+                    Game.Instance.CurrentState = Game.State.Win;
+                }
+                //30 == door tile
+                if (Game.Instance.GetTile(hero.BottomCorners[Character.CORNER_TOP_RIGHT]).TileValue == 30) {
+                    Game.Instance.CurrentState = Game.State.Won;
+                }
             }
 #if HEROPOSITIONDEBUG
             Console.WriteLine("Hero bounds check completed");
@@ -413,8 +414,10 @@ namespace MarioWorld1_1 {
                     }
                     //all other enemies
                     else {
-                        enemies[k].Die(dTime);
-                        enemies.RemoveAt(k);
+                        enemies[k].CurrentState = EnemyCharacter.State.Dead;
+                        if (enemies[k].Die(dTime)) {
+                            enemies.RemoveAt(k);
+                        }
                     }
                     //add score
                     Score += 100;

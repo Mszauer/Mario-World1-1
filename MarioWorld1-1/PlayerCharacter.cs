@@ -22,7 +22,8 @@ namespace MarioWorld1_1 {
         public bool Large = false;
         public bool Invincible = false;
         protected float deathTimer = 0.0f;
-        public float InvincibilityTimer = 0.0f;
+        public float InvincibilityTimer = 0.0f; // used when mario bumps into enemy
+        protected float invincibilityTime = 0.0f; //used for invincibility
         BreakEffect breakFX = null;
         bool xMovement = false;
         public PointF[] BottomCorners {
@@ -105,7 +106,6 @@ namespace MarioWorld1_1 {
                         else if (CurrentState == State.Invincible) {
                             SetSprite("InvincibleRun");
                         }
-                        Animate(dTime);
                     }
                     Position.X -= speed * dTime;
                     if (Position.Y > 0 && ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large)) {
@@ -162,7 +162,6 @@ namespace MarioWorld1_1 {
                         else if (CurrentState == State.Invincible) {
                             SetSprite("InvincibleRun");
                         }
-                        Animate(dTime);
                     }
                     Position.X += speed * dTime;
                     if (Position.Y > 0 && ((CurrentState == State.Normal || CurrentState == State.Invincible) && Large)) {
@@ -207,7 +206,6 @@ namespace MarioWorld1_1 {
                     else if (Large && CurrentState == State.Invincible) {
                         SetSprite("InvincibleLargeCrouch");
                     }
-                    Animate(dTime);
                 }
                 else {
                     if (Large && CurrentState == State.Normal) {
@@ -228,7 +226,6 @@ namespace MarioWorld1_1 {
                     else if (CurrentState == State.Invincible) {
                         SetSprite("InvincibleStand");
                     }
-                    Animate(dTime);
                 }
                 //jump!
                 if (!isJumping) {
@@ -242,9 +239,6 @@ namespace MarioWorld1_1 {
                     }
                 }
                 
-            }
-            if (velocity != gravity) {
-                //animate(dtime);
             }
             velocity += gravity * dTime;
             if (velocity > gravity) {
@@ -454,6 +448,16 @@ namespace MarioWorld1_1 {
 
                     }
                 }
+                //invicibility timer
+                if (CurrentState == State.Invincible) {
+                    invincibilityTime += dTime;
+                    if (invincibilityTime > 15.0f) {
+                        invincibilityTime -= 15.0f;
+                        CurrentState = State.Normal;
+                    }
+                }
+                Animate(dTime);
+
             }//end !dead
         }//end update
         protected void SetJump(float height,float duration) {
@@ -502,6 +506,7 @@ namespace MarioWorld1_1 {
                         SetSprite("Stand");
                     }
                 }
+                Animate(dTime);
             }
             if (xMovement && Game.Instance.GetTile(BottomCorners[Character.CORNER_TOP_LEFT]).TileValue != 30) {
                 if (CurrentSprite != "Run" || CurrentSprite != "LargeRun" || CurrentSprite != "LargeFireRun" || CurrentSprite != "FireRun" || CurrentSprite != "InvincibleRun" || CurrentSprite != "InvincibleLargeRun") {

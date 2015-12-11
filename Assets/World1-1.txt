@@ -22,7 +22,6 @@ U 1 10 11 26 27 2 3 0 33 34 35 36 37
 B 2 3 33 34 35 37 36 7 0 0 7 0 0 7
 // Enemies
 E G Assets/NPC.png X 8 10 R
-E K Assets/NPC.png X 20 10 L
 E G Assets/NPC.png X 33 10 L
 E G Assets/NPC.png X 51 10 L
 E G Assets/NPC.png X 53 10 L

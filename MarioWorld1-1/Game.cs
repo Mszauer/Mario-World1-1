@@ -74,6 +74,7 @@ namespace MarioWorld1_1 {
             SoundBank.Add("Background", SoundManager.Instance.LoadMp3("Assets/background.mp3"));
             SoundBank.Add("DudBrick", SoundManager.Instance.LoadWav("Assets/dudbrick.wav"));
             SoundBank.Add("CourseClear", SoundManager.Instance.LoadWav("Assets/CourseClear.wav"));
+            SoundBank.Add("Invincible", SoundManager.Instance.LoadMp3("Assets/invincible.mp3"));
     }
         public void Update(float dt) {
             //currentMap = currentMap.ResolveDoors(hero);
@@ -85,11 +86,24 @@ namespace MarioWorld1_1 {
                 }
             }
             else if (CurrentState == State.Play) {
-                if (!SoundManager.Instance.IsPlaying(SoundBank["Background"])) {
-                    SoundManager.Instance.PlaySound(SoundBank["Background"]);
-                }
                 currentMap.Update(dt, hero);
                 hero.Update(1 / 30.0f);
+                if (hero.CurrentState == PlayerCharacter.State.Invincible) {
+                    if (SoundManager.Instance.IsPlaying(SoundBank["Background"])) {
+                        SoundManager.Instance.StopSound(SoundBank["Background"]);
+                    }
+                    if (!SoundManager.Instance.IsPlaying(SoundBank["Invincible"])) {
+                        SoundManager.Instance.PlaySound(SoundBank["Invincible"]);
+                    }
+                }
+                else {
+                    if (SoundManager.Instance.IsPlaying(SoundBank["Invincible"])) {
+                        SoundManager.Instance.StopSound(SoundBank["Invincible"]);
+                    }
+                    if (!SoundManager.Instance.IsPlaying(SoundBank["Background"])) {
+                        SoundManager.Instance.PlaySound(SoundBank["Background"]);
+                    }
+                }
             }
             else if (CurrentState == State.Dying) {
                 SoundManager.Instance.StopSound(SoundBank["Background"]);
