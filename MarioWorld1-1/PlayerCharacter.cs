@@ -55,15 +55,18 @@ namespace MarioWorld1_1 {
             AddSprite("LargeStand", new Rectangle(10, 65, 16, 32));
             AddSprite("LargeRun",new Rectangle(30,105,16,32),new Rectangle(50,105,16,32),new Rectangle(70,105,16,32));
             AddSprite("LargeJump", new Rectangle(30, 65, 16, 32));
+            AddSprite("LargeCrouch", new Rectangle(53, 67, 16, 32));
             AddSprite("LargeFireStand", new Rectangle(258, 67, 16, 32));
             AddSprite("LargeFireRun", new Rectangle(300,105,16,32),new Rectangle(280,105,16,32),new Rectangle(320,105,16,32));
             AddSprite("LargeFireJump", new Rectangle(279, 67, 16, 32));
+            AddSprite("LargeFireCrouch", new Rectangle(300, 65, 16, 32));
             AddSprite("InvincibleStand", new Rectangle(12, 6, 16, 16), new Rectangle(260, 5, 16, 16), new Rectangle(502, 6, 16, 16));
             AddSprite("InvincibleLargeStand", new Rectangle(10, 65, 16, 32), new Rectangle(258, 67, 16, 32), new Rectangle(500, 65, 16, 32));
             AddSprite("InvincibleJump", new Rectangle(29, 6, 16, 16), new Rectangle(277, 5, 16, 16), new Rectangle(520, 5, 16, 16));
             AddSprite("InvincibleLargeJump", new Rectangle(30, 65, 16, 32), new Rectangle(279, 67, 16, 32), new Rectangle(523, 67, 16, 32));
             AddSprite("InvincibleRun", new Rectangle(30, 26, 16, 16), new Rectangle(313, 25, 16, 16), new Rectangle(558, 25, 16, 16));
             AddSprite("InvincibleLargeRun", new Rectangle(30, 105, 16, 32), new Rectangle(300, 105, 16, 32), new Rectangle(565, 105, 16, 32));
+            AddSprite("InvincibleLargeCrouch", new Rectangle(300, 65, 16, 32), new Rectangle(300, 65, 16, 32), new Rectangle(545, 65, 16, 32));
             AddSprite("Dead", new Rectangle(49, 6, 16, 16));
             SetSprite("Stand");
             SetJump(5 * Game.TILE_SIZE, 1.0f);
@@ -138,7 +141,7 @@ namespace MarioWorld1_1 {
                     
                 }
                 //move right
-                if (i.KeyDown(OpenTK.Input.Key.Right) || i.KeyDown(OpenTK.Input.Key.D)) {
+                else if (i.KeyDown(OpenTK.Input.Key.Right) || i.KeyDown(OpenTK.Input.Key.D)) {
                     if (velocity == gravity) {
                         faceLeft = false;
                         if (CurrentState == State.Normal && Large) {
@@ -193,6 +196,40 @@ namespace MarioWorld1_1 {
                         Position.X = 206f * Game.TILE_SIZE;
                     }
                 }
+                //Courch when large
+                else if (i.KeyDown(OpenTK.Input.Key.Down) || i.KeyDown(OpenTK.Input.Key.S)) {
+                    if (Large && CurrentState == State.Normal) {
+                        SetSprite("LargeCrouch");
+                    }
+                    else if (Large && CurrentState == State.Fire) {
+                        SetSprite("LargeFireCrouch");
+                    }
+                    else if (Large && CurrentState == State.Invincible) {
+                        SetSprite("InvincibleLargeCrouch");
+                    }
+                    Animate(dTime);
+                }
+                else {
+                    if (Large && CurrentState == State.Normal) {
+                        SetSprite("LargeStand");
+                    }
+                    else if (Large && CurrentState == State.Fire) {
+                        SetSprite("LargeFireStand");
+                    }
+                    else if (Large && CurrentState == State.Invincible) {
+                        SetSprite("InvincibleLargeStand");
+                    }
+                    else if (CurrentState == State.Normal) {
+                        SetSprite("Stand");
+                    }
+                    else if (CurrentState == State.Fire) {
+                        SetSprite("FireStand");
+                    }
+                    else if (CurrentState == State.Invincible) {
+                        SetSprite("InvincibleStand");
+                    }
+                    Animate(dTime);
+                }
                 //jump!
                 if (!isJumping) {
                     if (i.KeyDown(OpenTK.Input.Key.W) || i.KeyDown(OpenTK.Input.Key.Up)) {
@@ -204,8 +241,8 @@ namespace MarioWorld1_1 {
                         Jump(Impulse);
                     }
                 }
+                
             }
-            //S/Down = special case tile / go down pipe
             if (velocity != gravity) {
                 //animate(dtime);
             }
