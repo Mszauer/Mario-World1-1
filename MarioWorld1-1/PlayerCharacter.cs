@@ -235,12 +235,12 @@ namespace MarioWorld1_1 {
                                 }
                                 //create item by adding it into map
                                 Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).Item);
-                                Map.items.Add(item);
+                                Game.currentMap.Items.Add(item);
                                 //set items position
-                                Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.X;
-                                Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.Y - Game.TILE_SIZE;
-                                Map.items[Map.items.Count - 1].IsSpawned = true;
-                                Map.items[Map.items.Count - 1].StartPos = Map.items[Map.items.Count - 1].Position;
+                                Game.currentMap.Items[Game.currentMap.Items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.X;
+                                Game.currentMap.Items[Game.currentMap.Items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_LEFT]).WorldPosition.Y - Game.TILE_SIZE;
+                                Game.currentMap.Items[Game.currentMap.Items.Count - 1].IsSpawned = true;
+                                Game.currentMap.Items[Game.currentMap.Items.Count - 1].StartPos = Game.currentMap.Items[Game.currentMap.Items.Count - 1].Position;
                             }
                             else {
                                 //block break sound
@@ -288,11 +288,11 @@ namespace MarioWorld1_1 {
                                     SoundManager.Instance.PlaySound(Game.Instance.SoundBank["ItemSpawn"]);
                                 }
                                 Item item = Item.SpawnItem(Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).Item);
-                                Map.items.Add(item);
+                                Game.currentMap.Items.Add(item);
                                 //set item position
-                                Map.items[Map.items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.X;
-                                Map.items[Map.items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.Y - Game.TILE_SIZE;
-                                Map.items[Map.items.Count - 1].IsSpawned = true;
+                                Game.currentMap.Items[Game.currentMap.Items.Count - 1].Position.X = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.X;
+                                Game.currentMap.Items[Game.currentMap.Items.Count - 1].Position.Y = Game.Instance.GetTile(Corners[CORNER_TOP_RIGHT]).WorldPosition.Y - Game.TILE_SIZE;
+                                Game.currentMap.Items[Game.currentMap.Items.Count - 1].IsSpawned = true;
                             }
                             
                             else {

@@ -37,7 +37,7 @@ namespace MarioWorld1_1 {
         protected List<int> unwalkableTiles = null;
         protected List<EnemyCharacter> enemies = null;
         protected Dictionary<string,Rectangle> blockBreak = null;
-        public static List<Item> items = null;
+        public  List<Item> Items = null;
         public float Timer = 0;
         public int Score = 0;
         public List<BreakEffect> breakFX = null;
@@ -52,7 +52,7 @@ namespace MarioWorld1_1 {
                 nextRoom = new Dictionary<string, Point>();
                 breakableTiles = new Dictionary<int, int>();
                 enemies = new List<EnemyCharacter>();
-                items = new List<Item>();
+                Items = new List<Item>();
                 breakFX = new List<BreakEffect>();
                 //load map
                 using (TextReader reader = File.OpenText(mapPath)) {
@@ -440,20 +440,20 @@ namespace MarioWorld1_1 {
                 }
             }
             //items update/logic
-            for (int i = items.Count - 1; i >= 0; i--) {
+            for (int i = Items.Count - 1; i >= 0; i--) {
 
                 //update items, if spawned
-                if (items[i].IsSpawned) {
-                    items[i].Update(dTime);
+                if (Items[i].IsSpawned) {
+                    Items[i].Update(dTime);
                 }
                 //hero picked up item
-                Rectangle intersection = Intersections.Rect(hero.Rect, items[i].Rect);
+                Rectangle intersection = Intersections.Rect(hero.Rect, Items[i].Rect);
                 if (intersection.Height * intersection.Width > 0) {
                     //update items
-                    items[i].Update(dTime);
+                    Items[i].Update(dTime);
 
                     //mushroom logic
-                    if (items[i] is GrowMushroom) {
+                    if (Items[i] is GrowMushroom) {
                         if (!hero.Large) {
                             //play grow sound
                             s.PlaySound(Game.Instance.SoundBank["Grow"]);
@@ -463,7 +463,7 @@ namespace MarioWorld1_1 {
                         }
                     }
                     //fireflower logic
-                    else if (items[i] is FireFlower) {
+                    else if (Items[i] is FireFlower) {
                         if (hero.CurrentState != PlayerCharacter.State.Fire) {
                             hero.ChangeForm("Fire");
                             hero.CurrentSprite = "FireStand";
@@ -474,7 +474,7 @@ namespace MarioWorld1_1 {
                         }
                     }
                     //star logic
-                    else if (items[i] is Star) {
+                    else if (Items[i] is Star) {
                         if (hero.CurrentState != PlayerCharacter.State.Invincible) {
                             hero.ChangeForm("Invincible");
                             hero.CurrentSprite = "InvincibleStand";
@@ -485,7 +485,7 @@ namespace MarioWorld1_1 {
                         }
                     }
                     //one up logic
-                    else if (items[i] is OneUp) {
+                    else if (Items[i] is OneUp) {
                         hero.Lifes += 1;
                         //play sound
                         s.PlaySound(Game.Instance.SoundBank["OneUp"]);
@@ -496,32 +496,32 @@ namespace MarioWorld1_1 {
                     //add points
                     Score += 1000;
                     //destroy/remove item
-                    items[i].Destroy();
-                    items.RemoveAt(i);
+                    Items[i].Destroy();
+                    Items.RemoveAt(i);
                     continue;
                 }
                 //mushroom going off map
-                if (items.Count > 0 && ((items[i] is GrowMushroom) || (items[i] is OneUp))) {
+                if (Items.Count > 0 && ((Items[i] is GrowMushroom) || (Items[i] is OneUp))) {
                     //item off map, x axis
-                    if (items[i].Position.X / Game.TILE_SIZE < 0 || items[i].Position.X / Game.TILE_SIZE > tileMap[(int)items[i].Position.Y / Game.TILE_SIZE].Length) {
-                        items[i].Destroy();
-                        items.RemoveAt(i);
+                    if (Items[i].Position.X / Game.TILE_SIZE < 0 || Items[i].Position.X / Game.TILE_SIZE > tileMap[(int)Items[i].Position.Y / Game.TILE_SIZE].Length) {
+                        Items[i].Destroy();
+                        Items.RemoveAt(i);
                         continue;
                     }
                     //item off map, y axis
-                    else if (items[i].Position.Y / Game.TILE_SIZE < 0 || (items[i].Position.Y + items[i].Rect.Height) / Game.TILE_SIZE > tileMap.Length - 1) {
-                        items[i].Destroy();
-                        items.RemoveAt(i);
+                    else if (Items[i].Position.Y / Game.TILE_SIZE < 0 || (Items[i].Position.Y + Items[i].Rect.Height) / Game.TILE_SIZE > tileMap.Length - 1) {
+                        Items[i].Destroy();
+                        Items.RemoveAt(i);
                         continue;
                     }
                 }
                 //coin life span
-                if (items.Count > 0 && (items[i] is Coin)) {
-                    items[i].TimeAlive += dTime;
-                    if (items[i].TimeAlive > 0.5f) {
-                        items[i].TimeAlive -= 0.5f;
-                        items[i].Destroy();
-                        items.RemoveAt(i);
+                if (Items.Count > 0 && (Items[i] is Coin)) {
+                    Items[i].TimeAlive += dTime;
+                    if (Items[i].TimeAlive > 0.5f) {
+                        Items[i].TimeAlive -= 0.5f;
+                        Items[i].Destroy();
+                        Items.RemoveAt(i);
                     }
                 }
             }
@@ -567,8 +567,10 @@ namespace MarioWorld1_1 {
                 }
             }//end projectiles
             if (breakFX != null) {
-                for (int i = breakFX.Count - 1; i >= 0; i++) {
-                    breakFX[i].Animate(dTime);
+                for (int i = breakFX.Count - 1; i >= 0; i--) {
+                    if (breakFX[i].Animate(dTime)) {
+                        breakFX.RemoveAt(i);
+                    }
                 }
             }//end breakfx
         }//end update
@@ -606,8 +608,8 @@ namespace MarioWorld1_1 {
                 enemies[i].Render(offsetPosition);
             }
             //render items
-            for (int i = 0; i < items.Count; i++) {
-                items[i].Render(offsetPosition);
+            for (int i = 0; i < Items.Count; i++) {
+                Items[i].Render(offsetPosition);
             }
             //render break effects
             for (int i = 0; i < breakFX.Count; i++) {
@@ -623,8 +625,8 @@ namespace MarioWorld1_1 {
                 }
             }
             //destroy items
-            for (int i = items.Count - 1; i >= 0; i--) {
-                items[i].Destroy();
+            for (int i = Items.Count - 1; i >= 0; i--) {
+                Items[i].Destroy();
             }
             //destroy enemies
             for (int i = enemies.Count - 1; i >= 0; i--) {

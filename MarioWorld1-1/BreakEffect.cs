@@ -23,7 +23,7 @@ namespace MarioWorld1_1 {
             }
             frames.AddRange(source);
         }
-        public void Animate(float dTime) {
+        public bool Animate(float dTime) {
             currentFrame += 1;
 #if BREAKDEBUG
             Console.WriteLine("Current frame: " + currentFrame);
@@ -31,9 +31,9 @@ namespace MarioWorld1_1 {
             if (currentFrame > frames.Count - 1) {
                 Destroy();
                 currentFrame = 0;
-                //return true;
+                return true;
             }
-            //return false;
+            return false;
         }
         public void Render(PointF offsetPosition) {
             Point renderPos = new Point(Position.X, Position.Y);
