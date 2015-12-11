@@ -107,6 +107,11 @@ namespace MarioWorld1_1 {
                 hero.Win(dt);
                 currentMap.Update(dt, hero);
             }
+            else if (CurrentState == State.Won) {
+                if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Space)) {
+                    CurrentState = State.Start;
+                }
+            }
         }
         public void Render() {
             Size windowSize = new Size(Program.Window.Size.Width,Program.Window.Height);
@@ -131,7 +136,10 @@ namespace MarioWorld1_1 {
             }
             else if (CurrentState == State.Won) {
                 GraphicsManager.Instance.DrawRect(new Rectangle(new Point(0, 0), windowSize), Color.Black);
-
+                GraphicsManager.Instance.DrawString("Press Space to Replay!", new Point(windowSize.Width / 2 - 100, windowSize.Height - 40), Color.White);
+                GraphicsManager.Instance.DrawString("Created by: Martin Szauer", new Point(15, windowSize.Height - 20), Color.White);
+                GraphicsManager.Instance.DrawString("You win!", new Point(windowSize.Width / 2 - 49, windowSize.Height / 2 + 1), Color.Black);
+                GraphicsManager.Instance.DrawString("You win!", new Point(windowSize.Width / 2 - 48, windowSize.Height / 2), Color.White);
             }
             //HUD
             //score
