@@ -98,9 +98,12 @@ namespace MarioWorld1_1 {
                 hero.Die(dt);
             }
             else if (CurrentState == State.Won) {
-                SoundManager.Instance.StopSound(SoundBank["Background"]);
-                SoundManager.Instance.PlaySound(SoundBank["CourseClear"]);
-                hero.Update(dt);
+                if (SoundManager.Instance.IsPlaying(SoundBank["Background"])) {
+                    SoundManager.Instance.StopSound(SoundBank["Background"]);
+                }
+                if (!SoundManager.Instance.IsPlaying(SoundBank["CourseClear"])) {
+                    SoundManager.Instance.PlaySound(SoundBank["CourseClear"]);
+                }
                 hero.Win(dt);
             }
         }

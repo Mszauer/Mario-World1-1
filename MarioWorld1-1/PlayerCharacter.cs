@@ -24,6 +24,7 @@ namespace MarioWorld1_1 {
         protected float deathTimer = 0.0f;
         public float InvincibilityTimer = 0.0f;
         BreakEffect breakFX = null;
+        bool xMovement = false;
         public PointF[] BottomCorners {
             get {
                 PointF[] allCorners = Corners;
@@ -425,17 +426,30 @@ namespace MarioWorld1_1 {
         }
         public void Win(float dTime) {
             if (Position.Y / Game.TILE_SIZE < 10) { //manually move down flag pole
-                Position.Y += speed*dTime;
+                Position.Y += speed*dTime*2;
 #if WINDEBUG
-                Console.WriteLine("Hero Position.Y: "+Position.Y);
+                Console.WriteLine("Hero Position.Y: "+Position.Y / Game.TILE_SIZE);
 #endif
                 //add animations
             }
-            //set sprite to stand
-            do {
-                Position.X += speed;
-                //animations add
-            } while (Position.X / Game.TILE_SIZE != 203); //manually move into door door tileavlue == 30
+            else {
+                xMovement = true;
+                if (CurrentSprite == "Jump") {
+                    SetSprite("Stand");
+                }
+            }
+            if (xMovement && Game.Instance.GetTile(BottomCorners[Character.CORNER_TOP_LEFT]).TileValue != 30) {
+                if (CurrentSprite != "Run") {
+#if WINDEBUG
+                    Console.WriteLine("CurrentSprite: " + CurrentSprite);
+                    Console.WriteLine("Sprite set to Run");
+#endif
+                    SetSprite("Run");
+                }
+                Animate(dTime);
+                Position.X += speed * dTime*2;
+            }
+
         }
         public void Die(float dTime) {
             deathTimer += dTime;
