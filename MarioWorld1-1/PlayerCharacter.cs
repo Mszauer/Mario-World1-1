@@ -207,7 +207,7 @@ namespace MarioWorld1_1 {
                         SetSprite("InvincibleLargeCrouch");
                     }
                 }
-                else {
+                else if (!isJumping) {
                     if (Large && CurrentState == State.Normal) {
                         SetSprite("LargeStand");
                     }
