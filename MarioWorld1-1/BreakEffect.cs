@@ -9,7 +9,7 @@ using GameFramework;
 namespace MarioWorld1_1 {
     class BreakEffect {
         protected int sprite = 0;
-        protected List<Rectangle[]> spriteSources { get; private set; }
+        protected List<Rectangle> frames = null;
         protected int currentFrame = 0;
         public Point Position = new Point(0, 0);
         public BreakEffect(string spritePath,Point position) {
@@ -18,14 +18,14 @@ namespace MarioWorld1_1 {
             Position = position;
         }
         protected void AddSprite(params Rectangle[] source) {
-            if (spriteSources == null) {
-                spriteSources = new List<Rectangle[]>();
+            if (frames == null) {
+                frames = new List<Rectangle>();
             }
-            spriteSources.Add(source);
+            frames.AddRange(source);
         }
         public void Animate(float dTime) {
             currentFrame += 1;
-            if (currentFrame > spriteSources.Count - 1) {
+            if (currentFrame > frames.Count - 1) {
                 Destroy();
                 currentFrame = 0;
                 //return true;
@@ -36,7 +36,7 @@ namespace MarioWorld1_1 {
             Point renderPos = new Point(Position.X, Position.Y);
             renderPos.X -= Game.TILE_SIZE;
             renderPos.X -= (int)offsetPosition.X;
-            TextureManager.Instance.Draw(sprite, renderPos,1.0f,spriteSources[0][currentFrame]);
+            TextureManager.Instance.Draw(sprite, renderPos,1.0f,frames[currentFrame]);
         }
         protected void Destroy() {
             TextureManager.Instance.UnloadTexture(sprite);
