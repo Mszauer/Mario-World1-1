@@ -285,6 +285,10 @@ namespace MarioWorld1_1 {
             //if Get tile, if flagpole tile using corners of hero switch state to win
             //if current tile is a flagpole tile
             if (Game.Instance.GetTile(hero.BottomCorners[Character.CORNER_TOP_RIGHT]).TileValue  == 28 || Game.Instance.GetTile(hero.BottomCorners[Character.CORNER_TOP_RIGHT]).TileValue == 12) {
+                Game.Instance.CurrentState = Game.State.Win;
+            }
+            //30 == door tile
+            if (Game.Instance.GetTile(hero.BottomCorners[Character.CORNER_TOP_RIGHT]).TileValue == 30) {
                 Game.Instance.CurrentState = Game.State.Won;
             }
 #if HEROPOSITIONDEBUG

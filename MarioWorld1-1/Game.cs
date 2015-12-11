@@ -9,7 +9,7 @@ using System.Drawing;
 namespace MarioWorld1_1 {
     class Game {
         //map state
-        public enum State { Start, Play, Dying, Won}
+        public enum State { Start, Play, Dying, Win, Won}
         public State CurrentState = State.Start;
         //meta data
         public static readonly int TILE_SIZE = 16;
@@ -97,7 +97,7 @@ namespace MarioWorld1_1 {
                 hero.Update(1 / 30.0f);
                 hero.Die(dt);
             }
-            else if (CurrentState == State.Won) {
+            else if (CurrentState == State.Win) {
                 if (SoundManager.Instance.IsPlaying(SoundBank["Background"])) {
                     SoundManager.Instance.StopSound(SoundBank["Background"]);
                 }
@@ -105,6 +105,7 @@ namespace MarioWorld1_1 {
                     SoundManager.Instance.PlaySound(SoundBank["CourseClear"]);
                 }
                 hero.Win(dt);
+                currentMap.Update(dt, hero);
             }
         }
         public void Render() {
@@ -116,7 +117,7 @@ namespace MarioWorld1_1 {
                 GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width /2 - 49, windowSize.Height / 2 + 1), Color.Black);
                 GraphicsManager.Instance.DrawString("Lives:" + hero.Lifes, new Point(windowSize.Width /2 - 48, windowSize.Height / 2), Color.White);
             }
-            else if (CurrentState == State.Play || CurrentState == State.Dying || CurrentState == State.Won) {
+            else if (CurrentState == State.Play || CurrentState == State.Dying || CurrentState == State.Win) {
                 PointF offsetPosition = new PointF();
                 offsetPosition.X = hero.Position.X - (float)(7.625 * TILE_SIZE);//7.625 == half of map displayed
                 if (hero.Position.X < 7.625 * TILE_SIZE) {
@@ -127,6 +128,10 @@ namespace MarioWorld1_1 {
                 }
                 currentMap.Render(offsetPosition,hero.Center,hero);
                 hero.Render(new PointF(offsetPosition.X,offsetPosition.Y-1));
+            }
+            else if (CurrentState == State.Won) {
+                GraphicsManager.Instance.DrawRect(new Rectangle(new Point(0, 0), windowSize), Color.Black);
+
             }
             //HUD
             //score

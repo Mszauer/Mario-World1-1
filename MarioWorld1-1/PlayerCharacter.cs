@@ -1,5 +1,5 @@
 ﻿#define TILEDEBUG
-#define WINDEBUG
+//#define WINDEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
