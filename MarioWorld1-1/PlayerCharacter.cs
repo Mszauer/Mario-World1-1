@@ -434,17 +434,62 @@ namespace MarioWorld1_1 {
             }
             else {
                 xMovement = true;
-                if (CurrentSprite == "Jump") {
-                    SetSprite("Stand");
+                
+                if (Large && CurrentState == State.Fire) {
+                    if (CurrentSprite == "LargeFireJump") {
+                        SetSprite("LargeFireStand");
+                    }
+                }
+                else if(Large && CurrentState == State.Invincible) {
+                    if (CurrentSprite == "InvincibleLargeJump") {
+                        SetSprite("InvincibleLargeStand");
+                    }
+                }
+                else if (Large) {
+                    if (CurrentSprite == "LargeJump") {
+                        SetSprite("LargeStand");
+                    }
+                }
+                else if (CurrentState == State.Fire) {
+                    if (CurrentSprite == "FireJump") {
+                        SetSprite("FireStand");
+                    }
+                }
+                else if (CurrentState == State.Invincible) {
+                    if (CurrentSprite == "InvincibleJump") {
+                        SetSprite("InvincibleStand");
+                    }
+                }
+                else {
+                    if (CurrentSprite == "Jump") {
+                        SetSprite("Stand");
+                    }
                 }
             }
             if (xMovement && Game.Instance.GetTile(BottomCorners[Character.CORNER_TOP_LEFT]).TileValue != 30) {
-                if (CurrentSprite != "Run") {
+                if (CurrentSprite != "Run" || CurrentSprite != "LargeRun" || CurrentSprite != "LargeFireRun" || CurrentSprite != "FireRun" || CurrentSprite != "InvincibleRun" || CurrentSprite != "InvincibleLargeRun") {
 #if WINDEBUG
                     Console.WriteLine("CurrentSprite: " + CurrentSprite);
                     Console.WriteLine("Sprite set to Run");
 #endif
-                    SetSprite("Run");
+                    if (Large && CurrentState == State.Fire) {
+                        SetSprite("LargeFireRun");
+                    }
+                    else if (Large && CurrentState == State.Invincible) {
+                        SetSprite("InvincibleLargeRun");
+                    }
+                    else if (Large && CurrentState == State.Normal) {
+                        SetSprite("LargeRun");
+                    }
+                    else if (CurrentState == State.Fire) {
+                        SetSprite("FireRun");
+                    }
+                    else if (CurrentState == State.Invincible) {
+                        SetSprite("InvincibleRun");
+                    }
+                    else if (CurrentState == State.Normal) {
+                        SetSprite("Run");
+                    }
                 }
                 Animate(dTime);
                 Position.X += speed * dTime*2;
