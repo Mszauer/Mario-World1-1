@@ -100,15 +100,8 @@ namespace MarioWorld1_1 {
             else if (CurrentState == State.Won) {
                 SoundManager.Instance.StopSound(SoundBank["Background"]);
                 SoundManager.Instance.PlaySound(SoundBank["CourseClear"]);
-                while (hero.Position.Y/TILE_SIZE < 10) { //manually move down flag pole
-                    hero.Position.Y += hero.speed;
-                    //add animations
-                }
-                //set sprite to stand
-                do {
-                    hero.Position.X += hero.speed * dt;
-                    //animations add
-                } while (hero.Position.X / TILE_SIZE != 203); //manually move into door
+                hero.Update(dt);
+                hero.Win(dt);
             }
         }
         public void Render() {

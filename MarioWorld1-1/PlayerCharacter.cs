@@ -1,4 +1,5 @@
 ﻿#define TILEDEBUG
+#define WINDEBUG
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -421,6 +422,20 @@ namespace MarioWorld1_1 {
             Impulse = 2 * height / duration;
             Impulse *= -1;
             gravity = -Impulse / duration;
+        }
+        public void Win(float dTime) {
+            if (Position.Y / Game.TILE_SIZE < 10) { //manually move down flag pole
+                Position.Y += speed*dTime;
+#if WINDEBUG
+                Console.WriteLine("Hero Position.Y: "+Position.Y);
+#endif
+                //add animations
+            }
+            //set sprite to stand
+            do {
+                Position.X += speed;
+                //animations add
+            } while (Position.X / Game.TILE_SIZE != 203); //manually move into door door tileavlue == 30
         }
         public void Die(float dTime) {
             deathTimer += dTime;
