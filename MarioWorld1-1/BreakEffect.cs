@@ -25,6 +25,9 @@ namespace MarioWorld1_1 {
         }
         public void Animate(float dTime) {
             currentFrame += 1;
+#if BREAKDEBUG
+            Console.WriteLine("Current frame: " + currentFrame);
+#endif
             if (currentFrame > frames.Count - 1) {
                 Destroy();
                 currentFrame = 0;

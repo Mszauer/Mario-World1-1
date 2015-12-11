@@ -40,6 +40,7 @@ namespace MarioWorld1_1 {
         public static List<Item> items = null;
         public float Timer = 0;
         public int Score = 0;
+        public List<BreakEffect> breakFX = null;
 
         public Map(string mapPath, PlayerCharacter hero) {
             if (System.IO.File.Exists(mapPath)) {
@@ -52,6 +53,7 @@ namespace MarioWorld1_1 {
                 breakableTiles = new Dictionary<int, int>();
                 enemies = new List<EnemyCharacter>();
                 items = new List<Item>();
+                breakFX = new List<BreakEffect>();
                 //load map
                 using (TextReader reader = File.OpenText(mapPath)) {
                     string contents = reader.ReadLine();
@@ -563,8 +565,13 @@ namespace MarioWorld1_1 {
                         }
                     }
                 }
-            }
-        }
+            }//end projectiles
+            if (breakFX != null) {
+                for (int i = breakFX.Count - 1; i >= 0; i++) {
+                    breakFX[i].Animate(dTime);
+                }
+            }//end breakfx
+        }//end update
         /*
         public Map ResolveDoors(PlayerCharacter hero) {
             resolve doors here
@@ -602,7 +609,10 @@ namespace MarioWorld1_1 {
             for (int i = 0; i < items.Count; i++) {
                 items[i].Render(offsetPosition);
             }
-            
+            //render break effects
+            for (int i = 0; i < breakFX.Count; i++) {
+                breakFX[i].Render(offsetPosition);
+            }
             
         }
         public void Destroy() {
