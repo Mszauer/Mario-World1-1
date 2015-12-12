@@ -123,6 +123,7 @@ namespace MarioWorld1_1 {
             }
             else if (CurrentState == State.Won) {
                 if (InputManager.Instance.KeyPressed(OpenTK.Input.Key.Space)) {
+                    Initialize();
                     CurrentState = State.Start;
                 }
             }

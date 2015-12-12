@@ -35,10 +35,10 @@ E G Assets/NPC.png X 118 10 L
 E G Assets/NPC.png X 120 10 L
 E G Assets/NPC.png X 128 10 L
 E G Assets/NPC.png X 130 10 L
+E G Assets/NPC.png X 131 10 L
 E G Assets/NPC.png X 132 10 L
-E G Assets/NPC.png X 134 10 L
-E G Assets/NPC.png X 180 10 L
-E G Assets/NPC.png X 182 10 L
+E G Assets/NPC.png X 175 10 L
+E G Assets/NPC.png X 178 10 L
 //,Starting block
 S 2 10
 //,Source Rects for each tile value
