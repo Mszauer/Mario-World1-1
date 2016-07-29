@@ -1,5 +1,6 @@
 # Mario World 1-1 Clone
-
+![alt text](https://github.com/Mszauer/Mario-World1-1/blob/master/Screenshots/Mario1.PNG "Start Screen")
+![alt text](https://github.com/Mszauer/Mario-World1-1/blob/master/Screenshots/Mario2.PNG "In-Game Screen")
 ##Purpose
 Having just finished learning about OpenTK and Tile-based games, I tried to recreate a very iconic simple game. I had just written the managers that handle input, display sprites on screen, and play audio so it was time to put them to use in an actual game. Mario is a very old game game with simple logic, perfect to try and recreate for learning!
 
